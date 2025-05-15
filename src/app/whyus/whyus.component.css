@@ -1,0 +1,91 @@
+.whyus {
+    margin-top: 8em;
+    margin-bottom: 5em;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2em;
+    gap: 4em;
+
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .why-box {
+        flex: 1 1 47% !important;
+    }
+}
+
+@media (max-width: 767px) and (min-width:480px) {
+    .why-box {
+        flex: 1 1 100% !important;
+    }
+}
+
+@media (max-width: 479px) {
+    .why-box {
+        flex: 1 1 100% !important;
+        width: 18em !important;
+    }
+}
+
+.why-heading {
+    text-align: center;
+}
+
+.why-heading>h3 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+}
+
+.why-heading>span {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    color: rgb(75 85 99 / 1);
+}
+
+.why-boxes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+
+.why-box {
+    flex: 1 1 22%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 12em;
+    width: 21em;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 10px;
+    padding: 1em 1.5em;
+    transition: all 0.3s ease;
+    margin-top: 0.3em;
+    margin-bottom: 1em;
+}
+
+.why-box>img {
+    height: 3em;
+    width: 3em;
+    margin-bottom: 0.5em;
+}
+
+.why-box>span {
+    color: rgb(17 24 39 / 1);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    margin-bottom: 0.5em;
+}
+
+.why-box>p {
+    color: rgb(75 85 99 / 1);
+    font-size: 1.15;
+}
+
+.why-box:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}

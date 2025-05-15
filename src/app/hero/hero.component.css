@@ -8,6 +8,7 @@
   padding-top: 6em;
   flex-direction: row;
   justify-content: space-between;
+  z-index: 99;
 
 }
 
@@ -27,6 +28,8 @@
   .hero-right {
     align-items: center;
     padding-right: 0 !important;
+    width: 98% !important;
+    margin-left: 0.5em;
   }
 }
 

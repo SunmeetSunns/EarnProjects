@@ -28,7 +28,7 @@ export class HeaderComponent implements AfterViewInit {
   }
 
  ngAfterViewInit(): void {
-  const menuItems: NodeListOf<HTMLElement> = this.el.nativeElement.querySelectorAll('#menu li');
+ const menuItems: NodeListOf<HTMLElement> = this.el.nativeElement.querySelectorAll('#menu .menu-item');
   menuItems.forEach((item: HTMLElement) => {
     item.addEventListener('click', () => {
       menuItems.forEach((el: HTMLElement) => el.classList.remove('active'));
