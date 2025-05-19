@@ -1,0 +1,108 @@
+.footer {
+  background-color: #f9f9fc;
+  padding: 2em;
+  font-family: 'Segoe UI', sans-serif;
+ width: 100%;
+  color: #2d2d2d;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  max-width: 100%;
+  margin: 0 3px ;
+}
+
+.footer-brand .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+      
+      
+}
+
+.footer-brand .logo {
+  height: 40px;
+  width: 40px;
+  border-radius: 8px;
+}
+
+.brand-name {
+  font-weight: 700;
+      color: rgb(17 24 39 /1);
+          font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.foot-desc {
+  margin: 1em 0;
+  font-size: 1.1rem;
+  max-width: 260px;
+  color: rgb(75 85 99 /1);
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.icon {
+  background-color: #e6e6ef;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.footer-section h4 {
+  font-size: 1rem;
+  margin-bottom: 1.5em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.footer-section span {
+  display: block;
+  margin: 6px 0;
+  font-size: 14px;
+  cursor: pointer;
+      color: rgb(75 85 99 /1);
+      font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.footer-section span:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid #ddd;
+  padding-top: 1em;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  margin-top: 3em;
+      color: rgb(75 85 99 / 1);
+      font-size: .875rem;
+    line-height: 1.25rem;
+}
+
+
+
+.footer-links a {
+  margin-left: 15px;
+  color: #666;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
