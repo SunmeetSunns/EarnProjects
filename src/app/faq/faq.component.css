@@ -1,0 +1,142 @@
+.faq {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2em;
+    margin-top: 5em;
+}
+
+.faq-top {
+    text-align: center;
+    padding: 0.3em 1.2rem;
+    background-color: #EDE9FE;
+    color: #5B21B6;
+    font-weight: 500;
+    border-radius: 20px;
+    margin-bottom: 1em;
+
+}
+
+.faq-head {
+    text-align: center;
+    margin-bottom: 3rem;
+   
+}
+.faq-head>p{
+     font-size: 2rem;
+    line-height: 2.25rem;
+    color: rgb(17 24 39 /1);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+.faq-head>span{
+        font-size: 1.25rem;
+    line-height: 1.75rem;
+        color: rgb(75 85 99/1);
+        margin-bottom: 4em;
+
+}
+.faq-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 1em;
+max-width: 48rem;
+
+
+}
+
+.faq-q-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2em;
+    height: fit-content;
+    
+    cursor: pointer;
+    background-color: #ffffff;
+    border: none;
+    padding: 1.5rem;
+    text-align: left;
+
+}
+
+.faq-q-div>img {
+    height: 1.5em;
+    width: 1em;
+}
+
+.faq-qa-div {
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid #F2F3F5;
+    border-radius: 10px;
+    transition-property: all;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
+
+.faq-q-div>div {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 500;
+}
+
+.click-faq-q-div {
+    background-color: #F5F3FF;
+    color: #5B21B6;
+}
+
+
+.faq-a-div {
+    overflow: hidden;
+    color: rgb(75 85 99 / 1);
+    font-style: 1.15rem;
+    line-height: 1.75rem;
+    font-weight: 400;
+    transition: all 0.4s ease;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 1.5rem;
+}
+
+.faq-a-show {
+    max-height: 24rem;
+    /* set a big enough value to show full content */
+    opacity: 1;
+    padding: 1.5rem;
+    padding-top: 0.2rem;
+}
+
+.faq-a-hide {
+    max-height: 0;
+    opacity: 0;
+    padding: 0 1.5rem;
+}
+.still-faq{
+    margin-top: 4em;
+    color: rgb(75 85 99/1);
+        font-size: 1.1rem;
+    line-height: 1.5rem;
+
+}
+.faq-btn{
+    background-color: rgb(237 233 254 /1);
+    color: #5B21B6;
+    margin-top: 2rem;
+    border: none;
+    padding: 0.8em 1.5em;
+    font-weight: 500;
+    border-radius: 10px;
+        font-size: 1.1rem;
+    line-height: 1.5rem;
+}
+.faq-btn:hover{
+    background-color: #DDD6FE;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: 0.2s;
+}
+.faq-q-div:hover{
+    background-color: #F9FAFB;
+}
