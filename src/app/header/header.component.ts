@@ -9,8 +9,10 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements AfterViewInit {
   isScrolled: boolean = false;
+  dropDownValues: any[] = [];
+  show: boolean = false;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(private el: ElementRef, private renderer: Renderer2) { }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -27,14 +29,38 @@ export class HeaderComponent implements AfterViewInit {
     }
   }
 
- ngAfterViewInit(): void {
- const menuItems: NodeListOf<HTMLElement> = this.el.nativeElement.querySelectorAll('#menu .menu-item');
-  menuItems.forEach((item: HTMLElement) => {
-    item.addEventListener('click', () => {
-      menuItems.forEach((el: HTMLElement) => el.classList.remove('active'));
-      item.classList.add('active');
+  ngAfterViewInit(): void {
+    const menuItems: NodeListOf<HTMLElement> = this.el.nativeElement.querySelectorAll('#menu .menu-item');
+    menuItems.forEach((item: HTMLElement) => {
+      item.addEventListener('click', () => {
+        menuItems.forEach((el: HTMLElement) => el.classList.remove('active'));
+        item.classList.add('active');
+      });
     });
-  });
+  }
+
+applyClasses(plan: string) {
+  this.show = true;
+  if (plan === 'ourPlan') {
+    this.dropDownValues = [
+      { showPlanName: 'ourPlan' },
+      { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
+      { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
+      { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
+      { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
+    ];
+  } else if (plan === 'reviewPlan') {
+    this.dropDownValues = [
+    ];
+  } else if (plan === 'support') {
+    this.dropDownValues = [
+      { showPlanName: 'supportPlan' },
+      { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
+      { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
+      { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
+    ];
+  }
 }
+
 
 }

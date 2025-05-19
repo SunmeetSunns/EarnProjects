@@ -1,1 +1,21 @@
-<p>faq works!</p>
+<div class="faq">
+    <div class="faq-top">FAQ</div>
+    <div class="faq-head">
+        <p>Frequently asked questions</p><span>Everything you need to know about our subscription platform.</span>
+    </div>
+    <div *ngFor="let faq of faqs; let i = index" class="faq-div">
+        <div class="faq-qa-div">
+            <button class="faq-q-div" [ngClass]="{'click-faq-q-div':faq.show}" (click)="openQues(i)">
+                <div>{{faq.question}}</div><img *ngIf="!faq.show" src="../../assets/svg/low-arrow.svg">
+                <img *ngIf="faq.show" src="../../assets/svg/up-arrow.svg">
+            </button>
+            <div class="faq-a-div" [ngClass]="{ 'faq-a-show': faq.show, 'faq-a-hide': !faq.show }">
+                {{ faq.answer }}
+            </div>
+
+        </div>
+
+    </div>
+    <div class="still-faq">Still have questions?</div>
+    <button class="faq-btn">Contact our support team</button>
+</div>
