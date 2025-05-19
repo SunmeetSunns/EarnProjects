@@ -61,7 +61,7 @@
 
 .head-btn {
     padding: 0.7em 2em;
-    
+
     width: fit-content;
     align-self: center;
     margin-bottom: 1em;
@@ -83,18 +83,16 @@
 
 
 .menu-item-wrapper {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
-
-
 
 
 /* .opt-drop{
 
 } */
-.expert-btn{
-     padding:  0.5em 1em;
+.expert-btn {
+    padding: 0.5em 1em;
     /* height: 2.5em; */
     width: fit-content;
     align-self: center;
@@ -105,11 +103,69 @@
     margin-right: 1em;
 
 }
-.header-btns{
+
+.header-btns {
     margin-top: 0.5em;
 }
-.talk-expert{
+
+.talk-expert {
     height: 1.8em;
     width: 1.8em;
     margin-right: 0.5rem;
+}
+
+.drop-divs {
+    position: fixed;
+    /* Changed from relative to absolute */
+    top: 5.1em;
+    /* directly below the header */
+    z-index: 10000;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 1em;
+}
+
+.divs-pos-our-plan {
+    left: 49.8em;
+}
+
+.divs-pos-review-plan {
+    left: 56.4em;
+}
+
+.divs-pos-support-plan {
+    left: 65.5em;
+}
+
+.drops {
+
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    padding: 0.5em;
+    cursor: pointer;
+    border-top: 1px solid #ddd;
+   
+}
+
+.drops div {
+    font-size: 1rem;
+    line-height: 1.75rem;
+    color: rgb(75 85 99 / 1);
+     
+    
+}
+.drops div:hover{
+   
+    color: #7c3aed
+    
+}
+.drops>img{
+    height: 1.5em;
+    width: 1.5em;
 }
