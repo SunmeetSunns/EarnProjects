@@ -25,7 +25,8 @@ export class PlansComponent implements OnInit{
         'Project completion certificates',
         'Basic skill assessment',
         'Community access',
-      ]
+      ],
+      popular: false
     },
     {
       name: 'Student Pro',
@@ -57,7 +58,8 @@ export class PlansComponent implements OnInit{
         'Client communication tools',
         'Professional profile badge',
         'Training programs access',
-      ]
+      ],
+      popular: false
     },
     {
       name: 'Agency Max',
@@ -72,7 +74,42 @@ export class PlansComponent implements OnInit{
         'Invoice & billing system',
         'Custom branding',
         'Agency analytics dashboard',
-      ]
+      ],
+      popular:true
+    }
+    ,
+    {
+      name: 'Agency Max',
+      price: 29999,
+      yearlyDiscount: 'Save ₹4989.00 annually',
+      category: 'agency',
+      description: 'For agencies managing multiple professionals',
+      features: [
+        'Unlimited project leads',
+        'Team management tools',
+        'Dedicated support',
+        'Invoice & billing system',
+        'Custom branding',
+        'Agency analytics dashboard',
+      ],
+      popular:false
+    }
+    ,
+    {
+      name: 'Agency Max',
+      price: 29999,
+      yearlyDiscount: 'Save ₹4989.00 annually',
+      category: 'agency',
+      description: 'For agencies managing multiple professionals',
+      features: [
+        'Unlimited project leads',
+        'Team management tools',
+        'Dedicated support',
+        'Invoice & billing system',
+        'Custom branding',
+        'Agency analytics dashboard',
+      ],
+      popular:true
     }
   ];
 

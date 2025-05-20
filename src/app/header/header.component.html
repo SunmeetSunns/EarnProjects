@@ -1,5 +1,5 @@
 <div id="header" #headerRef class="d-flex flex-row header justify-content-between align-items-center">
-    <div class="d-flex flex-row align-items-center">
+    <div class="d-flex flex-row align-items-center cursor-pointer"[routerLink]="['/']">
         <video class="logo" autoplay muted loop
             src="../../assets/images/Orange and Black Partnership Investment Logo.mp4"></video>
         <h3 class="brand-name">EarnProjects</h3>
@@ -34,13 +34,13 @@
 
 <!-- ✅ Dropdown Only If show is true -->
 <div class="drop-divs" #dropdownRef [ngClass]="{
-    'divs-pos-our-plan': dropDownValues[0]?.showPlanName === 'ourPlan',
-    'divs-pos-review-plan': dropDownValues[0]?.showPlanName === 'reviewPlan',
-    'divs-pos-support-plan': dropDownValues[0]?.showPlanName === 'supportPlan'
+    'divs-pos-our-plan': this.currentDrop === 'ourPlan',
+    'divs-pos-review-plan': this.currentDrop === 'renewPlan',
+    'divs-pos-support-plan': this.currentDrop === 'support'
   }" *ngIf="show">
-    <div class="drops"*ngFor="let plan of dropDownValues.slice(1)">
+    <div class="drops"*ngFor="let plan of dropDownValues" (click)="performAction(this.currentDrop,plan.Planname)">
         <img [src]="plan.src">
-        <div>{{ plan.Planname }}</div>
+        <div >{{ plan.Planname }}</div>
         
     </div>
 </div>

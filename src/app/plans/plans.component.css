@@ -1,105 +1,176 @@
-/* Card base styling */
-.card {
-  border-width: 2px;
-  border-radius: 1.25rem !important; /* rounded-4 */
-  box-shadow: 0 4px 24px 0 rgba(44, 62, 80, 0.08);
-  transition: transform 0.18s cubic-bezier(.4,0,.2,1), box-shadow 0.18s cubic-bezier(.4,0,.2,1);
-  background: #fff;
-  min-height: 100%;
-  position: relative;
+.plans {
+  width: 100%;
+  padding: 3em;
+  background-color: #fff;
+  margin-top: 5em;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Card hover effect */
-.card:hover, .card:focus-within {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 32px 0 rgba(44, 62, 80, 0.13);
-  z-index: 2;
+.heading {
+  text-align: center;
+  margin-bottom: 5em;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 2.5rem;
+  justify-content: center;
 }
 
-/* "Most Popular" plan highlight */
-.card.border-warning.bg-light {
-  border-color: #7c3aed !important; /* Purple border */
-  background: #f5f3ff !important;   /* Light purple background */
-}
-
-/* "Most Popular" badge */
-.badge.bg-warning.text-dark {
-  background: #7c3aed !important;   /* Purple background */
-  color: #fff !important;           /* White text */
-  font-weight: 600;
-  font-size: 1rem;
-  top: -20px !important;
-  left: 50%;
-  transform: translate(-50%, 0);
-  box-shadow: 0 2px 8px rgba(124,58,237,0.12);
-  border-radius: 1.5rem !important;
-}
-
-/* Card title and price */
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #232323;
-}
-
-.card-body h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #232323;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.card-body .text-warning {
-  color: #7c3aed !important; /* Use purple for yearly discount text */
+.heading>h2 {
+  padding: 0.5em 1em;
+  background-color: #EDE9FE;
+  color: #7C3AED;
+  width: fit-content;
+  font-size: 1em;
+  border-radius: 2em;
   font-weight: 500;
 }
 
-/* Feature list */
-.card-body ul {
-  margin-top: 1.5rem;
-  padding-left: 0;
+.heading>p {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  color: rgb(17 24 39 /1);
+}
+.heading>span{
+      color: rgb(75 85 99 /1 );
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+.cards-align {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 28rem));
+  gap: 2em;
+  overflow: visible;
+  position: relative;
+  justify-content: center;
 }
 
-.card-body li {
-  font-size: 1rem;
-  color: #232323;
-  margin-bottom: 0.75rem;
+.card {
+  background-color: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  padding: 1em;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 
-/* Check icon */
-.card-body .bi-check-circle-fill {
-  color: #22c55e !important; /* Bootstrap's green-500 */
-  font-size: 1.1rem;
-  margin-right: 0.5rem;
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Button styling */
-.btn.btn-warning {
-  background: #7c3aed !important;   /* Purple background */
-  color: #fff !important;           /* White text */
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.card.popular {
+  border-color: #7C3AED;
+  background-color: #ffffff;
+}
+
+.badge {
+  position: absolute;
+  top: 1em;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #7C3AED;
+  color: #fff;
+  padding: 1em 1em;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  font-weight: bold;
+  font-size: 0.9em;
+  width: 100%;
+}
+
+.card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 0.5em;
+}
+
+.price {
+  font-size: 2em;
+  color: #212121;
+  margin-top: 0.5em;
+}
+
+.discount {
+  color: #16A361;
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+.description {
+  color: #757575;
+  font-size: 0.95em;
+  margin-bottom: 3em;
+  
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin-top: 1em;
+}
+
+.features li {
+  margin-bottom: 0.5em;
+  display: flex;
+  align-items: center;
+}
+
+.features i {
+  color: green;
+  margin-right: 0.5em;
+  font-size: 1em;
+}
+
+.pop-btn {
+  background-color: #7C3AED;
+  color: white;
+  font-weight: bold;
+  padding: 0.75em 1.5em;
   border: none;
-  border-radius: 2rem !important;
-  font-weight: 700;
-  font-size: 1.1rem;
-  box-shadow: 0 2px 8px rgba(124,58,237,0.10);
-  padding: 0.75rem 2.5rem;
-  margin-top: 2rem;
-  transition: background 0.18s;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  transition: background-color 0.3s ease;
+  width: 100%;
 }
 
-.btn.btn-warning:hover, .btn.btn-warning:focus {
-  background: #5b21b6 !important;   /* Slightly darker purple on hover */
-  color: #fff !important;
+.pop-btn:hover {
+  background-color: #5B21B6;
 }
 
-/* Responsive adjustments */
-@media (max-width: 767.98px) {
-  .card {
-    margin-bottom: 1.5rem;
-  }
-  .badge.bg-warning.text-dark {
-    font-size: 0.95rem;
-    top: -18px !important;
-  }
+.cho-btn {
+  background-color: #ffffff;
+  color: #374151;
+  font-weight: bold;
+  padding: 0.75em 1.5em;
+  border: 1px solid rgb(209 213 219 /1);
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.cho-btn:hover {
+  background-color: #F9FAFB;
+}
+
+.spl-features {
+  color: rgb(17 24 39 / 1);
+  font-weight: 500;
+  font-size: 1.15rem;
 }
