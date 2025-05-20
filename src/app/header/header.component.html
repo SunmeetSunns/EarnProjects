@@ -1,4 +1,4 @@
-<div id="header" class="d-flex flex-row header justify-content-between align-items-center">
+<div id="header" #headerRef class="d-flex flex-row header justify-content-between align-items-center">
     <div class="d-flex flex-row align-items-center">
         <video class="logo" autoplay muted loop
             src="../../assets/images/Orange and Black Partnership Investment Logo.mp4"></video>
@@ -33,7 +33,7 @@
 </div>
 
 <!-- ✅ Dropdown Only If show is true -->
-<div class="drop-divs" [ngClass]="{
+<div class="drop-divs" #dropdownRef [ngClass]="{
     'divs-pos-our-plan': dropDownValues[0]?.showPlanName === 'ourPlan',
     'divs-pos-review-plan': dropDownValues[0]?.showPlanName === 'reviewPlan',
     'divs-pos-support-plan': dropDownValues[0]?.showPlanName === 'supportPlan'

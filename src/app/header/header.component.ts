@@ -1,5 +1,7 @@
 import { Component, HostListener, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ViewChild } from '@angular/core';
+
 
 @Component({
   selector: 'app-header',
@@ -9,6 +11,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements AfterViewInit {
+  @ViewChild('dropdownRef') dropdownRef!: ElementRef;
+@ViewChild('headerRef') headerRef!: ElementRef;
+
   isScrolled: boolean = false;
   dropDownValues: any[] = [];
   show: boolean = false;
@@ -29,6 +34,15 @@ export class HeaderComponent implements AfterViewInit {
       }
     }
   }
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent): void {
+  const clickedInsideHeader = this.headerRef?.nativeElement.contains(event.target);
+  const clickedInsideDropdown = this.dropdownRef?.nativeElement.contains(event.target);
+
+  if (!clickedInsideHeader && !clickedInsideDropdown) {
+    this.show = false;
+  }
+}
 
   ngAfterViewInit(): void {
     const menuItems: NodeListOf<HTMLElement> = this.el.nativeElement.querySelectorAll('#menu .menu-item');
