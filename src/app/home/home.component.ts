@@ -41,8 +41,7 @@ import { FooterComponent } from '../footer/footer.component';
     WhyusComponent,
     OfferingsComponent,
     TestimonialsComponent,
-    FaqComponent,
-    FooterComponent
+    FaqComponent
   ],
   template: `
     <app-hero></app-hero>
@@ -50,7 +49,6 @@ import { FooterComponent } from '../footer/footer.component';
     <app-offerings></app-offerings>
     <app-testimonials></app-testimonials>
     <app-faq></app-faq>
-    <app-footer></app-footer>
 
   `
 })

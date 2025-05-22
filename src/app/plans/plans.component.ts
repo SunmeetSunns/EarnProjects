@@ -1,17 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Plan } from '../../app/models/plan';
 import { CommonModule } from '@angular/common';
+import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-plans',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgbModalModule, FormsModule],
   templateUrl: './plans.component.html',
-  styleUrl: './plans.component.css'
+  styleUrls: ['./plans.component.css']
 })
-export class PlansComponent implements OnInit{
- allPlans: Plan[] = [
+export class PlansComponent implements OnInit {
+  currentCategory = '';
+  isloggedIn = false;
+
+  @ViewChild('noAccModal') noAccModal!: TemplateRef<any>;
+
+  allPlans: Plan[] = [
     {
       name: 'Student Starter',
       price: 4999,
@@ -75,10 +83,9 @@ export class PlansComponent implements OnInit{
         'Custom branding',
         'Agency analytics dashboard',
       ],
-      popular:true
-    }
-    ,
-    {
+      popular: true
+    },
+     {
       name: 'Agency Max',
       price: 29999,
       yearlyDiscount: 'Save ₹4989.00 annually',
@@ -92,10 +99,9 @@ export class PlansComponent implements OnInit{
         'Custom branding',
         'Agency analytics dashboard',
       ],
-      popular:false
-    }
-    ,
-    {
+      popular: true
+    },
+     {
       name: 'Agency Max',
       price: 29999,
       yearlyDiscount: 'Save ₹4989.00 annually',
@@ -109,21 +115,131 @@ export class PlansComponent implements OnInit{
         'Custom branding',
         'Agency analytics dashboard',
       ],
-      popular:true
+      popular: true
     }
   ];
 
   filteredPlans: Plan[] = [];
+  preferenceForm!: FormGroup;
 
-  constructor(private route: ActivatedRoute) {}
+  preferenceOptions = [];
+  maxPreferences = 3;
+
+  showOtherInput = false;
+  otherValue = '';
+  maxError = false;
+  PrefError = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private modal: NgbModal,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const category = params['category'];
+      this.currentCategory = category;
       this.filteredPlans = category === 'all'
         ? this.allPlans
         : this.allPlans.filter(plan => plan.category === category);
     });
+
+    const loggedInRaw = sessionStorage.getItem('isLoggedIn');
+    if (loggedInRaw) {
+      const loggedValue = JSON.parse(loggedInRaw);
+      this.isloggedIn = loggedValue;
+
+      if (this.isloggedIn) {
+        setTimeout(() => {
+          this.modal.open(this.noAccModal, {
+            size: 'md',
+            centered: true,
+            backdrop: 'static', // prevent click outside
+            keyboard: false     // prevent ESC close
+          });
+        });
+
+        this.buildPreferenceForm();
+        this.categoryWisePreferrence();
+      }
+    }
   }
 
+  buildPreferenceForm() {
+    this.preferenceForm = this.formBuilder.group({
+      selected: this.formBuilder.array([])
+    });
+  }
+
+  get selected(): FormArray {
+    return this.preferenceForm.get('selected') as FormArray;
+  }
+
+  isSelected(option: string): boolean {
+    return this.selected.value.includes(option);
+  }
+
+ toggleSelection(option: string) {
+  this.PrefError = '';
+  if (this.selected.length < 3) this.maxError = false;
+
+  if (option === 'Others') {
+    this.showOtherInput = true;
+    return;
+  }
+
+  const index = this.selected.value.indexOf(option);
+
+  if (index > -1) {
+    this.selected.removeAt(index);
+  } else {
+    if (this.selected.length >= this.maxPreferences) {
+      this.maxError = true;
+      return;
+    }
+    this.selected.push(this.formBuilder.control(option));
+  }
+}
+
+addOtherPreference() {
+  const trimmedValue = this.otherValue.trim();
+  this.maxError = false;
+
+  if (trimmedValue && this.selected.length < this.maxPreferences) {
+    this.selected.push(this.formBuilder.control(trimmedValue));
+    this.showOtherInput = false;
+    this.otherValue = '';
+  } else if (this.selected.length >= this.maxPreferences) {
+    this.maxError = true;
+  }
+}
+
+
+  categoryWisePreferrence() {
+    if (this.currentCategory === 'student') {
+      this.preferenceOptions = ['Mobile App Development', 'X', 'Y', 'Development', 'Testing', 'Marketing', 'SEO', 'AI', 'Graphic Designing', 'Digital Marketing', 'Others'];
+    } else if (this.currentCategory === 'professional') {
+      this.preferenceOptions = ['Mobile App Development', 'Web Development', 'Testing', 'Marketing', 'SEO', 'AI', 'Others'];
+    } else if (this.currentCategory === 'agency') {
+      this.preferenceOptions = ['Mobile App Development', 'Z', 'Development', 'Testing', 'Marketing', 'SEO', 'AI', 'Others'];
+    }
+  }
+
+  routeToSignup(category: string) {
+    this.currentCategory = category;
+    sessionStorage.setItem('categoryName', category);
+    this.router.navigate(['/signup']);
+  }
+
+  savePreferrence() {
+    if (this.selected.length === 0) {
+      this.PrefError = 'Please select at least one preference.';
+      return;
+    }
+
+    console.log(this.preferenceForm.value);
+    this.modal.dismissAll(); // Only closes when valid
+  }
 }

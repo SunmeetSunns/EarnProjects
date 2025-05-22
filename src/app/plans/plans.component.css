@@ -18,6 +18,17 @@
   justify-content: center;
 }
 
+.heading-mod {
+  text-align: center;
+  margin-bottom: 1em;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 2.5rem;
+  justify-content: center;
+}
+
 .heading>h2 {
   padding: 0.5em 1em;
   background-color: #EDE9FE;
@@ -26,21 +37,64 @@
   font-size: 1em;
   border-radius: 2em;
   font-weight: 500;
+  
 }
 
 .heading>p {
   font-size: 2.25rem;
   line-height: 2.5rem;
   color: rgb(17 24 39 /1);
+  overflow-y: hidden;
 }
-.heading>span{
-      color: rgb(75 85 99 /1 );
-    font-size: 1.25rem;
-    line-height: 1.75rem;
+
+.heading>span {
+  color: rgb(75 85 99 /1);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .cards-align {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    justify-content: center !important;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .cards-align {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    justify-content: center !important;
+  }
+
+  .features {
+    margin-right: 0.8em !important;
+    font-size: 0.8em !important;
+  }
+
+  .card-body {
+    padding: 0.3em !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-align {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+    justify-content: center !important;
+  }
+
+  .features {
+    margin-right: 0.8em !important;
+    font-size: 0.8em !important;
+  }
+
+  .card-body {
+    padding: 0.3em !important;
+  }
+}
+
 .cards-align {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(28rem, 28rem));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2em;
   overflow: visible;
   position: relative;
@@ -112,7 +166,7 @@
   color: #757575;
   font-size: 0.95em;
   margin-bottom: 3em;
-  
+
 }
 
 .features {
@@ -146,7 +200,22 @@
   transition: background-color 0.3s ease;
   width: 100%;
 }
-
+.pop-btn1 {
+  background-color: #7C3AED;
+  color: white;
+  font-weight: bold;
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+}
+.error{
+  color: red;
+}
 .pop-btn:hover {
   background-color: #5B21B6;
 }
@@ -174,3 +243,50 @@
   font-weight: 500;
   font-size: 1.15rem;
 }
+.modal-header-pop {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.my-modal {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.preferrences {
+  padding: 8px 12px;
+  margin: 5px;
+  border: 1px solid #007bff;
+  border-radius: 20px;
+  color: #007bff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.preferrences:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+.badge-chip {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  max-width: fit-content;
+  white-space: nowrap;
+}
+
+.badge-chip .close-icon {
+  font-weight: bold;
+  cursor: pointer;
+  padding-left: 4px;
+}
+

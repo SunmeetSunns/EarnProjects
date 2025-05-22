@@ -12,7 +12,7 @@
                 <span class="line"></span>
             </div>
 
-            <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('reviewPlan')">
+            <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('renewPlan')">
                 <span class="head-heading">Renew Your Plan</span>
                 <span class="line"></span>
             </div>
@@ -27,7 +27,7 @@
             <span class="expert-btn cursor-pointer">
                 <img class="talk-expert" src="../../assets/svg/expert.svg" />Talk to expert
             </span>
-            <button class="head-btn">Get Started</button>
+            <button class="head-btn" (click)="routeToSignup()">Get Started</button>
         </div>
     </div>
 </div>

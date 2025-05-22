@@ -1,13 +1,13 @@
 import { Component, HostListener, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViewChild } from '@angular/core';
-import { Router ,RouterModule} from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -19,7 +19,7 @@ export class HeaderComponent implements AfterViewInit {
   dropDownValues: any[] = [];
   show: boolean = false;
   currentDrop: string;
-  
+
 
   constructor(private el: ElementRef, private renderer: Renderer2, public router: Router) { }
 
@@ -56,7 +56,9 @@ export class HeaderComponent implements AfterViewInit {
       });
     });
   }
-
+  routeToSignup() {
+    this.router.navigate(['/signup'])
+  }
   applyClasses(plan: string) {
     this.currentDrop = plan;
     this.show = true;
@@ -68,6 +70,7 @@ export class HeaderComponent implements AfterViewInit {
         { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
       ];
     } else if (plan === 'renewPlan') {
+      this.show = false;
       this.dropDownValues = []
       return;
     } else if (plan === 'support') {
@@ -78,25 +81,25 @@ export class HeaderComponent implements AfterViewInit {
       ];
     }
   }
- performAction(actionName: any, choosePlan: any) {
-  if (actionName === 'ourPlan') {
-    this.show=false;
-    if (choosePlan === 'All Plans') {
-      this.router.navigate(['/plans/all']);
-    } else if (choosePlan === 'Student Plans') {
-      this.router.navigate(['/plans/student']);
-    } else if (choosePlan === 'Professional Plans') {
-      this.router.navigate(['/plans/professional']);
-    } else if (choosePlan === 'Agency Plans') {
-      this.router.navigate(['/plans/agency']);
+  performAction(actionName: any, choosePlan: any) {
+    if (actionName === 'ourPlan') {
+      this.show = false;
+      if (choosePlan === 'All Plans') {
+        this.router.navigate(['/plans/all']);
+      } else if (choosePlan === 'Student Plans') {
+        this.router.navigate(['/plans/student']);
+      } else if (choosePlan === 'Professional Plans') {
+        this.router.navigate(['/plans/professional']);
+      } else if (choosePlan === 'Agency Plans') {
+        this.router.navigate(['/plans/agency']);
+      }
+    }
+
+    if (actionName === 'renewPlans') {
+      // Add renew navigation if needed
+      return;
     }
   }
-
-  if (actionName === 'renewPlans') {
-    // Add renew navigation if needed
-    return;
-  }
-}
 
 
 }
