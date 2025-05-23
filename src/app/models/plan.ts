@@ -1,6 +1,6 @@
 export interface Plan {
     name: string;
-    price: number;
+    price: any;
     yearlyDiscount: string;
     category: 'student' | 'professional' | 'agency';
     description: string;

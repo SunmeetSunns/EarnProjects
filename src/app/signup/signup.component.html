@@ -1,5 +1,5 @@
 <div class="sign">
-  <div class="d-flex flex-row justify-content-between" style="gap: 2em;">
+  <div class="sign-categ-align" style="gap: 2em;">
     <div class="sign-categ" [ngClass]="{ 'selected': selectedCategory === 'student' }"
       (click)="selectCategory('student')">
       Student
@@ -15,9 +15,10 @@
       Agency
     </div>
   </div>
-  <div class="category-error" *ngIf="signForm.get('category')?.invalid && signForm.get('category')?.touched" style="color:red; margin-top: 0.3em;">
-  Please select a category
-</div>
+  <div class="category-error" *ngIf="signForm.get('category')?.invalid && signForm.get('category')?.touched"
+    style="color:red; margin-top: 0.3em;">
+    Please select a category
+  </div>
 
   <form [formGroup]="signForm" class="sign-container">
 
@@ -29,36 +30,37 @@
       <h2>Sign Up</h2>
 
       <div class="input-fields">
-        <label>Name</label>
-        <input type="text"
-          [ngClass]="{ 'redBorder': signForm.get('username')?.invalid && signForm.get('username')?.touched }"
-          placeholder="xyz" formControlName="username" />
+        <label>Username</label>
+        <input type="text" placeholder="Enter your name" formControlName="username"
+          [ngClass]="{ 'redBorder': signForm.get('username')?.invalid && signForm.get('username')?.touched }" />
 
         <span class="error" *ngIf="signForm.get('username')?.hasError('required') && signForm.get('username')?.touched">
-          Name is required
+          Username is required
+        </span>
+        <span class="error" *ngIf="signForm.get('username')?.hasError('pattern') && signForm.get('username')?.touched">
+          Only alphabets allowed in username (no numbers or special characters)
         </span>
       </div>
-     <div class="input-fields">
-  <label>Mobile No.</label>
-  <input
-    type="text"
-    inputmode="numeric"
-    pattern="[0-9]*"
-    placeholder="95xxxxx123"
-    formControlName="phn_no"
-    [ngClass]="{ 'redBorder': signForm.get('phn_no')?.invalid && signForm.get('phn_no')?.touched }"
-  />
 
-  <span class="error" *ngIf="signForm.get('phn_no')?.hasError('required') && signForm.get('phn_no')?.touched">
-    Mobile number is required
-  </span>
-  <span class="error" *ngIf="signForm.get('phn_no')?.hasError('minlength') && signForm.get('phn_no')?.touched">
-    Mobile number must be 10 digits
-  </span>
-  <span class="error" *ngIf="signForm.get('phn_no')?.hasError('maxlength') && signForm.get('phn_no')?.touched">
-    Mobile number must be 10 digits
-  </span>
-</div>
+      <div class="input-fields">
+        <label>Mobile No.</label>
+        <input type="text" inputmode="numeric" pattern="[0-9]*" placeholder="95xxxxx123" formControlName="phn_no"
+          [ngClass]="{ 'redBorder': signForm.get('phn_no')?.invalid && signForm.get('phn_no')?.touched }" />
+
+        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('required') && signForm.get('phn_no')?.touched">
+          Mobile number is required
+        </span>
+        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('minlength') && signForm.get('phn_no')?.touched">
+          Mobile number must be 10 digits
+        </span>
+        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('maxlength') && signForm.get('phn_no')?.touched">
+          Mobile number must be 10 digits
+        </span>
+        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('pattern') && signForm.get('phn_no')?.touched">
+          Enter a valid mobile number (starting with 6-9)
+        </span>
+      </div>
+
 
       <div class="d-flex flex-column justify-content-center align-items-center">
         <button class="mb-3" (click)="changeState()">Sign Up</button>

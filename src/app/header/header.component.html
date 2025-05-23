@@ -1,7 +1,6 @@
 <div id="header" #headerRef class="d-flex flex-row header justify-content-between align-items-center">
-    <div class="d-flex flex-row align-items-center cursor-pointer"[routerLink]="['/']">
-        <video class="logo" autoplay muted loop
-            src="../../assets/images/Orange and Black Partnership Investment Logo.mp4"></video>
+    <div class="d-flex flex-row align-items-center cursor-pointer" [routerLink]="['/']">
+        <video class="logo" autoplay muted loop src="../../assets/images/logo_v.mp4"></video>
         <h3 class="brand-name">EarnProjects</h3>
     </div>
 
@@ -38,9 +37,9 @@
     'divs-pos-review-plan': this.currentDrop === 'renewPlan',
     'divs-pos-support-plan': this.currentDrop === 'support'
   }" *ngIf="show">
-    <div class="drops"*ngFor="let plan of dropDownValues" (click)="performAction(this.currentDrop,plan.Planname)">
+    <div class="drops" *ngFor="let plan of dropDownValues" (click)="performAction(this.currentDrop,plan.Planname)">
         <img [src]="plan.src">
-        <div >{{ plan.Planname }}</div>
-        
+        <div>{{ plan.Planname }}</div>
+
     </div>
 </div>

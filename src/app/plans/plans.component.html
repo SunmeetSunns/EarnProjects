@@ -33,13 +33,13 @@
   <div class="cards-align" *ngIf="isloggedIn">
     <div class="card" *ngFor="let plan of filteredPlans" [ngClass]="{'popular': plan.popular}">
       <div class="badge" *ngIf="plan.popular">Most Popular</div>
-     
+
 
       <div class="card-body">
         <div>
           <h5 class="card-title">{{ plan.name }}</h5>
           <p class="description">{{ plan.description }}</p>
-         
+
           <span class="spl-features">Features Include</span>
           <ul class="features">
             <li *ngFor="let feature of plan.features">
@@ -52,7 +52,7 @@
           <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)">₹{{ plan.price }}</button>
           <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category)">₹{{ plan.price
             }} anually</button>
-<p class="discount" style="text-align: center;">{{ plan.yearlyDiscount }}</p>
+          <p class="discount" style="text-align: center;">{{ plan.yearlyDiscount }}</p>
 
         </div>
 
@@ -106,12 +106,157 @@
     </div>
   </div>
 </ng-template>
-<ng-template #studentForm>
+<ng-template #studentForm let-modal>
+  <div class="modal-header-pop">
+    <div class="heading-mod my-modal text-center w-100">
+      Enter Your Details
+    </div>
 
+    <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+      <form *ngIf="studentFormArea" [formGroup]="studentFormArea" class="w-100 px-4" (ngSubmit)="onSubmit()">
+        
+        <!-- College Name -->
+        <div class="form-group mb-2">
+          <label for="collegeName">College Name</label>
+          <input type="text" class="form-control" id="collegeName" formControlName="collegeName">
+        </div>
+
+        <!-- City -->
+        <div class="form-group mb-2">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" formControlName="city">
+        </div>
+
+        <!-- State -->
+        <div class="form-group mb-2">
+          <label for="state">State</label>
+          <input type="text" class="form-control" id="state" formControlName="state">
+        </div>
+
+        <!-- Pincode -->
+        <div class="form-group mb-2">
+          <label for="pincode">Pincode</label>
+          <input type="text" class="form-control" id="pincode" formControlName="pincode">
+        </div>
+
+        <!-- Document Upload -->
+        <div class="form-group mb-3">
+          <label for="document">Upload ID Card / Marksheet</label>
+          <input type="file" class="form-control" id="document" (change)="onFileChange($event)" accept="image/*,application/pdf">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="modal-footer d-flex flex-row justify-content-center mt-3">
+          <button type="submit" class="btn pop-btn1" [disabled]="studentFormArea.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </ng-template>
-<ng-template #professionalform>
 
+
+<ng-template #professionalForm>
+  <div class="modal-header">
+    <h5 class="modal-title">Professional Details</h5>
+  </div>
+  <div class="modal-body">
+    <form *ngIf="professionalFormArea" [formGroup]="professionalFormArea" (ngSubmit)="onSubmitProfessional()">
+      
+      <div class="mb-3">
+        <label>Current Employer Name</label>
+        <input type="text" class="form-control" formControlName="currentEmployer" placeholder="Enter company name">
+      </div>
+
+      <div class="mb-3">
+        <label>Designation / Job Title</label>
+        <input type="text" class="form-control" formControlName="designation" placeholder="Enter your designation">
+      </div>
+
+      <div class="mb-3">
+        <label>Work Email (Company Email)</label>
+        <input type="email" class="form-control" formControlName="workEmail" placeholder="Enter company email">
+      </div>
+
+      <div class="mb-3">
+        <label>Employment Type</label>
+        <select class="form-control" formControlName="employmentType">
+          <option value="">Select</option>
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contractual">Contractual</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Years of Experience</label>
+        <input type="number" class="form-control" formControlName="experience" placeholder="Enter years of experience">
+      </div>
+
+      <div class="mb-3">
+        <label>Offer/Joining/ID Proof Upload</label>
+        <input type="file" class="form-control" (change)="onProfessionalFileChange($event)" accept=".pdf,.jpg,.jpeg,.png">
+      </div>
+
+      <div class="mb-3">
+        <label>LinkedIn Profile (Optional)</label>
+        <input type="url" class="form-control" formControlName="linkedin" placeholder="Enter LinkedIn URL">
+      </div>
+
+    
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="!professionalFormArea.valid">Submit</button>
+    </form>
+  </div>
 </ng-template>
 <ng-template #agencyForm>
+  <div class="modal-header">
+    <h5 class="modal-title">Agency / Company Verification</h5>
+  </div>
+  <div class="modal-body">
+    <form *ngIf="agencyFormArea" [formGroup]="agencyFormArea" (ngSubmit)="onSubmitAgency()">
 
+      <div class="mb-3">
+        <label>LinkedIn Company Page (Optional)</label>
+        <input type="url" class="form-control" formControlName="linkedIn" placeholder="Enter LinkedIn URL">
+      </div>
+
+      <div class="mb-3">
+        <label>Company Domain *</label>
+        <input type="text" class="form-control" formControlName="domain" placeholder="e.g. www.example.com">
+      </div>
+
+      <div class="mb-3">
+        <label>Services Offered *</label>
+         <select class="form-control" formControlName="services">
+          <option value="">Select</option>
+          <option *ngFor="let service of servicesList" [value]="service">{{ service }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Full Address *</label>
+        <input type="text" class="form-control" formControlName="fullAddress" placeholder="Enter full address">
+      </div>
+
+      <div class="mb-3">
+        <label>State *</label>
+        <input type="text" class="form-control" formControlName="state" placeholder="Enter state">
+      </div>
+
+      <div class="mb-3">
+        <label>PIN Code *</label>
+        <input type="number" class="form-control" formControlName="pinCode" placeholder="Enter PIN Code">
+      </div>
+
+      <div class="mb-3">
+        <label>No. of Employees *</label>
+        <select class="form-control" formControlName="employees">
+          <option value="">Select</option>
+          <option *ngFor="let emp of employeeOptions" [value]="emp">{{ emp }}</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="!agencyFormArea.valid">Submit</button>
+    </form>
+  </div>
 </ng-template>
