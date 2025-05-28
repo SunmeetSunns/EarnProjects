@@ -1,0 +1,219 @@
+<div class="subscription-container">
+  <!-- Progress Steps -->
+
+  <div class="form-content">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="side-head">
+        <div class="plan-name gradient-text">Plan Name</div>
+        <span class="plan-desc">xyz</span>
+      </div>
+      <div class="sidebar-items">
+        <div class="side-align">
+          <div class="side-item">Project Worth</div>
+          <div class="side-ans">₹500</div>
+        </div>
+        <div class="side-align">
+          <div class="side-item">No of Leads</div>
+          <div class="side-ans">10</div>
+        </div>
+        <div class="side-align">
+          <div class="side-item">Payment frequency</div>
+          <select class="side-ans">
+            <option value="Monthly">Monthly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Form Area -->
+    <div class="d-flex flex-column detail-area">
+      <div class="step-cover">
+        <div class="step-indicator">
+          <div class="step-label" [ngClass]="{'active': stepIndex>= 1}">Your Details</div>
+          <div class="step-separator bod-bt" [ngClass]="{'active': stepIndex>= 2}"></div>
+          <div class="step-label" [ngClass]="{'active': stepIndex>= 2}">Skill & Role</div>
+          <div class="step-separator" [ngClass]="{'active': stepIndex>= 3}"></div>
+          <div class="step-label" [ngClass]="{'active': stepIndex>= 3}">Project Expectations</div>
+        </div>
+        <div class="line"></div>
+      </div>
+
+      <div class="form-area">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <ng-container [formGroup]="currentStepGroup">
+
+            <!-- Step 0 -->
+            <div *ngIf="stepIndex === 0">
+              <ng-container *ngIf="plan !== 'agency'">
+                <div class="form-field">
+                  <label class="side-align">Full Name</label>
+                  <input class="form-ans form-control" formControlName="fullName" />
+                  <div class="error" *ngIf="isFieldInvalid('fullName')">Full Name is required.</div>
+                </div>
+
+                <div class="form-field">
+                  <label class="side-align">Email</label>
+                  <input class="form-ans form-control" formControlName="email" />
+                  <div class="error" *ngIf="isFieldInvalid('email')">Valid Email is required.</div>
+                </div>
+
+                <div class="form-field">
+                  <label class="side-align">Phone Number</label>
+                  <input class="form-ans form-control" formControlName="phoneNumber" />
+                  <div class="error" *ngIf="isFieldInvalid('phoneNumber')">Valid Phone Number is required.</div>
+                </div>
+
+                <div class="form-field">
+                  <label class="side-align">City</label>
+                  <input class="form-ans form-control" formControlName="city" />
+                  <div class="error" *ngIf="isFieldInvalid('city')">City is required.</div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="plan === 'agency'">
+                <div class="form-field">
+                  <label class="side-align">Agency Name</label>
+                  <input class="form-ans form-control" formControlName="agencyName" />
+                  <div class="error" *ngIf="isFieldInvalid('agencyName')">Agency Name is required.</div>
+                </div>
+
+                <div class="form-field">
+                  <label class="side-align">Website</label>
+                  <input class="form-ans form-control" formControlName="website" />
+                </div>
+
+                <div class="form-field">
+                  <label class="side-align">Location</label>
+                  <input class="form-ans form-control" formControlName="location" />
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- Step 1 -->
+            <div *ngIf="stepIndex === 1">
+              <!-- Student Fields -->
+              <ng-container *ngIf="plan === 'student'">
+                <div class="form-field" *ngFor="let field of ['college', 'course', 'yearOfStudy', 'techStack']">
+                  <label class="side-align">{{ field | titlecase }}</label>
+                  <input class="form-ans form-control" [formControlName]="field" />
+                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
+                </div>
+                <div class="form-field">
+                  <label class="side-align">Portfolio Link</label>
+                  <input class="form-ans form-control" formControlName="portfolioLink" />
+                </div>
+                <div class="form-field">
+                  <label class="side-align">Github Profile</label>
+                  <input class="form-ans form-control" formControlName="githubProfile" />
+                </div>
+                <div class="form-field">
+                  <label class="side-align">LinkedIn Profile</label>
+                  <input class="form-ans form-control" formControlName="linkedinProfile" />
+                </div>
+              </ng-container>
+
+              <!-- Professional Fields -->
+              <ng-container *ngIf="plan === 'professional'">
+                <div class="form-field">
+                  <label class="side-align">Tech Stack</label>
+                  <input class="form-ans form-control" formControlName="techStack" />
+                  <div class="error" *ngIf="isFieldInvalid('techStack')">Tech Stack is required.</div>
+                </div>
+                <div class="form-field">
+                  <label class="side-align">Years of Experience</label>
+                  <input class="form-ans form-control" formControlName="yearsOfExperience" />
+                  <div class="error" *ngIf="isFieldInvalid('yearsOfExperience')">Years of Experience is required.</div>
+                </div>
+                <div class="form-field">
+                  <label class="side-align">Total Work Experience</label>
+                  <input class="form-ans form-control" formControlName="totalWorkExperience" />
+                  <div class="error" *ngIf="isFieldInvalid('totalWorkExperience')">Total Work Experience is required.
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label class="side-align">Project Descriptions</label>
+                  <textarea class="form-ans form-control" formControlName="projectDescriptions"></textarea>
+                  <div class="error" *ngIf="isFieldInvalid('projectDescriptions')">Project Description is required.
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- Agency Fields -->
+              <ng-container *ngIf="plan === 'agency'">
+                <div class="form-field"
+                  *ngFor="let field of ['teamSize', 'pocName', 'pocEmail', 'pocPhoneNumber', 'techStack', 'coreServices']">
+                  <label class="side-align">{{ field | titlecase }}</label>
+                  <input class="form-ans form-control" [formControlName]="field" />
+                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
+                </div>
+                <div class="form-field">
+                  <label class="side-align">Resume Upload</label>
+                  <input type="file" (change)="onFileChange($event)" />
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- Step 2 -->
+            <div *ngIf="stepIndex === 2">
+              <!-- Student Fields -->
+              <ng-container *ngIf="plan === 'student'">
+                <div class="form-field"
+                  *ngFor="let field of ['availability', 'preferredLearningAreas', 'languageComfort']">
+                  <label class="side-align">{{ field | titlecase }}</label>
+                  <input class="form-ans form-control" [formControlName]="field" />
+                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
+                </div>
+              </ng-container>
+
+              <!-- Professional Fields -->
+              <ng-container *ngIf="plan === 'professional'">
+                <div class="form-field"
+                  *ngFor="let field of ['availability', 'preferredProjectType', 'languageComfort', 'upiBankInfo']">
+                  <label class="side-align">{{ field | titlecase }}</label>
+                  <input class="form-ans form-control" [formControlName]="field" />
+                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
+                </div>
+              </ng-container>
+
+              <!-- Agency Fields -->
+              <ng-container *ngIf="plan === 'agency'">
+                <div class="form-field"
+                  *ngFor="let field of ['teamCapacity', 'pastClients', 'budgetRange', 'communicationTools']">
+                  <label class="side-align">{{ field | titlecase }}</label>
+                  <input class="form-ans form-control" [formControlName]="field" />
+                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
+                </div>
+                <div class="form-field">
+                  <label class="side-align">Sales Help Required</label>
+                  <select class="form-ans" formControlName="salesHelpRequired">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                  </select>
+                </div>
+              </ng-container>
+            </div>
+
+          </ng-container>
+        </form>
+      </div>
+
+
+
+    </div>
+  </div>
+  <div class="form-navigation">
+    <div class="form-tot">
+      <div class="tot-name">Total payable amount: </div>
+      <div class="tot-price">299</div>
+    </div>
+    <div class="form-btn">
+      <button type="button" (click)="previousStep()" class="rev-b1" [disabled]="stepIndex=== 1">EDIT</button>
+      <button type="button" (click)="nextStep()"  *ngIf="stepIndex < 2" class="rev-b2"[disabled]="!currentStepGroup.valid">PROCEED</button>
+      <button type="submit" *ngIf="stepIndex=== 2" class="rev-b2" (click)="navigateToReview()">Review your Details</button>
+    </div>
+
+  </div>
+</div>

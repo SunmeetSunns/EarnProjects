@@ -327,10 +327,13 @@ allPlans: Plan[] = [
     }
   }
 
-  routeToSignup(category: string) {
+  routeToSignup(category: string,proceed?:any) {
     this.currentCategory = category;
     sessionStorage.setItem('categoryName', category);
     this.router.navigate(['/signup']);
+    if(proceed){
+      this.router.navigate(['/proceed-form'])
+    }
   }
 
   savePreferrence() {

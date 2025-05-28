@@ -49,9 +49,9 @@
           <!-- <h2 class="price">₹{{ plan.price }}</h2> -->
 
 
-          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)">₹{{ plan.price }}</button>
-          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category)">₹{{ plan.price
-            }} anually</button>
+          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category,true)">₹{{ plan.price }}</button>
+          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category,true)">₹{{ plan.price
+            }}</button>
           <p class="discount" style="text-align: center;">{{ plan.yearlyDiscount }}</p>
 
         </div>
@@ -109,7 +109,7 @@
 <ng-template #studentForm let-modal>
   <div class="modal-header-pop">
     <div class="heading-mod my-modal text-center w-100">
-      Enter Your Details
+      Student Verification 
     </div>
 
     <div class="modal-body d-flex flex-column justify-content-center align-items-center">
@@ -157,7 +157,7 @@
 
 <ng-template #professionalForm>
   <div class="modal-header">
-    <h5 class="modal-title">Professional Details</h5>
+    <h5 class="modal-title">Professional Verification</h5>
   </div>
   <div class="modal-body">
     <form *ngIf="professionalFormArea" [formGroup]="professionalFormArea" (ngSubmit)="onSubmitProfessional()">

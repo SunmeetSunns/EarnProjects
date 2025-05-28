@@ -1,0 +1,141 @@
+<div class="review-container">
+    <div class="review-head">
+        <div class="review-title">Plan Name</div>
+        <div class="review-desc">Xyz</div>
+    </div>
+    <div class="review-content">
+        <div class="review-warning">
+            <div>Review below details before proceeding</div>
+            <span>These cannot be changed at a later stage</span>
+        </div>
+        <div class="review-edits">
+            <div class="review-edits-title">
+                <div class="box-test">
+                    <div class="box-test-head">Name</div>
+                    <div class="box-test-foot">sunmeet</div>
+                </div>
+                <div class="box-test">
+                    <div class="box-test-head">Date of Birth</div>
+                    <div class="box-test-foot">04/02/2002</div>
+                </div>
+            </div>
+            <div class="review-edits-title">
+                <div class="box-test">
+                    <div class="box-test-head">Email</div>
+                    <div class="box-test-foot">kaursunmeet624.com</div>
+                </div>
+                <div class="box-test">
+                    <div class="box-test-head">Mobile Number</div>
+                    <div class="box-test-foot">******8510</div>
+                </div>
+            </div>
+            <!-- Additional Information Section -->
+            <div class="review-edits-title">
+                <div class="toggle-section">
+                    <button class="toggle-header" [ngClass]="{'active-toggle': activeSection === 'additional'}"
+                        (click)="toggleSection('additional')">
+                        <div>Additional Details</div>
+                        <img *ngIf="activeSection !== 'additional'" src="../../assets/svg/low-arrow.svg" />
+                        <img *ngIf="activeSection === 'additional'" src="../../assets/svg/up-arrow.svg" />
+                    </button>
+
+                    <div class="toggle-body"
+                        [ngClass]="{ 'open': activeSection === 'additional', 'closed': activeSection !== 'additional' }">
+                        <!-- Yaha tera custom content for Additional Information -->
+                         <div class="gap-review">Personal Details</div>
+                        <div class="review-edits-title gap-review">
+                            <div class="box-test">
+                                <div class="box-test-head">Name</div>
+                                <div class="box-test-foot">sunmeet</div>
+                            </div>
+                            <div class="box-test">
+                                <div class="box-test-head">Date of Birth</div>
+                                <div class="box-test-foot">04/02/2002</div>
+                            </div>
+                             <div class="box-test">
+                                <div class="box-test-head">Date of Birth</div>
+                                <div class="box-test-foot">04/02/2002</div>
+                            </div>
+                        </div>
+                        <div class="review-edits-title gap-review">
+                            <div class="box-test">
+                                <div class="box-test-head">Name</div>
+                                <div class="box-test-foot">sunmeet</div>
+                            </div>
+                            <div class="box-test">
+                                <div class="box-test-head">Date of Birth</div>
+                                <div class="box-test-foot">04/02/2002</div>
+                            </div>
+                             <div class="box-test">
+                                <div class="box-test-head">Date of Birth</div>
+                                <div class="box-test-foot">04/02/2002</div>
+                            </div>
+                        </div>
+                         <div class="gap-review">Skills and Experience Details</div>
+                        <div class="review-edits-title gap-review">
+                            <div class="box-test">
+                                <div class="box-test-head">Name</div>
+                                <div class="box-test-foot">sunmeet</div>
+                            </div>
+                            <div class="box-test">
+                                <div class="box-test-head">Date of Birth</div>
+                                <div class="box-test-foot">04/02/2002</div>
+                            </div>
+                             <div class="box-test">
+                                <div class="box-test-head">Date of Birth</div>
+                                <div class="box-test-foot">04/02/2002</div>
+                            </div>
+                        </div>
+                 <div class="gap-review">Plan Details</div>
+                        <div class="review-edits-title gap-review">
+                            <div class="box-test">
+                                <div class="box-test-head">Name</div>
+                                <div class="box-test-foot">sunmeet</div>
+                            </div>
+                            <div class="box-test">
+                                <div class="box-test-head">Date of Birth</div>
+                                <div class="box-test-foot">04/02/2002</div>
+                            </div>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Declarations Section -->
+            <div class="review-edits-title">
+                <div class="toggle-section">
+                    <button class="toggle-header" [ngClass]="{'active-toggle': activeSection === 'declaration'}"
+                        (click)="toggleSection('declaration')">
+                        <div>Declarations</div>
+                        <img *ngIf="activeSection !== 'declaration'" src="../../assets/svg/low-arrow.svg" />
+                        <img *ngIf="activeSection === 'declaration'" src="../../assets/svg/up-arrow.svg" />
+                    </button>
+
+                    <div class="toggle-body"
+                        [ngClass]="{ 'open': activeSection === 'declaration', 'closed': activeSection !== 'declaration' }">
+                        <!-- Yaha tera custom content for Declarations -->
+                        <p class="d-flex flex-row d-step">Get Updates on <img class="w-app-r"src="../../assets/svg/wapp.svg"> WhatsApp</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="review-agree">
+            <input type="checkbox" class="agree-check">
+            <div class="review-agree-title">I agree to the terms and conditions
+            </div>
+        </div>
+
+    </div>
+    <div class="review-foot">
+        <div class="tot-prem">
+            <div class="prem-text">Total Premium</div>
+            <div class="prem-num">299</div>
+        </div>
+        <div class="rev-btn">
+            <button class="rev-b1">EDIT DETAILS</button>
+            <button class="rev-b2">CHECKOUT</button>
+        </div>
+    </div>
+</div>

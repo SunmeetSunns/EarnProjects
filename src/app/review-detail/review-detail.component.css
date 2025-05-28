@@ -1,0 +1,282 @@
+.review-container {
+
+    display: flex;
+    width: 60%;
+    margin: auto;
+    flex-direction: column;
+    margin-top: 5.2em;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+
+}
+
+.review-head {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #e5e8eb;
+    padding: 1.5em 2em;
+}
+
+.review-title {
+    color: red;
+}
+
+.review-content {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 2em;
+    border-bottom: 1px solid #e5e8eb;
+}
+
+.review-warning {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.review-warning>div {
+    font-size: 1.25rem;
+    color: black;
+    margin-bottom: 0.3em;
+    font-weight: 700;
+}
+
+.review-warning>span {
+    font-size: 0.8rem;
+    color: #927C25;
+    font-weight: 500;
+}
+
+.review-edits {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    margin-top: 1rem;
+
+}
+
+.review-edits-title {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+}
+
+.box-test {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #F6F6FC;
+    border: 1px solid #e5e8eb;
+    padding: 0 1em;
+    height: 3.5em;
+    border-radius: 5px;
+    justify-content: center;
+}
+
+.box-test-head {
+    color: #565A69;
+    font-size: 0.8em;
+}
+
+.box-test-foot {
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.review-agree {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.openable-drop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+
+}
+
+.openable-drop>img {
+    height: 1em;
+    width: 1em;
+}
+
+.review-foot {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1em 2em;
+    align-items: center;
+}
+
+.tot-prem {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+}
+
+.rev-btn {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.rev-b1 {
+
+    border: 1px solid #7c3aed;
+    color: #5B21B6;
+    background-color: white;
+    border-radius: 10px;
+    padding: 0.5em 1em;
+}
+
+.rev-b2 {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  background-color: #7c3aed; /* Your preferred color */
+  color: white;
+  border-radius: 10px;
+  padding: 0.5em 1.5em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Light reflection effect */
+.rev-b2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+}
+
+/* Animate on hover */
+.rev-b2:hover::before {
+  animation: shine 0.8s forwards;
+}
+
+/* Keyframes */
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}
+
+
+.prem-num {
+    color: #27313D;
+    font-size: 1.25em;
+    font-weight: 700;
+}
+
+.prem-text {
+    color: #27313D;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.edit-head {
+    font-size: 1.1rem;
+    color: #565A69;
+}
+
+.toggle-section {
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+    background-color: F6F6FC;
+    border: 1px solid #e5e8eb;
+    border-radius: 5px;
+    width: 100%;
+    
+}
+
+.toggle-header {
+    height: 3.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    color: #565A69;
+    border: none;
+    cursor: pointer;
+    padding: 0 1em;
+}
+
+.toggle-header>img {
+    height: 1em;
+    width: 1em;
+}
+
+/* .toggle-header:hover {
+    background-color: #f9fafb;
+} */
+
+.active-toggle {
+    background-color: #f5f3ff;
+    color: #5b21b6;
+}
+
+.toggle-body {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    padding: 0 1.5rem;
+    color: #4b5563;
+   
+}
+.gap-review{
+    margin-bottom: 1em;
+}
+.toggle-body.open {
+    max-height: fit-content;
+     margin-top: 1.5em;
+    /* adjust as needed */
+    opacity: 1;
+    padding: 1.5rem;
+    padding-top: 0;
+}
+.w-app-r{
+    height: 1em;
+    width: 1em;
+margin-right: 0.2em;
+margin-left: 0.2em;
+}
+.d-step{
+    align-items: center;
+}
+
+.toggle-body.closed {
+    max-height: 0;
+    opacity: 0;
+    padding: 0 1.5rem;
+}
+
+@media (max-width: 1024px) {
+    .review-container {
+        width: 90% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .review-container {
+        width: 90% !important;
+    }
+}
