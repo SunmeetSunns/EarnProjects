@@ -6,7 +6,7 @@
   </div>
 
   <div class="cards-align" *ngIf="!isloggedIn">
-    <div class="card" *ngFor="let plan of filteredPlans" [ngClass]="{'popular': plan.popular}">
+    <div class="card" *ngFor="let plan of allPlans" [ngClass]="{'popular': plan.popular}">
       <div class="badge" *ngIf="plan.popular">Most Popular</div>
 
       <div class="card-body">
@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class="cards-align" *ngIf="isloggedIn">
-    <div class="card" *ngFor="let plan of filteredPlans" [ngClass]="{'popular': plan.popular}">
+    <div class="card" *ngFor="let plan of allPlans" [ngClass]="{'popular': plan.popular}">
       <div class="badge" *ngIf="plan.popular">Most Popular</div>
 
 
@@ -49,7 +49,8 @@
           <!-- <h2 class="price">₹{{ plan.price }}</h2> -->
 
 
-          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category,true)">₹{{ plan.price }}</button>
+          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category,true)">₹{{ plan.price
+            }}</button>
           <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category,true)">₹{{ plan.price
             }}</button>
           <p class="discount" style="text-align: center;">{{ plan.yearlyDiscount }}</p>
@@ -62,7 +63,7 @@
   </div>
 </div>
 
-<ng-template #noAccModal let-modal>
+<ng-template #noAccModal let-modal *ngIf="!clientSetupDone">
   <div class="modal-header-pop">
     <div class="heading-mod my-modal text-center w-100">
       Select Your Preferences
@@ -109,41 +110,46 @@
 <ng-template #studentForm let-modal>
   <div class="modal-header-pop">
     <div class="heading-mod my-modal text-center w-100">
-      Student Verification 
+      Student Verification
     </div>
 
     <div class="modal-body d-flex flex-column justify-content-center align-items-center">
-      <form *ngIf="studentFormArea" [formGroup]="studentFormArea" class="w-100 px-4" (ngSubmit)="onSubmit()">
-        
+      <form *ngIf="studentFormArea" [formGroup]="studentFormArea" class="w-100 px-4" (ngSubmit)="submitForm()">
+
         <!-- College Name -->
         <div class="form-group mb-2">
           <label for="collegeName">College Name</label>
           <input type="text" class="form-control" id="collegeName" formControlName="collegeName">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'collegeName')">College name is required.</span>
         </div>
 
         <!-- City -->
         <div class="form-group mb-2">
           <label for="city">City</label>
           <input type="text" class="form-control" id="city" formControlName="city">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'city')">City is required.</span>
         </div>
 
         <!-- State -->
         <div class="form-group mb-2">
           <label for="state">State</label>
           <input type="text" class="form-control" id="state" formControlName="state">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'state')">State is required.</span>
         </div>
 
         <!-- Pincode -->
         <div class="form-group mb-2">
           <label for="pincode">Pincode</label>
           <input type="text" class="form-control" id="pincode" formControlName="pincode">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'pincode')">Enter a valid 6-digit pincode.</span>
         </div>
-
-        <!-- Document Upload -->
         <div class="form-group mb-3">
           <label for="document">Upload ID Card / Marksheet</label>
-          <input type="file" class="form-control" id="document" (change)="onFileChange($event)" accept="image/*,application/pdf">
+          <input type="file" class="form-control" id="document" (change)="onFileChange($event)"
+            accept="image/*,application/pdf">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'document')">Please upload a document.</span>
         </div>
+
 
         <!-- Submit Button -->
         <div class="modal-footer d-flex flex-row justify-content-center mt-3">
@@ -153,30 +159,37 @@
     </div>
   </div>
 </ng-template>
-
-
 <ng-template #professionalForm>
   <div class="modal-header">
     <h5 class="modal-title">Professional Verification</h5>
   </div>
   <div class="modal-body">
-    <form *ngIf="professionalFormArea" [formGroup]="professionalFormArea" (ngSubmit)="onSubmitProfessional()">
-      
+    <form *ngIf="professionalFormArea" [formGroup]="professionalFormArea" (ngSubmit)="submitForm()">
+
+      <!-- Current Employer -->
       <div class="mb-3">
         <label>Current Employer Name</label>
         <input type="text" class="form-control" formControlName="currentEmployer" placeholder="Enter company name">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'currentEmployer')">Employer name is
+          required.</span>
       </div>
 
+      <!-- Designation -->
       <div class="mb-3">
         <label>Designation / Job Title</label>
         <input type="text" class="form-control" formControlName="designation" placeholder="Enter your designation">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'designation')">Designation is required.</span>
       </div>
 
+      <!-- Work Email -->
       <div class="mb-3">
         <label>Work Email (Company Email)</label>
         <input type="email" class="form-control" formControlName="workEmail" placeholder="Enter company email">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'workEmail')">Valid work email is
+          required.</span>
       </div>
 
+      <!-- Employment Type -->
       <div class="mb-3">
         <label>Employment Type</label>
         <select class="form-control" formControlName="employmentType">
@@ -185,24 +198,32 @@
           <option value="Part-time">Part-time</option>
           <option value="Contractual">Contractual</option>
         </select>
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'employmentType')">Select employment
+          type.</span>
       </div>
 
+      <!-- Experience -->
       <div class="mb-3">
         <label>Years of Experience</label>
         <input type="number" class="form-control" formControlName="experience" placeholder="Enter years of experience">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'experience')">Enter valid experience.</span>
       </div>
 
-      <div class="mb-3">
-        <label>Offer/Joining/ID Proof Upload</label>
-        <input type="file" class="form-control" (change)="onProfessionalFileChange($event)" accept=".pdf,.jpg,.jpeg,.png">
-      </div>
+      <!-- Proof Upload -->
+     <div class="mb-3">
+  <label>Offer/Joining/ID Proof Upload</label>
+  <input type="file" class="form-control" (change)="onProfessionalFileChange($event)" accept=".pdf,.jpg,.jpeg,.png">
+  <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'proofDocument')">Please upload a document.</span>
+</div>
+
+
 
       <div class="mb-3">
         <label>LinkedIn Profile (Optional)</label>
         <input type="url" class="form-control" formControlName="linkedin" placeholder="Enter LinkedIn URL">
       </div>
 
-    
+
 
       <button type="submit" class="btn btn-primary w-100" [disabled]="!professionalFormArea.valid">Submit</button>
     </form>
@@ -213,48 +234,56 @@
     <h5 class="modal-title">Agency / Company Verification</h5>
   </div>
   <div class="modal-body">
-    <form *ngIf="agencyFormArea" [formGroup]="agencyFormArea" (ngSubmit)="onSubmitAgency()">
+    <form *ngIf="agencyFormArea" [formGroup]="agencyFormArea" (ngSubmit)="submitForm()">
 
-      <div class="mb-3">
-        <label>LinkedIn Company Page (Optional)</label>
-        <input type="url" class="form-control" formControlName="linkedIn" placeholder="Enter LinkedIn URL">
-      </div>
-
+      <!-- Domain -->
       <div class="mb-3">
         <label>Company Domain *</label>
         <input type="text" class="form-control" formControlName="domain" placeholder="e.g. www.example.com">
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'domain')">Company domain is required.</span>
       </div>
 
+      <!-- Services -->
       <div class="mb-3">
         <label>Services Offered *</label>
-         <select class="form-control" formControlName="services">
+        <select class="form-control" formControlName="services">
           <option value="">Select</option>
           <option *ngFor="let service of servicesList" [value]="service">{{ service }}</option>
         </select>
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'services')">Please select a service.</span>
       </div>
 
+      <!-- Full Address -->
       <div class="mb-3">
         <label>Full Address *</label>
         <input type="text" class="form-control" formControlName="fullAddress" placeholder="Enter full address">
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'fullAddress')">Address is required.</span>
       </div>
 
+      <!-- State -->
       <div class="mb-3">
         <label>State *</label>
         <input type="text" class="form-control" formControlName="state" placeholder="Enter state">
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'state')">State is required.</span>
       </div>
 
+      <!-- PIN Code -->
       <div class="mb-3">
         <label>PIN Code *</label>
         <input type="number" class="form-control" formControlName="pinCode" placeholder="Enter PIN Code">
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'pinCode')">Enter valid PIN code.</span>
       </div>
 
+      <!-- Employees -->
       <div class="mb-3">
         <label>No. of Employees *</label>
         <select class="form-control" formControlName="employees">
           <option value="">Select</option>
           <option *ngFor="let emp of employeeOptions" [value]="emp">{{ emp }}</option>
         </select>
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'employees')">Select number of employees.</span>
       </div>
+
 
       <button type="submit" class="btn btn-primary w-100" [disabled]="!agencyFormArea.valid">Submit</button>
     </form>

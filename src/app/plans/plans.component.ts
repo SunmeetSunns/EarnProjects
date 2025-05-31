@@ -6,6 +6,8 @@ import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpWrapperService } from '../services/api-service.service';
+import { Api } from '../services/api-enums';
 
 @Component({
   selector: 'app-plans',
@@ -24,195 +26,195 @@ export class PlansComponent implements OnInit {
   @ViewChild('professionalForm') professionalForm!: TemplateRef<any>;
   @ViewChild('agencyForm') agencyForm!: TemplateRef<any>;
 
-allPlans: Plan[] = [
-  {
-    name: 'Starter Plan',
-    price: '299/month',
-    yearlyDiscount: 'Save ₹989.00 annually',
-    category: 'student',
-    description: 'Small project leads, good for learning and confidence building.',
-    features: [
-      '2-3 project leads per month',
-      'Basic project filtering',
-      'Email support',
-      'Project completion certificates',
-      'Basic skill assessment',
-      'Community access',
-    ],
-    popular: false
-  },
-  {
-    name: 'Basic Plan',
-    price: '499/month',
-    yearlyDiscount: 'Save ₹1989.00 annually',
-    category: 'student',
-    description: 'Real-world tasks with earning potential. Kickstart your career',
-    features: [
-      '5-7 project leads per month',
-      'Advanced project matching',
-      'Priority support',
-      'Experience letters',
-      'Skill development workshops',
-      'Mentor connection',
-      'Portfolio builder',
-    ],
-    popular: true
-  },
-  {
-    name: 'Advanced Plan',
-    price: '799/month',
-    yearlyDiscount: 'Save ₹2989.00 annually',
-    category: 'student',
-    description: 'More frequent project leads. Build your portfolio faster.',
-    features: [
-      '7-10 project leads per month',
-      'Advanced project filtering',
-      'Priority support',
-      'Client communication tools',
-      'Professional profile badge',
-      'Training programs access',
-    ],
-    popular: false
-  },
-  {
-    name: 'Pro Plan',
-    price: '1,299/month',
-    yearlyDiscount: 'Save ₹4989.00 annually',
-    category: 'student',
-    description: 'Premium projects + experience letters on completion + support to close clients',
-    features: [
-      'Unlimited project leads',
-      'Team management tools',
-      'Dedicated support',
-      'Invoice & billing system',
-      'Custom branding',
-      'Agency analytics dashboard',
-    ],
-    popular: true
-  },
-  {
-    name: 'Basic Plan',
-    price: '999/month',
-    yearlyDiscount: 'Save ₹1,189.00 annually',
-    category: 'professional',
-    description: 'Projects matching your experience level.',
-    features: [
-      'Access to entry-level project leads',
-      'Email support',
-      'Profile visibility to clients',
-      'Basic project filtering',
-    ],
-    popular: false
-  },
-  {
-    name: 'Silver Plan',
-    price: '4,999/month',
-    yearlyDiscount: 'Save ₹2,389.00 annually',
-    category: 'professional',
-    description: 'Mid-level project leads, better payouts.',
-    features: [
-      'Access to mid-level project leads',
-      'Better project payout opportunities',
-      'Priority email support',
-      'Project performance tracking',
-      'Resume builder tools',
-    ],
-    popular: true
-  },
-  {
-    name: 'Gold Plan',
-    price: '9,999/month',
-    yearlyDiscount: 'Save ₹4,989.00 annually',
-    category: 'professional',
-    description: 'Premium clients, occasional team collaboration opportunities.',
-    features: [
-      'Leads from premium clients',
-      'Occasional team collaboration projects',
-      'Profile badge for top professionals',
-      'Direct client messaging',
-      'Networking opportunities',
-      'Advanced project analytics',
-    ],
-    popular: false
-  },
-  {
-    name: 'Pro Plan',
-    price: '19,999/month',
-    yearlyDiscount: 'Save ₹9,989.00 annually',
-    category: 'professional',
-    description: 'Scale your freelancing: Skill programs, lead support, personal branding help.',
-    features: [
-      'All-access project leads',
-      'Personal branding assistance',
-      'Skill development programs',
-      'Dedicated success manager',
-      'Lead prioritization support',
-      'Freelancer toolkit and templates',
-    ],
-    popular: true
-  },
-  {
-    name: 'Basic Trust Plan',
-    price: '9,999/month',
-    yearlyDiscount: 'Save ₹11,989.00 annually',
-    category: 'agency',
-    description: 'Get consistent leads to keep your team busy.',
-    features: [
-      'Consistent project leads for your agency',
-      'Team account access',
-      'Email support',
-      'Basic agency dashboard',
-      'Client communication tools',
-    ],
-    popular: false
-  },
-  {
-    name: 'Silver Plan',
-    price: '19,999/month',
-    yearlyDiscount: 'Save ₹23,989.00 annually',
-    category: 'agency',
-    description: 'Leads + occasional sales support.',
-    features: [
-      'All Basic features',
-      'Increased lead volume',
-      'Occasional sales pitch support',
-      'Agency performance reports',
-      'Access to verified clients',
-    ],
-    popular: false
-  },
-  {
-    name: 'Gold Plan',
-    price: '49,999/month',
-    yearlyDiscount: 'Save ₹59,989.00 annually',
-    category: 'agency',
-    description: 'High-ticket client leads. Grow revenue.',
-    features: [
-      'High-ticket client leads',
-      'Advanced filtering for large projects',
-      'Project negotiation support',
-      'Dedicated account manager',
-      'Client rating & review insights',
-    ],
-    popular: true
-  },
-  {
-    name: 'Premium Member Plan',
-    price: '99,999/month',
-    yearlyDiscount: 'Save ₹1,19,989.00 annually',
-    category: 'agency',
-    description: 'Exclusive, high-value leads + full support to manage and close clients.',
-    features: [
-      'Exclusive access to premium leads',
-      'Full client closing support',
-      'Advanced CRM tools',
-      'Agency branding & marketing help',
-      'Client contract management',
-      'Dedicated growth advisor',
-    ],
-    popular: true
-  }
-];
+  allPlans: any = [
+    {
+      name: 'Starter Plan',
+      price: '299/month',
+      yearlyDiscount: 'Save ₹989.00 annually',
+      category: 'student',
+      description: 'Small project leads, good for learning and confidence building.',
+      features: [
+        '2-3 project leads per month',
+        'Basic project filtering',
+        'Email support',
+        'Project completion certificates',
+        'Basic skill assessment',
+        'Community access',
+      ],
+      popular: false
+    },
+    {
+      name: 'Basic Plan',
+      price: '499/month',
+      yearlyDiscount: 'Save ₹1989.00 annually',
+      category: 'student',
+      description: 'Real-world tasks with earning potential. Kickstart your career',
+      features: [
+        '5-7 project leads per month',
+        'Advanced project matching',
+        'Priority support',
+        'Experience letters',
+        'Skill development workshops',
+        'Mentor connection',
+        'Portfolio builder',
+      ],
+      popular: true
+    },
+    {
+      name: 'Advanced Plan',
+      price: '799/month',
+      yearlyDiscount: 'Save ₹2989.00 annually',
+      category: 'student',
+      description: 'More frequent project leads. Build your portfolio faster.',
+      features: [
+        '7-10 project leads per month',
+        'Advanced project filtering',
+        'Priority support',
+        'Client communication tools',
+        'Professional profile badge',
+        'Training programs access',
+      ],
+      popular: false
+    },
+    {
+      name: 'Pro Plan',
+      price: '1,299/month',
+      yearlyDiscount: 'Save ₹4989.00 annually',
+      category: 'student',
+      description: 'Premium projects + experience letters on completion + support to close clients',
+      features: [
+        'Unlimited project leads',
+        'Team management tools',
+        'Dedicated support',
+        'Invoice & billing system',
+        'Custom branding',
+        'Agency analytics dashboard',
+      ],
+      popular: true
+    },
+    {
+      name: 'Basic Plan',
+      price: '999/month',
+      yearlyDiscount: 'Save ₹1,189.00 annually',
+      category: 'professional',
+      description: 'Projects matching your experience level.',
+      features: [
+        'Access to entry-level project leads',
+        'Email support',
+        'Profile visibility to clients',
+        'Basic project filtering',
+      ],
+      popular: false
+    },
+    {
+      name: 'Silver Plan',
+      price: '4,999/month',
+      yearlyDiscount: 'Save ₹2,389.00 annually',
+      category: 'professional',
+      description: 'Mid-level project leads, better payouts.',
+      features: [
+        'Access to mid-level project leads',
+        'Better project payout opportunities',
+        'Priority email support',
+        'Project performance tracking',
+        'Resume builder tools',
+      ],
+      popular: true
+    },
+    {
+      name: 'Gold Plan',
+      price: '9,999/month',
+      yearlyDiscount: 'Save ₹4,989.00 annually',
+      category: 'professional',
+      description: 'Premium clients, occasional team collaboration opportunities.',
+      features: [
+        'Leads from premium clients',
+        'Occasional team collaboration projects',
+        'Profile badge for top professionals',
+        'Direct client messaging',
+        'Networking opportunities',
+        'Advanced project analytics',
+      ],
+      popular: false
+    },
+    {
+      name: 'Pro Plan',
+      price: '19,999/month',
+      yearlyDiscount: 'Save ₹9,989.00 annually',
+      category: 'professional',
+      description: 'Scale your freelancing: Skill programs, lead support, personal branding help.',
+      features: [
+        'All-access project leads',
+        'Personal branding assistance',
+        'Skill development programs',
+        'Dedicated success manager',
+        'Lead prioritization support',
+        'Freelancer toolkit and templates',
+      ],
+      popular: true
+    },
+    {
+      name: 'Basic Trust Plan',
+      price: '9,999/month',
+      yearlyDiscount: 'Save ₹11,989.00 annually',
+      category: 'agency',
+      description: 'Get consistent leads to keep your team busy.',
+      features: [
+        'Consistent project leads for your agency',
+        'Team account access',
+        'Email support',
+        'Basic agency dashboard',
+        'Client communication tools',
+      ],
+      popular: false
+    },
+    {
+      name: 'Silver Plan',
+      price: '19,999/month',
+      yearlyDiscount: 'Save ₹23,989.00 annually',
+      category: 'agency',
+      description: 'Leads + occasional sales support.',
+      features: [
+        'All Basic features',
+        'Increased lead volume',
+        'Occasional sales pitch support',
+        'Agency performance reports',
+        'Access to verified clients',
+      ],
+      popular: false
+    },
+    {
+      name: 'Gold Plan',
+      price: '49,999/month',
+      yearlyDiscount: 'Save ₹59,989.00 annually',
+      category: 'agency',
+      description: 'High-ticket client leads. Grow revenue.',
+      features: [
+        'High-ticket client leads',
+        'Advanced filtering for large projects',
+        'Project negotiation support',
+        'Dedicated account manager',
+        'Client rating & review insights',
+      ],
+      popular: true
+    },
+    {
+      name: 'Premium Member Plan',
+      price: '99,999/month',
+      yearlyDiscount: 'Save ₹1,19,989.00 annually',
+      category: 'agency',
+      description: 'Exclusive, high-value leads + full support to manage and close clients.',
+      features: [
+        'Exclusive access to premium leads',
+        'Full client closing support',
+        'Advanced CRM tools',
+        'Agency branding & marketing help',
+        'Client contract management',
+        'Dedicated growth advisor',
+      ],
+      popular: true
+    }
+  ];
 
 
   filteredPlans: Plan[] = [];
@@ -228,21 +230,26 @@ allPlans: Plan[] = [
   maxError = false;
   PrefError = '';
   selectedFile: Blob;
+  category: any;
+  clientSetupDone: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private modal: NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private ApiService: HttpWrapperService
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const category = params['category'];
-      this.currentCategory = category;
-      this.filteredPlans = category === 'all'
-        ? this.allPlans
-        : this.allPlans.filter(plan => plan.category === category);
+      this.category = params['category'];
+      this.populatePlanData();
+      this.currentCategory = this.category;
+      if(sessionStorage.getItem('havePreference')){
+        this.clientSetupDone=true;
+      }
+  
     });
 
     const loggedInRaw = sessionStorage.getItem('isLoggedIn');
@@ -250,7 +257,7 @@ allPlans: Plan[] = [
       const loggedValue = JSON.parse(loggedInRaw);
       this.isloggedIn = loggedValue;
 
-      if (this.isloggedIn) {
+      if (this.isloggedIn && !this.clientSetupDone) {
         setTimeout(() => {
           this.modal.open(this.noAccModal, {
             size: 'md',
@@ -265,7 +272,31 @@ allPlans: Plan[] = [
       }
     }
   }
+  populatePlanData() {
+    let body = {
+      category: this.category
+    }
+    this.ApiService.post(Api.getCategorylans, body).subscribe((res: any) => {
+      if (res?.Status == 200) {
 
+        this.populatePlanArray(res?.plans)
+      }
+    })
+  }
+  populatePlanArray(plans: any) {
+    this.allPlans = []
+    for (let i = 0; i < plans.length; i++) {
+      this.allPlans.push({
+        name: plans[i].planName,
+        price: plans[i].priceINR + '/month',
+        yearlyDiscount: plans[i].discount,
+        category: plans[i].category,
+        description: plans[i].planDescription,
+        features: plans[i].features,
+        popular: plans[i].popular
+      })
+    }
+  }
   buildPreferenceForm() {
     this.preferenceForm = this.formBuilder.group({
       selected: this.formBuilder.array([])
@@ -327,11 +358,11 @@ allPlans: Plan[] = [
     }
   }
 
-  routeToSignup(category: string,proceed?:any) {
+  routeToSignup(category: string, proceed?: any) {
     this.currentCategory = category;
     sessionStorage.setItem('categoryName', category);
     this.router.navigate(['/signup']);
-    if(proceed){
+    if (proceed) {
       this.router.navigate(['/proceed-form'])
     }
   }
@@ -410,71 +441,126 @@ allPlans: Plan[] = [
       })
     }
   }
-  onSubmitAgency(): void {
-    if (this.agencyFormArea.valid) {
-      console.log('Agency Verification Data:', this.agencyFormArea.value);
-      this.modal.dismissAll();
-      // handle modal close logic here
-    } else {
-      this.agencyFormArea.markAllAsTouched();
-    }
-  }
 
-  onProfessionalFileChange(event: any) {
-    const file = event.target.files[0];
+
+  onProfessionalFileChange(event: any): void {
+    const file = event.target.files?.[0];
+
     if (file) {
-      this.professionalFormArea.patchValue({ proofDocument: file });
-    }
-  }
-  onSubmitProfessional() {
-    if (this.professionalFormArea.valid) {
-      const formData = new FormData();
-      formData.append('currentEmployer', this.professionalFormArea.value.currentEmployer);
-      formData.append('designation', this.professionalFormArea.value.designation);
-      formData.append('workEmail', this.professionalFormArea.value.workEmail);
-      formData.append('employmentType', this.professionalFormArea.value.employmentType);
-      formData.append('experience', this.professionalFormArea.value.experience);
-      formData.append('proofDocument', this.professionalFormArea.value.proofDocument);
-      formData.append('linkedin', this.professionalFormArea.value.linkedin);
-
-      console.log('Professional Form Submitted:', formData);
-      this.modal.dismissAll(); // Submit to backend here
+      this.professionalFormArea.get('proofDocument')?.setValue(file);
+      this.professionalFormArea.get('proofDocument')?.markAsTouched();
     } else {
-      console.log('Professional form invalid');
+      this.professionalFormArea.get('proofDocument')?.setValue(null);
     }
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
+  isInvalid(form: FormGroup, controlName: string): boolean {
+    const control = form.get(controlName);
+    return control?.invalid && (control?.touched || control?.dirty);
+  }
+
+
+  onFileChange(event: any): void {
+    const file = event.target.files?.[0];
+
     if (file) {
-      this.selectedFile = file;
-      this.studentFormArea.patchValue({ document: file });
+      this.studentFormArea.get('document')?.setValue(file);
+      this.studentFormArea.get('document')?.markAsTouched();
+    } else {
+      this.studentFormArea.get('document')?.setValue(null);
     }
   }
 
-  onSubmit() {
-    if (this.studentFormArea.valid) {
-      console.log(this.studentFormArea.value)
-      const formData = new FormData();
-      formData.append('collegeName', this.studentFormArea.value.collegeName);
-      formData.append('city', this.studentFormArea.value.city);
-      formData.append('state', this.studentFormArea.value.state);
-      formData.append('pincode', this.studentFormArea.value.pincode);
-      formData.append('document', this.selectedFile as Blob);
+  submitForm() {
+    let formData = new FormData();
+    let valid = false;
 
-      // TODO: Submit to backend
-      console.log('Student Form Submitted:', formData);
-      this.modal.dismissAll();
-    } else {
-      console.log('Form is invalid');
+    if (this.currentCategory === 'student') {
+      if (this.studentFormArea.valid) {
+        const values = this.studentFormArea.value;
+        formData.append('collegeName', values.collegeName);
+        formData.append('city', values.city);
+        formData.append('state', values.state);
+        formData.append('pincode', values.pincode);
+        formData.append('document', this.selectedFile as Blob);
+        valid = true;
+      } else {
+        this.studentFormArea.markAllAsTouched();
+      }
+
+    } else if (this.currentCategory === 'professional') {
+      if (this.professionalFormArea.valid) {
+        const values = this.professionalFormArea.value;
+        formData.append('currentEmployer', values.currentEmployer);
+        formData.append('designation', values.designation);
+        formData.append('workEmail', values.workEmail);
+        formData.append('employmentType', values.employmentType);
+        formData.append('experience', values.experience);
+        formData.append('proofDocument', values.proofDocument);
+        formData.append('linkedin', values.linkedin);
+        valid = true;
+      } else {
+        this.professionalFormArea.markAllAsTouched();
+      }
+
+    } else if (this.currentCategory === 'agency') {
+      if (this.agencyFormArea.valid) {
+        const values = this.agencyFormArea.value;
+        formData.append('linkedIn', values.linkedIn);
+        formData.append('domain', values.domain);
+        formData.append('services', JSON.stringify(values.services));
+        formData.append('fullAddress', values.fullAddress);
+        formData.append('state', values.state);
+        formData.append('pinCode', values.pinCode);
+        formData.append('employees', values.employees);
+        valid = true;
+      } else {
+        this.agencyFormArea.markAllAsTouched();
+      }
     }
+
+    if (valid) {
+      console.log(`${this.currentCategory} Form Submitted:`, formData);
+      this.setPrefferenceInDB();
+      this.modal.dismissAll();
+    }
+  }
+
+  setPrefferenceInDB() {
+    let basic_data
+    if (this.category == 'student') {
+      basic_data = this.studentFormArea.value;
+
+    }
+    if (this.category == 'professional') {
+      basic_data = this.professionalFormArea.value;
+
+    }
+    if (this.category == 'agency') {
+      basic_data = this.agencyFormArea.value;
+
+    }
+    let body = {
+      prefference: this.preferenceForm.value,
+      basic_data: basic_data
+
+    }
+    this.ApiService.post(Api.savePrefference,body).subscribe((res:any)=>{
+     if(res?.Status==201) {
+      this.clientSetupDone= res?.userHavePreference
+      sessionStorage.setItem('havePreference',JSON.stringify(this.clientSetupDone))
+      
+     }
+    })
+    
   }
   ngOnDestroy() {
-    if (sessionStorage.getItem('isLoggedIn')) {
-      sessionStorage.removeItem('isLoggedIn');
-      this.isloggedIn = false;
-    }
+    // if (sessionStorage.getItem('isLoggedIn')) {
+    //   sessionStorage.removeItem('isLoggedIn');
+    //   this.isloggedIn = false;
+    // }
 
 
   }
+
 }

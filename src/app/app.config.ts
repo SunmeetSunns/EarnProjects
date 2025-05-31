@@ -1,8 +1,9 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
-
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
+import { withInterceptors,provideHttpClient } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor'; // interceptor ka path sahi set kar lena
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,6 +12,11 @@ export const appConfig: ApplicationConfig = {
       routes,
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' })
     ),
-    provideClientHydration()
+    provideClientHydration(),
+
+    // 👇 Yeh line add karo token inject karne ke liye
+    provideHttpClient(
+      withInterceptors([AuthInterceptor])
+    )
   ]
 };

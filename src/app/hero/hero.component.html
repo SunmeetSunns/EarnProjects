@@ -12,24 +12,24 @@
     </div>
     <div class="hero-proj">Real projects | Real Earnings | Real Freedom</div>
     <div>
-      <button class="hero-btn">Subscribe Now <img src="assets/svg/right-arrow.svg" /></button>
-      <button class="hero-btn1">View Sample Leads</button>
+      <button class="hero-btn" (click)="routeToSignup()">Subscribe Now <img src="assets/svg/right-arrow.svg" /></button>
+      <button class="hero-btn1" (click)="routeToSignup('leads')">View Sample Leads</button>
     </div>
     <!-- <div class="hero-botm">No Credit Card Required <span class="dot">.</span> Cancel anytime</div> -->
   </div>
 
   <div class="hero-right" [@slideInRight]>
-    <div class="hero-options student-hero">
+    <div class="hero-options student-hero cursor-pointer" (click)="routeToPlan('student')">
       <div class="hero-box-img">
         <img src="../../assets/svg/student.svg" />
       </div>
-      <div class="d-flex flex-column">
+      <div class="d-flex flex-column ">
         <span class="span-hero">For Students</span>
         <span>Gain experience & earn while learning</span>
       </div>
     </div>
 
-    <div class="hero-options prof-hero">
+    <div class="hero-options prof-hero cursor-pointer" (click)="routeToPlan('professional')">
       <div class="hero-box-img" style="background-color: #8183F3;">
         <img src="../../assets/svg/professional.svg" />
       </div>
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <div class="hero-options agency-hero">
+    <div class="hero-options agency-hero cursor-pointer" (click)="routeToPlan('agency')">
       <div class="hero-box-img" style="background-color: #42C4B5;">
         <img src="../../assets/svg/agency.svg" />
       </div>

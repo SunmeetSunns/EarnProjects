@@ -21,7 +21,7 @@ export class ProceedFormComponent implements OnInit {
   stepIndex = 0;
 
   // You can dynamically set this.plan via Input() or another way as needed
-  plan: 'student' | 'professional' | 'agency' = 'agency';
+  plan: 'student' | 'professional' | 'agency' = 'student';
 
   constructor(private fb: FormBuilder, private router: Router) {}
 

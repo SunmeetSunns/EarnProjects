@@ -19,6 +19,8 @@ export class HeaderComponent implements AfterViewInit {
   dropDownValues: any[] = [];
   show: boolean = false;
   currentDrop: string;
+  isLoggedIn: any;
+  showProfile: boolean = false;
 
 
   constructor(private el: ElementRef, private renderer: Renderer2, public router: Router) { }
@@ -55,6 +57,15 @@ export class HeaderComponent implements AfterViewInit {
         item.classList.add('active');
       });
     });
+
+  }
+  ngOnInit() {
+    const parsed = JSON.parse(sessionStorage.getItem('isLoggedIn') || 'false')
+    this.isLoggedIn = parsed
+    console.log(this.isLoggedIn)
+  }
+  openProfile() {
+    this.showProfile = !this.showProfile
   }
   routeToSignup() {
     this.router.navigate(['/signup'])
@@ -100,6 +111,11 @@ export class HeaderComponent implements AfterViewInit {
       return;
     }
   }
-
+  logout() {
+    this.showProfile = false;
+    this.isLoggedIn=false;
+    sessionStorage.clear();
+    this.router.navigate(['/'])
+  }
 
 }
