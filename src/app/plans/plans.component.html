@@ -1,7 +1,7 @@
 <div class="plans">
   <div class="heading">
     <h2>Our Plans</h2>
-    <p>Simple, transparent pricing</p>
+    <p>Simple, Transparent Pricing</p>
     <span>Choose the plan that's right for you and start growing your subscription business <br> today.</span>
   </div>
 
@@ -13,7 +13,7 @@
         <div>
           <h5 class="card-title">{{ plan.name }}</h5>
           <p class="description">{{ plan.description }}</p>
-          <h2 class="price">₹{{ plan.price }}</h2>
+          <h2 class="price">₹{{ plan.price }}/month</h2>
           <p class="discount">{{ plan.yearlyDiscount }}</p>
 
           <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)">Get Started</button>
@@ -48,11 +48,11 @@
           </ul>
           <!-- <h2 class="price">₹{{ plan.price }}</h2> -->
 
-
-          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category,true)">₹{{ plan.price
-            }}</button>
-          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category,true)">₹{{ plan.price
-            }}</button>
+          <span class="error" *ngIf="showLoggerError">You have logged yourself as {{this.loggerCategory}}. <br> <span class="blue">Choose from {{this.loggerCategory}} Plans.</span></span>
+          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category,true,plan)">₹{{ plan.price
+            }}/month</button>
+          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category,true,plan)">₹{{ plan.price
+            }}/month</button>
           <p class="discount" style="text-align: center;">{{ plan.yearlyDiscount }}</p>
 
         </div>
@@ -210,11 +210,13 @@
       </div>
 
       <!-- Proof Upload -->
-     <div class="mb-3">
-  <label>Offer/Joining/ID Proof Upload</label>
-  <input type="file" class="form-control" (change)="onProfessionalFileChange($event)" accept=".pdf,.jpg,.jpeg,.png">
-  <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'proofDocument')">Please upload a document.</span>
-</div>
+      <div class="mb-3">
+        <label>Offer/Joining/ID Proof Upload</label>
+        <input type="file" class="form-control" (change)="onProfessionalFileChange($event)"
+          accept=".pdf,.jpg,.jpeg,.png">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'proofDocument')">Please upload a
+          document.</span>
+      </div>
 
 
 

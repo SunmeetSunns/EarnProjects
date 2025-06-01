@@ -5,21 +5,21 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="side-head">
-        <div class="plan-name gradient-text">Plan Name</div>
-        <span class="plan-desc">xyz</span>
+        <div class="plan-name gradient-text">{{this.selectedPlanDetails?.name}}</div>
+        <span class="plan-desc">{{this.selectedPlanDetails?.description}}</span>
       </div>
       <div class="sidebar-items">
         <div class="side-align">
           <div class="side-item">Project Worth</div>
-          <div class="side-ans">₹500</div>
+          <div class="side-ans">₹ {{this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price}}</div>
         </div>
         <div class="side-align">
-          <div class="side-item">No of Leads</div>
-          <div class="side-ans">10</div>
+          <div class="side-item">No of Projects</div>
+          <div class="side-ans">{{this.selectedPlanDetails?.noOfLeads}}</div>
         </div>
         <div class="side-align">
           <div class="side-item">Payment frequency</div>
-          <select class="side-ans">
+          <select class="side-ans" (change)="calculateAmt($event)">
             <option value="Monthly">Monthly</option>
             <option value="Yearly">Yearly</option>
           </select>
@@ -42,7 +42,7 @@
       </div>
 
       <div class="form-area">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form" (ngSubmit)="navigateToReview()">
           <ng-container [formGroup]="currentStepGroup">
 
             <!-- Step 0 -->
@@ -71,6 +71,11 @@
                   <input class="form-ans form-control" formControlName="city" />
                   <div class="error" *ngIf="isFieldInvalid('city')">City is required.</div>
                 </div>
+                <div class="form-field">
+                  <label class="side-align">DOB</label>
+                  <input class="form-ans form-control" formControlName="dob" type="date" />
+                  <div class="error" *ngIf="isFieldInvalid('dob')">Date Of Birth is required.</div>
+                </div>
               </ng-container>
 
               <ng-container *ngIf="plan === 'agency'">
@@ -96,11 +101,26 @@
             <div *ngIf="stepIndex === 1">
               <!-- Student Fields -->
               <ng-container *ngIf="plan === 'student'">
-                <div class="form-field" *ngFor="let field of ['college', 'course', 'yearOfStudy', 'techStack']">
-                  <label class="side-align">{{ field | titlecase }}</label>
-                  <input class="form-ans form-control" [formControlName]="field" />
-                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
+                <div class="form-field" *ngFor="let f of studentFields">
+                  <label class="side-align">{{ f.label }}</label>
+
+                  <!-- Dropdown -->
+                  <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
+                    <option value="" disabled selected>Select {{ f.label }}</option>
+                    <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                  </select>
+
+                  <!-- Text input -->
+                  <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control"
+                    [formControlName]="f.field" />
+
+                  <!-- Error -->
+                  <div class="error" *ngIf="isFieldInvalid(f.field)">
+                    {{ f.label }} is required.
+                  </div>
                 </div>
+
+                <!-- Fixed Fields -->
                 <div class="form-field">
                   <label class="side-align">Portfolio Link</label>
                   <input class="form-ans form-control" formControlName="portfolioLink" />
@@ -114,6 +134,7 @@
                   <input class="form-ans form-control" formControlName="linkedinProfile" />
                 </div>
               </ng-container>
+
 
               <!-- Professional Fields -->
               <ng-container *ngIf="plan === 'professional'">
@@ -143,12 +164,25 @@
 
               <!-- Agency Fields -->
               <ng-container *ngIf="plan === 'agency'">
-                <div class="form-field"
-                  *ngFor="let field of ['teamSize', 'pocName', 'pocEmail', 'pocPhoneNumber', 'techStack', 'coreServices']">
-                  <label class="side-align">{{ field | titlecase }}</label>
-                  <input class="form-ans form-control" [formControlName]="field" />
-                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
+                <div class="form-field" *ngFor="let a of agencyFields">
+                  <label class="side-align">{{ a.label }}</label>
+
+                  <!-- If dropdown -->
+                  <select *ngIf="a.type === 'dropdown'" class="form-ans form-control" [formControlName]="a.field">
+                    <option value="" disabled selected>Select {{ a.label }}</option>
+                    <option *ngFor="let opt of a.options" [value]="opt">{{ opt }}</option>
+                  </select>
+
+                  <!-- If text input -->
+                  <input *ngIf="a.type === 'text' || !a.type" class="form-ans form-control"
+                    [formControlName]="a.field" />
+
+                  <!-- Error -->
+                  <div class="error" *ngIf="isFieldInvalid(a.field)">
+                    {{ a.label }} is required.
+                  </div>
                 </div>
+
                 <div class="form-field">
                   <label class="side-align">Resume Upload</label>
                   <input type="file" (change)="onFileChange($event)" />
@@ -157,44 +191,47 @@
             </div>
 
             <!-- Step 2 -->
-            <div *ngIf="stepIndex === 2">
-              <!-- Student Fields -->
-              <ng-container *ngIf="plan === 'student'">
-                <div class="form-field"
-                  *ngFor="let field of ['availability', 'preferredLearningAreas', 'languageComfort']">
-                  <label class="side-align">{{ field | titlecase }}</label>
-                  <input class="form-ans form-control" [formControlName]="field" />
-                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
-                </div>
-              </ng-container>
+           <div *ngIf="stepIndex === 2">
+  <!-- Student -->
+  <ng-container *ngIf="plan === 'student'">
+    <div class="form-field" *ngFor="let f of studentFieldsStep2">
+      <label class="side-align">{{ f.label }}</label>
+      <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
+        <option value="" disabled selected>Select {{ f.label }}</option>
+        <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+      </select>
+      <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control" [formControlName]="f.field" />
+      <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
+    </div>
+  </ng-container>
 
-              <!-- Professional Fields -->
-              <ng-container *ngIf="plan === 'professional'">
-                <div class="form-field"
-                  *ngFor="let field of ['availability', 'preferredProjectType', 'languageComfort', 'upiBankInfo']">
-                  <label class="side-align">{{ field | titlecase }}</label>
-                  <input class="form-ans form-control" [formControlName]="field" />
-                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
-                </div>
-              </ng-container>
+  <!-- Professional -->
+  <ng-container *ngIf="plan === 'professional'">
+    <div class="form-field" *ngFor="let f of professionalFieldsStep2">
+      <label class="side-align">{{ f.label }}</label>
+      <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
+        <option value="" disabled selected>Select {{ f.label }}</option>
+        <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+      </select>
+      <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control" [formControlName]="f.field" />
+      <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
+    </div>
+  </ng-container>
 
-              <!-- Agency Fields -->
-              <ng-container *ngIf="plan === 'agency'">
-                <div class="form-field"
-                  *ngFor="let field of ['teamCapacity', 'pastClients', 'budgetRange', 'communicationTools']">
-                  <label class="side-align">{{ field | titlecase }}</label>
-                  <input class="form-ans form-control" [formControlName]="field" />
-                  <div class="error" *ngIf="isFieldInvalid(field)">{{ field | titlecase }} is required.</div>
-                </div>
-                <div class="form-field">
-                  <label class="side-align">Sales Help Required</label>
-                  <select class="form-ans" formControlName="salesHelpRequired">
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
-                  </select>
-                </div>
-              </ng-container>
-            </div>
+  <!-- Agency -->
+  <ng-container *ngIf="plan === 'agency'">
+    <div class="form-field" *ngFor="let f of agencyFieldsStep2">
+      <label class="side-align">{{ f.label }}</label>
+      <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
+        <option value="" disabled selected>Select {{ f.label }}</option>
+        <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+      </select>
+      <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control" [formControlName]="f.field" />
+      <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
+    </div>
+  </ng-container>
+</div>
+
 
           </ng-container>
         </form>
@@ -206,13 +243,15 @@
   </div>
   <div class="form-navigation">
     <div class="form-tot">
-      <div class="tot-name">Total payable amount: </div>
-      <div class="tot-price">299</div>
+      <div class="tot-name">Total Payable Amount </div>
+      <div class="tot-price">₹ {{this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price}}</div>
     </div>
     <div class="form-btn">
-      <button type="button" (click)="previousStep()" class="rev-b1" [disabled]="stepIndex=== 1">EDIT</button>
-      <button type="button" (click)="nextStep()"  *ngIf="stepIndex < 2" class="rev-b2"[disabled]="!currentStepGroup.valid">PROCEED</button>
-      <button type="submit" *ngIf="stepIndex=== 2" class="rev-b2" (click)="navigateToReview()">Review your Details</button>
+      <button type="button" (click)="previousStep()" class="rev-b1" [disabled]="stepIndex=== 1">PREVIOUS</button>
+      <button type="button" (click)="nextStep()" *ngIf="stepIndex < 2" class="rev-b2"
+        [disabled]="!currentStepGroup.valid">PROCEED</button>
+      <button type="submit" *ngIf="stepIndex=== 2" class="rev-b2" (click)="navigateToReview()">Review your
+        Details</button>
     </div>
 
   </div>

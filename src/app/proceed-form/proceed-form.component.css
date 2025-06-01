@@ -206,15 +206,17 @@
 
 .plan-name {
   font-size: 1.5em;
-  background: linear-gradient(to right, #F11E29, #234D98);
+  background: linear-gradient(to right, #7A3CEB,#3D85C1, #1BAFAA);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-weight: 500;
+  font-style: italic;
 }
 
 .plan-desc {
   background-color: #D0F0ED;
   color: #538681;
-  padding: 0.2em;
+  padding: 0.2em 0.5em;
   margin: 0.5em;
   border-radius: 20px;
   text-align: center;
@@ -275,9 +277,9 @@ button:disabled {
 .form-tot {
   display: flex;
   flex-direction: row;
-  width: 25%;
+  width: 40%;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 0.5em;
 }
 
@@ -291,11 +293,13 @@ button:disabled {
 .tot-name{
   font-size: 1.25em;
   color: #27313D;
+  margin-right: 1em;
 }
 .tot-price{
   font-size: 1.50em;
   color: #27313D;
   font-weight: 600;
+  
 }
 /* Animation */
 @keyframes slideInLeftBottom {

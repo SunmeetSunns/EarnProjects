@@ -2,6 +2,7 @@ import { Component, HostListener, AfterViewInit, ElementRef, Renderer2 } from '@
 import { CommonModule } from '@angular/common';
 import { ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { LoginServiceService } from '../services/login-service.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class HeaderComponent implements AfterViewInit {
   showProfile: boolean = false;
 
 
-  constructor(private el: ElementRef, private renderer: Renderer2, public router: Router) { }
+  constructor(private el: ElementRef, private renderer: Renderer2, public router: Router,public loginService:LoginServiceService) { }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -60,9 +61,10 @@ export class HeaderComponent implements AfterViewInit {
 
   }
   ngOnInit() {
-    const parsed = JSON.parse(sessionStorage.getItem('isLoggedIn') || 'false')
-    this.isLoggedIn = parsed
-    console.log(this.isLoggedIn)
+    this.loginService.isLoggedIn$.subscribe((status: boolean) => {
+      this.isLoggedIn = status;
+      console.log("Header login status:", this.isLoggedIn);
+    });
   }
   openProfile() {
     this.showProfile = !this.showProfile
@@ -113,9 +115,7 @@ export class HeaderComponent implements AfterViewInit {
   }
   logout() {
     this.showProfile = false;
-    this.isLoggedIn=false;
-    sessionStorage.clear();
-    this.router.navigate(['/'])
+   this.loginService.logout();
   }
 
 }

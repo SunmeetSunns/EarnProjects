@@ -59,7 +59,8 @@
 
 .sign-box h2 {
     margin-bottom: 1.5em;
-    color: #7C3AED
+    color: #7C3AED;
+    line-height:3rem;
 }
 
 .text-blue {
@@ -310,5 +311,42 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+.eye{
+    height: 1.5em;
+    width: 1.5em;
+        height: 1.5em;
+    width: 1.5em;
+    position: absolute;
+    right: 0.8em;
+    top: 1.3em;
+}
+.eye-set{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+.verif{
+      height: 1.5em;
+    width: 1.5em;
+    position: absolute;
+    right: 1em;
+    top: 1.1em
+;
+}
+/* styles.css or component css */
+.toast {
+  animation: slide-in 0.4s ease-out;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

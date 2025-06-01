@@ -1,34 +1,37 @@
 <div class="review-container">
     <div class="review-head">
-        <div class="review-title">Plan Name</div>
-        <div class="review-desc">Xyz</div>
+        <div class="review-title">{{planDetails?.name}}</div>
+        <div class="review-desc">"{{planDetails?.description}}"</div>
     </div>
     <div class="review-content">
         <div class="review-warning">
             <div>Review below details before proceeding</div>
             <span>These cannot be changed at a later stage</span>
         </div>
-        <div class="review-edits">
-            <div class="review-edits-title">
+        <div class="review-edits" >
+            <div *ngIf="fieldData?.plan=='student'" class="plan-alignment">
+                 <div class="review-edits-title" >
                 <div class="box-test">
                     <div class="box-test-head">Name</div>
-                    <div class="box-test-foot">sunmeet</div>
+                    <div class="box-test-foot">{{fieldData?.fullName}}</div>
                 </div>
                 <div class="box-test">
                     <div class="box-test-head">Date of Birth</div>
-                    <div class="box-test-foot">04/02/2002</div>
+                    <div class="box-test-foot">{{formatDate(fieldData?.dob)}}</div>
                 </div>
             </div>
-            <div class="review-edits-title">
+            <div class="review-edits-title" >
                 <div class="box-test">
                     <div class="box-test-head">Email</div>
-                    <div class="box-test-foot">kaursunmeet624.com</div>
+                    <div class="box-test-foot">{{fieldData?.email}}</div>
                 </div>
                 <div class="box-test">
                     <div class="box-test-head">Mobile Number</div>
-                    <div class="box-test-foot">******8510</div>
+                    <div class="box-test-foot">{{fieldData?.phoneNumber}}</div>
                 </div>
             </div>
+            </div>
+           
             <!-- Additional Information Section -->
             <div class="review-edits-title">
                 <div class="toggle-section">
@@ -42,7 +45,7 @@
                     <div class="toggle-body"
                         [ngClass]="{ 'open': activeSection === 'additional', 'closed': activeSection !== 'additional' }">
                         <!-- Yaha tera custom content for Additional Information -->
-                         <div class="gap-review">Personal Details</div>
+                        <div class="gap-review">Personal Details</div>
                         <div class="review-edits-title gap-review">
                             <div class="box-test">
                                 <div class="box-test-head">Name</div>
@@ -52,7 +55,7 @@
                                 <div class="box-test-head">Date of Birth</div>
                                 <div class="box-test-foot">04/02/2002</div>
                             </div>
-                             <div class="box-test">
+                            <div class="box-test">
                                 <div class="box-test-head">Date of Birth</div>
                                 <div class="box-test-foot">04/02/2002</div>
                             </div>
@@ -66,12 +69,12 @@
                                 <div class="box-test-head">Date of Birth</div>
                                 <div class="box-test-foot">04/02/2002</div>
                             </div>
-                             <div class="box-test">
+                            <div class="box-test">
                                 <div class="box-test-head">Date of Birth</div>
                                 <div class="box-test-foot">04/02/2002</div>
                             </div>
                         </div>
-                         <div class="gap-review">Skills and Experience Details</div>
+                        <div class="gap-review">Skills and Experience Details</div>
                         <div class="review-edits-title gap-review">
                             <div class="box-test">
                                 <div class="box-test-head">Name</div>
@@ -81,12 +84,12 @@
                                 <div class="box-test-head">Date of Birth</div>
                                 <div class="box-test-foot">04/02/2002</div>
                             </div>
-                             <div class="box-test">
+                            <div class="box-test">
                                 <div class="box-test-head">Date of Birth</div>
                                 <div class="box-test-foot">04/02/2002</div>
                             </div>
                         </div>
-                 <div class="gap-review">Plan Details</div>
+                        <div class="gap-review">Plan Details</div>
                         <div class="review-edits-title gap-review">
                             <div class="box-test">
                                 <div class="box-test-head">Name</div>
@@ -96,7 +99,7 @@
                                 <div class="box-test-head">Date of Birth</div>
                                 <div class="box-test-foot">04/02/2002</div>
                             </div>
-                         
+
                         </div>
                     </div>
                 </div>
@@ -115,12 +118,14 @@
                     <div class="toggle-body"
                         [ngClass]="{ 'open': activeSection === 'declaration', 'closed': activeSection !== 'declaration' }">
                         <!-- Yaha tera custom content for Declarations -->
-                        <p class="d-flex flex-row d-step">Get Updates on <img class="w-app-r"src="../../assets/svg/wapp.svg"> WhatsApp</p>
+                        <p class="d-flex flex-row d-step">Get Updates on <img class="w-app-r"
+                                src="../../assets/svg/wapp.svg"> WhatsApp</p>
                     </div>
                 </div>
             </div>
 
         </div>
+        
         <div class="review-agree">
             <input type="checkbox" class="agree-check">
             <div class="review-agree-title">I agree to the terms and conditions
@@ -131,7 +136,7 @@
     <div class="review-foot">
         <div class="tot-prem">
             <div class="prem-text">Total Premium</div>
-            <div class="prem-num">299</div>
+            <div class="prem-num">₹ {{fieldData?.amount}}</div>
         </div>
         <div class="rev-btn">
             <button class="rev-b1">EDIT DETAILS</button>

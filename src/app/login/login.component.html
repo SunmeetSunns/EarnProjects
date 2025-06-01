@@ -1,9 +1,9 @@
 <div class="login">
-    <div class="login-head">
-      <p>Start your earning journey  </p>
-        <span>from ₹299./month*</span>
-    </div>
- 
+  <div class="login-head">
+    <p>Start your earning journey </p>
+    <span>from ₹299./month*</span>
+  </div>
+
   <form [formGroup]="loginForm" class="login-container">
 
     <div class="login-box">
@@ -15,15 +15,20 @@
 
       <div class="input-fields">
         <label>Email</label>
-        <input type="email" [ngClass]="{'redBorder':this.loginForm.get('username')?.value==null}"
+        <input type="email" class="input-fields-in" [ngClass]="{'redBorder':this.loginForm.get('username')?.value==null}"
           placeholder="name@xyz.com" formControlName="username">
         <span class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">Please
           enter valid username</span>
       </div>
       <div class="input-fields">
         <label>Password</label>
-        <input type="password" [ngClass]="{'redBorder':this.loginForm.get('password')?.value==null}"
-          placeholder="atleast 8 characters" formControlName="password">
+        
+        <div class="eye-set">
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="input-fields-in"
+            [ngClass]="{'redBorder':this.loginForm.get('password')?.value==null}">
+          <img *ngIf="!showPassword" class="eye" src="../../assets/svg/eye-close.svg" (click)="togglePassword()">
+          <img *ngIf="showPassword" class="eye" src="../../assets/svg/eye-open.svg" (click)="togglePassword()">
+        </div>
         <span class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">Please
           enter correct password</span>
       </div>

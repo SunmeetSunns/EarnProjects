@@ -232,6 +232,8 @@ export class PlansComponent implements OnInit {
   selectedFile: Blob;
   category: any;
   clientSetupDone: boolean = false;
+  loggerCategory: any;
+  showLoggerError: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -242,14 +244,20 @@ export class PlansComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.showLoggerError=false
     this.route.params.subscribe(params => {
       this.category = params['category'];
       this.populatePlanData();
       this.currentCategory = this.category;
-      if(sessionStorage.getItem('havePreference')){
-        this.clientSetupDone=true;
+      if (sessionStorage.getItem('havePreference')) {
+        const setUpDone=JSON.parse(sessionStorage.getItem('havePreference'))
+        this.clientSetupDone = setUpDone;
       }
-  
+      if (sessionStorage.getItem('user')) {
+        const loggerCategory = JSON.parse(sessionStorage.getItem('user'))
+        this.loggerCategory = loggerCategory.category
+      }
+
     });
 
     const loggedInRaw = sessionStorage.getItem('isLoggedIn');
@@ -273,6 +281,7 @@ export class PlansComponent implements OnInit {
     }
   }
   populatePlanData() {
+    this.showLoggerError=false;
     let body = {
       category: this.category
     }
@@ -288,12 +297,13 @@ export class PlansComponent implements OnInit {
     for (let i = 0; i < plans.length; i++) {
       this.allPlans.push({
         name: plans[i].planName,
-        price: plans[i].priceINR + '/month',
+        price: plans[i].priceINR ,
         yearlyDiscount: plans[i].discount,
         category: plans[i].category,
         description: plans[i].planDescription,
         features: plans[i].features,
-        popular: plans[i].popular
+        popular: plans[i].popular,
+        noOfLeads:plans[i].noOfLeads
       })
     }
   }
@@ -358,12 +368,24 @@ export class PlansComponent implements OnInit {
     }
   }
 
-  routeToSignup(category: string, proceed?: any) {
-    this.currentCategory = category;
-    sessionStorage.setItem('categoryName', category);
-    this.router.navigate(['/signup']);
+  routeToSignup(category: string, proceed?: any, rawData?: any) {
+    this.showLoggerError = false;
+
     if (proceed) {
-      this.router.navigate(['/proceed-form'])
+      if (this.loggerCategory !== category) {
+        this.showLoggerError = true;
+        return;
+      }
+      else {
+        sessionStorage.setItem('selectedPlan', JSON.stringify(rawData))
+        this.router.navigate(['/proceed-form'])
+      }
+
+    }
+    else {
+      this.currentCategory = category;
+      sessionStorage.setItem('categoryName', category);
+      this.router.navigate(['/signup']);
     }
   }
 
@@ -545,14 +567,14 @@ export class PlansComponent implements OnInit {
       basic_data: basic_data
 
     }
-    this.ApiService.post(Api.savePrefference,body).subscribe((res:any)=>{
-     if(res?.Status==201) {
-      this.clientSetupDone= res?.userHavePreference
-      sessionStorage.setItem('havePreference',JSON.stringify(this.clientSetupDone))
-      
-     }
+    this.ApiService.post(Api.savePrefference, body).subscribe((res: any) => {
+      if (res?.Status == 201) {
+        this.clientSetupDone = res?.userHavePreference
+        sessionStorage.setItem('havePreference', JSON.stringify(this.clientSetupDone))
+
+      }
     })
-    
+
   }
   ngOnDestroy() {
     // if (sessionStorage.getItem('isLoggedIn')) {

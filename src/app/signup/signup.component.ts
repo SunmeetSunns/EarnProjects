@@ -23,6 +23,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   signUp: boolean;
   otp: any;
   otpVerified: boolean = false;
+  successText: string = '';
+  dangerText: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,16 +62,26 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.selectedCategory = category;
     this.signForm.get('category')?.setValue(category);
   }
+  showPassword = false;
+  showConfirmPassword = false;
 
-  routeToSignUp(action?:any): void {
-    debugger
-    if(this.signForm.invalid && !action){
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPassword() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  routeToSignUp(action?: any): void {
+
+    if (this.signForm.invalid && !action) {
       this.signForm.markAllAsTouched();
       return;
     }
-    if(action){
+    if (action) {
       this.router.navigate(['/login']);
-    
+
     }
     if (this.otpVerified) {
       let body = {
@@ -80,15 +92,15 @@ export class SignupComponent implements OnInit, OnDestroy {
         category: this.signForm.get('category').value,
         mobile: this.signForm.get('phn_no').value
       }
-       this.Apiservice.post(Api.signup,body).subscribe((res)=>{
-        if(res){
-          console.log(res)
-           this.router.navigate(['/login']);
+      this.Apiservice.post(Api.signup, body).subscribe((res) => {
+        if (res) {
+
+          this.router.navigate(['/login']);
         }
-       })
+      })
     }
-   
-   
+
+
   }
 
   // changeState(): void {
@@ -97,7 +109,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   //     return;
   //   }
   //   console.log(this.signForm.value);
-    
+
   // }
 
   ngOnDestroy(): void {
@@ -115,7 +127,15 @@ export class SignupComponent implements OnInit, OnDestroy {
     }
     this.Apiservice.post(Api.sendOtp, body).subscribe((res: any) => {
       if (res) {
-        this.modal.open(modalName, { size: 'md', keyboard: false, backdrop: 'static' })
+        if (res?.Status == 200) {
+          this.successText = res?.message;
+           this.modal.open(modalName, { size: 'md', keyboard: false, backdrop: 'static' })
+        }
+        if (res?.Status == 201) {
+          this.dangerText = res?.message
+        }
+        this.showSuccessToast();
+       
       }
     })
   }
@@ -125,13 +145,32 @@ export class SignupComponent implements OnInit, OnDestroy {
       otp: this.otp
     }
     this.Apiservice.post(Api.verifyOtp, body).subscribe((res: any) => {
-      if (res?.verified) {
-        this.modal.dismissAll();
-        this.otpVerified = true;
-        console.log('OTP Verified')
+      if (res) {
+        if (res?.Status == 200) {
+          this.successText = res?.message;
+          this.modal.dismissAll();
+          this.otpVerified = true;
+          this.showSuccessToast()
+        }
+        if (res?.Status == 201) {
+          this.dangerText = res?.message;
+          this.showSuccessToast()
+        }
+
+        if (this.otpVerified) {
+
+          this.signForm.get('mail').disable();
+        }
       }
     })
 
   }
+  showToast = false;
 
+  showSuccessToast() {
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+    }, 9000);
+  }
 }

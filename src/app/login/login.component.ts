@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpWrapperService } from '../services/api-service.service';
 import { Api } from '../services/api-enums';
+import { LoginServiceService } from '../services/login-service.service';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +17,11 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMsg: String = '';
   authToken: any;
+  showPassword: boolean=false;
   ngOnInit(): void {
     this.buildForm();
   }
-  constructor(private formBuilder: FormBuilder, public router: Router, private ApiService: HttpWrapperService) {
+  constructor(private formBuilder: FormBuilder, public router: Router, private ApiService: HttpWrapperService,public loginService:LoginServiceService) {
 
   }
   buildForm(): void {
@@ -49,10 +51,14 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('authToken', this.authToken);
           sessionStorage.setItem('user', JSON.stringify(res?.user));
           sessionStorage.setItem('havePreference',res?.user?.havePreference.toString())
+           this.loginService.setLoginStatus(true);
           const user=res?.user
           this.router.navigate([`/plans/${user?.category}`]);
         }
       })
     }
   }
+  togglePassword() {
+  this.showPassword = !this.showPassword;
+}
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-review-detail',
@@ -8,7 +8,29 @@ import { Component } from '@angular/core';
   templateUrl: './review-detail.component.html',
   styleUrl: './review-detail.component.css'
 })
-export class ReviewDetailComponent {
+export class ReviewDetailComponent implements OnInit{
+  planDetails: any;
+  fieldData: any;
+
+  ngOnInit(): void {
+    const fieldData=JSON.parse(sessionStorage.getItem('overallData'))
+    const planDetails=JSON.parse(sessionStorage.getItem('selectedPlan'))
+    this.planDetails=planDetails
+    this.fieldData=fieldData
+    console.log(planDetails)
+    console.log(fieldData)
+    
+  }
+  formatDate(dateStr: string): string {
+  if (!dateStr) return '';
+
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  }); // Output: 01 May 2025
+}
 
 activeSection: 'additional' | 'declaration' | null = null;
 

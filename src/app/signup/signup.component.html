@@ -68,10 +68,11 @@
           <input id="email" type="email" placeholder="abc@mail.com" formControlName="mail" [ngClass]="{
         'redBorder': signForm.get('mail')?.invalid && signForm.get('mail')?.touched
       }" />
-          <button type="button" class="verify-btn" [disabled]="
+          <button *ngIf="!this.otpVerified" type="button" class="verify-btn" [disabled]="
         signForm.get('mail')?.invalid ||!signForm.get('mail')?.value" (click)="sendOtp(otpModal)">
             Verify
           </button>
+          <img *ngIf="this.otpVerified" class="verif"src="../../assets/svg/verified1.svg">
         </div>
 
         <span class="error" *ngIf="
@@ -89,25 +90,35 @@
         </span>
       </div>
       <div class="d-flex flex-row justify-content-between">
-        <div class="input-fields"><label>Password</label>
-          <input type="password" formControlName="password">
-          <span class="error" *ngIf="signForm.get('password')?.touched && signForm.get('password')?.invalid">Password is
-            required.</span>
+        <div class="input-fields">
+          <label>Password</label>
+          <div class="eye-set">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password">
+            <img *ngIf="!showPassword" class="eye"src="../../assets/svg/eye-close.svg" (click)="togglePassword()">
+           <img *ngIf="showPassword" class="eye"src="../../assets/svg/eye-open.svg" (click)="togglePassword()">
+          </div>
+          <span class="error" *ngIf="signForm.get('password')?.touched && signForm.get('password')?.invalid">
+            Password is required.
+          </span>
           <span class="error"
             *ngIf="signForm.get('password')?.hasError('minlength') && signForm.get('password')?.touched">
-            Mobile number must be 10 digits
+            Password must be minimum 6 characters.
           </span>
         </div>
-        <div class="input-fields"><label>Confirm Password</label>
-          <input type="password" formControlName="confirm_password">
+
+        <div class="input-fields">
+          <label>Confirm Password</label>
+          <div class="eye-set">
+            <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirm_password">
+           <img *ngIf="!showConfirmPassword" class="eye"src="../../assets/svg/eye-close.svg" (click)="toggleConfirmPassword()">
+           <img *ngIf="showConfirmPassword" class="eye"src="../../assets/svg/eye-open.svg" (click)="toggleConfirmPassword()">
+          </div>
           <span class="error"
-            *ngIf="signForm.get('confirm_password')?.touched && signForm.get('confirm_password')?.invalid">Confirm
-            Password is Required.</span>
-          <span class="error"
-            *ngIf="signForm.get('phn_no')?.hasError('minlength') && signForm.get('confirm_password')?.touched">
-            Mobile number must be 10 digits
+            *ngIf="signForm.get('confirm_password')?.touched && signForm.get('confirm_password')?.invalid">
+            Confirm Password is Required.
           </span>
         </div>
+
       </div>
       <div class="d-flex flex-column justify-content-center align-items-center">
         <button class="mb-3 sign-up-btn" (click)="routeToSignUp()">Sign Up</button>
@@ -118,7 +129,7 @@
 </div>
 
 <ng-template #otpModal let-modal>
-  <div class="modal-overlay" >
+  <div class="modal-overlay">
     <div class="modal-content">
       <h3>Enter OTP</h3>
       <p>We’ve sent an OTP to your email address.</p>
@@ -130,3 +141,31 @@
     </div>
   </div>
 </ng-template>
+
+<div
+  class="toast-container position-fixed top-0 end-0 p-3"
+  style="z-index: 1055;"
+>
+  <div
+    class="toast  border-0 align-items-center show" [ngClass]="{'text-bg-success':this.successText,'text-bg-danger':this.dangerText}"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    *ngIf="showToast"
+  >
+    <div class="d-flex">
+      <div class="toast-body" *ngIf="this.successText!=''">
+         {{this.successText}}
+      </div>
+        <div class="toast-body" *ngIf="this.dangerText!=''">
+         {{this.dangerText}}
+      </div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        aria-label="Close"
+        (click)="showToast = false"
+      ></button>
+    </div>
+  </div>
+</div>
