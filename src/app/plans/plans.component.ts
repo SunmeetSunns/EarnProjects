@@ -27,193 +27,19 @@ export class PlansComponent implements OnInit {
   @ViewChild('agencyForm') agencyForm!: TemplateRef<any>;
 
   allPlans: any = [
+   
     {
-      name: 'Starter Plan',
-      price: '299/month',
-      yearlyDiscount: 'Save ₹989.00 annually',
-      category: 'student',
-      description: 'Small project leads, good for learning and confidence building.',
+      name: '',
+      price: '',
+      yearlyDiscount: '',
+      category: '',
+      description: '.',
       features: [
-        '2-3 project leads per month',
-        'Basic project filtering',
-        'Email support',
-        'Project completion certificates',
-        'Basic skill assessment',
-        'Community access',
-      ],
-      popular: false
-    },
-    {
-      name: 'Basic Plan',
-      price: '499/month',
-      yearlyDiscount: 'Save ₹1989.00 annually',
-      category: 'student',
-      description: 'Real-world tasks with earning potential. Kickstart your career',
-      features: [
-        '5-7 project leads per month',
-        'Advanced project matching',
-        'Priority support',
-        'Experience letters',
-        'Skill development workshops',
-        'Mentor connection',
-        'Portfolio builder',
+       ''
       ],
       popular: true
     },
-    {
-      name: 'Advanced Plan',
-      price: '799/month',
-      yearlyDiscount: 'Save ₹2989.00 annually',
-      category: 'student',
-      description: 'More frequent project leads. Build your portfolio faster.',
-      features: [
-        '7-10 project leads per month',
-        'Advanced project filtering',
-        'Priority support',
-        'Client communication tools',
-        'Professional profile badge',
-        'Training programs access',
-      ],
-      popular: false
-    },
-    {
-      name: 'Pro Plan',
-      price: '1,299/month',
-      yearlyDiscount: 'Save ₹4989.00 annually',
-      category: 'student',
-      description: 'Premium projects + experience letters on completion + support to close clients',
-      features: [
-        'Unlimited project leads',
-        'Team management tools',
-        'Dedicated support',
-        'Invoice & billing system',
-        'Custom branding',
-        'Agency analytics dashboard',
-      ],
-      popular: true
-    },
-    {
-      name: 'Basic Plan',
-      price: '999/month',
-      yearlyDiscount: 'Save ₹1,189.00 annually',
-      category: 'professional',
-      description: 'Projects matching your experience level.',
-      features: [
-        'Access to entry-level project leads',
-        'Email support',
-        'Profile visibility to clients',
-        'Basic project filtering',
-      ],
-      popular: false
-    },
-    {
-      name: 'Silver Plan',
-      price: '4,999/month',
-      yearlyDiscount: 'Save ₹2,389.00 annually',
-      category: 'professional',
-      description: 'Mid-level project leads, better payouts.',
-      features: [
-        'Access to mid-level project leads',
-        'Better project payout opportunities',
-        'Priority email support',
-        'Project performance tracking',
-        'Resume builder tools',
-      ],
-      popular: true
-    },
-    {
-      name: 'Gold Plan',
-      price: '9,999/month',
-      yearlyDiscount: 'Save ₹4,989.00 annually',
-      category: 'professional',
-      description: 'Premium clients, occasional team collaboration opportunities.',
-      features: [
-        'Leads from premium clients',
-        'Occasional team collaboration projects',
-        'Profile badge for top professionals',
-        'Direct client messaging',
-        'Networking opportunities',
-        'Advanced project analytics',
-      ],
-      popular: false
-    },
-    {
-      name: 'Pro Plan',
-      price: '19,999/month',
-      yearlyDiscount: 'Save ₹9,989.00 annually',
-      category: 'professional',
-      description: 'Scale your freelancing: Skill programs, lead support, personal branding help.',
-      features: [
-        'All-access project leads',
-        'Personal branding assistance',
-        'Skill development programs',
-        'Dedicated success manager',
-        'Lead prioritization support',
-        'Freelancer toolkit and templates',
-      ],
-      popular: true
-    },
-    {
-      name: 'Basic Trust Plan',
-      price: '9,999/month',
-      yearlyDiscount: 'Save ₹11,989.00 annually',
-      category: 'agency',
-      description: 'Get consistent leads to keep your team busy.',
-      features: [
-        'Consistent project leads for your agency',
-        'Team account access',
-        'Email support',
-        'Basic agency dashboard',
-        'Client communication tools',
-      ],
-      popular: false
-    },
-    {
-      name: 'Silver Plan',
-      price: '19,999/month',
-      yearlyDiscount: 'Save ₹23,989.00 annually',
-      category: 'agency',
-      description: 'Leads + occasional sales support.',
-      features: [
-        'All Basic features',
-        'Increased lead volume',
-        'Occasional sales pitch support',
-        'Agency performance reports',
-        'Access to verified clients',
-      ],
-      popular: false
-    },
-    {
-      name: 'Gold Plan',
-      price: '49,999/month',
-      yearlyDiscount: 'Save ₹59,989.00 annually',
-      category: 'agency',
-      description: 'High-ticket client leads. Grow revenue.',
-      features: [
-        'High-ticket client leads',
-        'Advanced filtering for large projects',
-        'Project negotiation support',
-        'Dedicated account manager',
-        'Client rating & review insights',
-      ],
-      popular: true
-    },
-    {
-      name: 'Premium Member Plan',
-      price: '99,999/month',
-      yearlyDiscount: 'Save ₹1,19,989.00 annually',
-      category: 'agency',
-      description: 'Exclusive, high-value leads + full support to manage and close clients.',
-      features: [
-        'Exclusive access to premium leads',
-        'Full client closing support',
-        'Advanced CRM tools',
-        'Agency branding & marketing help',
-        'Client contract management',
-        'Dedicated growth advisor',
-      ],
-      popular: true
-    }
+   
   ];
 
 
@@ -303,9 +129,17 @@ export class PlansComponent implements OnInit {
         description: plans[i].planDescription,
         features: plans[i].features,
         popular: plans[i].popular,
-        noOfLeads:plans[i].noOfLeads
+        noOfLeads:plans[i].noOfLeads,
+        discountPer:this.calculateDiscount(plans[i].priceINR,plans[i].discount),
+        
       })
     }
+  }
+  calculateDiscount(oPrice:any,discount:any){
+    const discountPercentage=Math.round((Number(discount)-Number(oPrice))/Number(discount)*100);
+    return discountPercentage.toFixed(2);
+
+
   }
   buildPreferenceForm() {
     this.preferenceForm = this.formBuilder.group({

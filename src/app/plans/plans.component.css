@@ -37,7 +37,7 @@
   font-size: 1em;
   border-radius: 2em;
   font-weight: 500;
-  
+
 }
 
 .heading>p {
@@ -157,15 +157,40 @@
 }
 
 .discount {
-  color: #16A361;
+  color: #999;
   font-weight: 500;
   margin-bottom: 1em;
+  text-decoration: line-through;
+  font-size: 1.2em;
+  font-style: italic;
 }
 
+.disPerc {
+  background-color: #16A361;
+  color: white;
+  padding: 0.2em 0.5em;
+  text-decoration: none !important;
+  margin-left: 1em;
+  border-radius: 8px;
+
+}
+.disPerc2{
+  color: #16A361;
+  font-size: 1em;
+  text-align: center;
+}
 .description {
   color: #757575;
   font-size: 0.95em;
   margin-bottom: 3em;
+
+}
+
+.discount-div {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-top: 1.5em;
 
 }
 
@@ -200,6 +225,7 @@
   transition: background-color 0.3s ease;
   width: 100%;
 }
+
 .pop-btn1 {
   background-color: #7C3AED;
   color: white;
@@ -213,12 +239,15 @@
   transition: background-color 0.3s ease;
   width: fit-content;
 }
-.blue{
+
+.blue {
   color: #007bff;
 }
-.error{
+
+.error {
   color: red;
 }
+
 .pop-btn:hover {
   background-color: #5B21B6;
 }
@@ -246,6 +275,7 @@
   font-weight: 500;
   font-size: 1.15rem;
 }
+
 .modal-header-pop {
   padding: 20px;
   border-radius: 8px;
@@ -274,6 +304,7 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
 .badge-chip {
   background-color: #007bff;
   color: white;
@@ -292,4 +323,3 @@
   cursor: pointer;
   padding-left: 4px;
 }
-

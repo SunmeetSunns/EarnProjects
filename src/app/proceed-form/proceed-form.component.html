@@ -15,7 +15,7 @@
         </div>
         <div class="side-align">
           <div class="side-item">No of Projects</div>
-          <div class="side-ans">{{this.selectedPlanDetails?.noOfLeads}}</div>
+          <div class="side-ans">{{this.noOfProj? this.noOfProj:this.selectedPlanDetails?.noOfLeads}}</div>
         </div>
         <div class="side-align">
           <div class="side-item">Payment frequency</div>
@@ -182,55 +182,53 @@
                     {{ a.label }} is required.
                   </div>
                 </div>
-
-                <div class="form-field">
-                  <label class="side-align">Resume Upload</label>
-                  <input type="file" (change)="onFileChange($event)" />
-                </div>
               </ng-container>
             </div>
 
             <!-- Step 2 -->
-           <div *ngIf="stepIndex === 2">
-  <!-- Student -->
-  <ng-container *ngIf="plan === 'student'">
-    <div class="form-field" *ngFor="let f of studentFieldsStep2">
-      <label class="side-align">{{ f.label }}</label>
-      <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
-        <option value="" disabled selected>Select {{ f.label }}</option>
-        <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
-      </select>
-      <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control" [formControlName]="f.field" />
-      <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
-    </div>
-  </ng-container>
+            <div *ngIf="stepIndex === 2">
+              <!-- Student -->
+              <ng-container *ngIf="plan === 'student'">
+                <div class="form-field" *ngFor="let f of studentFieldsStep2">
+                  <label class="side-align">{{ f.label }}</label>
+                  <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
+                    <option value="" disabled selected>Select {{ f.label }}</option>
+                    <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                  </select>
+                  <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control"
+                    [formControlName]="f.field" />
+                  <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
+                </div>
+              </ng-container>
 
-  <!-- Professional -->
-  <ng-container *ngIf="plan === 'professional'">
-    <div class="form-field" *ngFor="let f of professionalFieldsStep2">
-      <label class="side-align">{{ f.label }}</label>
-      <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
-        <option value="" disabled selected>Select {{ f.label }}</option>
-        <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
-      </select>
-      <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control" [formControlName]="f.field" />
-      <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
-    </div>
-  </ng-container>
+              <!-- Professional -->
+              <ng-container *ngIf="plan === 'professional'">
+                <div class="form-field" *ngFor="let f of professionalFieldsStep2">
+                  <label class="side-align">{{ f.label }}</label>
+                  <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
+                    <option value="" disabled selected>Select {{ f.label }}</option>
+                    <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                  </select>
+                  <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control"
+                    [formControlName]="f.field" />
+                  <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
+                </div>
+              </ng-container>
 
-  <!-- Agency -->
-  <ng-container *ngIf="plan === 'agency'">
-    <div class="form-field" *ngFor="let f of agencyFieldsStep2">
-      <label class="side-align">{{ f.label }}</label>
-      <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
-        <option value="" disabled selected>Select {{ f.label }}</option>
-        <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
-      </select>
-      <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control" [formControlName]="f.field" />
-      <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
-    </div>
-  </ng-container>
-</div>
+              <!-- Agency -->
+              <ng-container *ngIf="plan === 'agency'">
+                <div class="form-field" *ngFor="let f of agencyFieldsStep2">
+                  <label class="side-align">{{ f.label }}</label>
+                  <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
+                    <option value="" disabled selected>Select {{ f.label }}</option>
+                    <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                  </select>
+                  <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control"
+                    [formControlName]="f.field" />
+                  <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
+                </div>
+              </ng-container>
+            </div>
 
 
           </ng-container>
@@ -243,8 +241,9 @@
   </div>
   <div class="form-navigation">
     <div class="form-tot">
-      <div class="tot-name">Total Payable Amount </div>
+      <div class="tot-name">Total Payable Amount: </div>
       <div class="tot-price">₹ {{this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price}}</div>
+      <div class="discount">₹ {{this.selectedPlanDetails?.yearlyDiscount}}</div>
     </div>
     <div class="form-btn">
       <button type="button" (click)="previousStep()" class="rev-b1" [disabled]="stepIndex=== 1">PREVIOUS</button>

@@ -218,10 +218,18 @@
   color: #538681;
   padding: 0.2em 0.5em;
   margin: 0.5em;
+  font-weight: 300;
+  font-style: oblique;
   border-radius: 20px;
   text-align: center;
 }
-
+.discount {
+  color: #999;
+  font-weight: 500;
+  margin-left: 1em;
+  text-decoration: line-through;
+  font-size: 1.2em;
+}
 .detail-area {
   width: 70%;
   background-color: #ffffff;
@@ -277,8 +285,8 @@ button:disabled {
 .form-tot {
   display: flex;
   flex-direction: row;
-  width: 40%;
-  align-items: center;
+  width: 50%;
+  align-items: baseline;
   /* justify-content: space-between; */
   padding: 0.5em;
 }
@@ -294,10 +302,12 @@ button:disabled {
   font-size: 1.25em;
   color: #27313D;
   margin-right: 1em;
+  font-weight: 600;
 }
 .tot-price{
-  font-size: 1.50em;
-  color: #27313D;
+  font-size: 1.8em;
+  font-style: italic;
+  color: #2fc53c;
   font-weight: 600;
   
 }

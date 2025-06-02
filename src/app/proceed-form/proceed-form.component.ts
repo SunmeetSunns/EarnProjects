@@ -25,6 +25,7 @@ export class ProceedFormComponent implements OnInit {
   selectedPlanDetails: any;
   amtToPaid: any;
   Overalldata: any;
+  noOfProj: number;
 
   constructor(private fb: FormBuilder, private router: Router) { }
 
@@ -172,10 +173,11 @@ this.plan=this.selectedPlanDetails?.category
     var frequency = $event.target.value
     if (frequency == 'Monthly') {
       this.amtToPaid = Number(this.selectedPlanDetails?.price)
-    
+    this.noOfProj=Number(this.selectedPlanDetails?.noOfLeads)
     }
     if (frequency == 'Yearly') {
       this.amtToPaid = Number(this.selectedPlanDetails?.price) * 12;
+      this.noOfProj=Number(this.selectedPlanDetails?.noOfLeads)*12;
     }
 
   }

@@ -1,9 +1,9 @@
-import { Component, HostListener, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
+import { Component, HostListener, AfterViewInit, ElementRef, Renderer2, ChangeDetectorRef, OnInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { LoginServiceService } from '../services/login-service.service';
-
+import { Offcanvas } from 'bootstrap';  // bootstrap JS import
 
 @Component({
   selector: 'app-header',
@@ -12,9 +12,10 @@ import { LoginServiceService } from '../services/login-service.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent implements OnInit {
   @ViewChild('dropdownRef') dropdownRef!: ElementRef;
   @ViewChild('headerRef') headerRef!: ElementRef;
+  @ViewChild('offcanvasRef', { static: false }) offcanvasRef!: ElementRef;
 
   isScrolled: boolean = false;
   dropDownValues: any[] = [];
@@ -22,9 +23,10 @@ export class HeaderComponent implements AfterViewInit {
   currentDrop: string;
   isLoggedIn: any;
   showProfile: boolean = false;
+  isLaptop: boolean = false;
+  activeDropdown: string = '';
 
-
-  constructor(private el: ElementRef, private renderer: Renderer2, public router: Router,public loginService:LoginServiceService) { }
+  constructor(private el: ElementRef, private renderer: Renderer2, public router: Router, private zone: NgZone, public loginService: LoginServiceService) { }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -61,11 +63,34 @@ export class HeaderComponent implements AfterViewInit {
 
   }
   ngOnInit() {
+    this.checkWindowSize(); // run on init
+
+    // Use NgZone to force Angular to be aware of change
+    window.addEventListener('resize', () => {
+      this.zone.run(() => {
+        this.checkWindowSize();
+      });
+    });
+
+    // Login check
     this.loginService.isLoggedIn$.subscribe((status: boolean) => {
       this.isLoggedIn = status;
-      console.log("Header login status:", this.isLoggedIn);
     });
   }
+
+
+
+  checkWindowSize(): void {
+    const isNowLaptop = window.innerWidth > 1024;
+
+    if (this.isLaptop !== isNowLaptop) {
+      this.isLaptop = isNowLaptop;
+      console.log('Window resized, isLaptop:', this.isLaptop); // Debug log
+    }
+  }
+
+
+
   openProfile() {
     this.showProfile = !this.showProfile
   }
@@ -73,6 +98,7 @@ export class HeaderComponent implements AfterViewInit {
     this.router.navigate(['/signup'])
   }
   applyClasses(plan: string) {
+    this.activeDropdown = this.activeDropdown === plan ? '' : plan;
     this.currentDrop = plan;
     this.show = true;
     if (plan === 'ourPlan') {
@@ -95,6 +121,7 @@ export class HeaderComponent implements AfterViewInit {
     }
   }
   performAction(actionName: any, choosePlan: any) {
+    this.closeOffcanvas()
     if (actionName === 'ourPlan') {
       this.show = false;
       if (choosePlan === 'All Plans') {
@@ -115,7 +142,32 @@ export class HeaderComponent implements AfterViewInit {
   }
   logout() {
     this.showProfile = false;
-   this.loginService.logout();
+    this.loginService.logout();
+    this.router.navigate(['/'])
   }
+  clearData() {
+    this.activeDropdown = ''
+  }
+  closeOffcanvas() {
+    if (this.offcanvasRef && this.offcanvasRef.nativeElement) {
+      const bsOffcanvas = Offcanvas.getInstance(this.offcanvasRef.nativeElement);
+      if (bsOffcanvas) {
+        bsOffcanvas.hide();
+      }
+
+      // ✅ Manually remove the backdrop (bootstrap backdrop class)
+      const backdrops = document.querySelectorAll('.offcanvas-backdrop');
+      backdrops.forEach((bd) => bd.remove());
+
+      // ✅ Remove body class that prevents scroll (Bootstrap adds this)
+      document.body.classList.remove('offcanvas-backdrop');
+      document.body.classList.remove('modal-open'); // just in case
+      document.body.style.overflow = '';
+    } else {
+      console.warn('offcanvasRef not available yet');
+    }
+  }
+
+
 
 }

@@ -153,7 +153,15 @@
     border-top: 1px solid #ddd;
 
 }
+.drops1 {
 
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    padding: 0.5em;
+    cursor: pointer;
+
+}
 .drops div {
     font-size: 1rem;
     line-height: 1.75rem;
@@ -171,7 +179,10 @@
     height: 1.5em;
     width: 1.5em;
 }
-
+.drops1>img {
+    height: 1.5em;
+    width: 1.5em;
+}
 .profile {
     height: 4em;
     width: 3em;
@@ -180,7 +191,7 @@
 }
 
 .profile-div {
-    position: absolute;
+    position: fixed;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     height: fit-content;
     width: 10em;
@@ -208,8 +219,119 @@
     justify-content: space-around;
     cursor: pointer;
     padding: 0.2em;
-   
+
 }
-.bd-btm{
- border-bottom: 1px solid #EDEDED;
+
+.bd-btm {
+    border-bottom: 1px solid #EDEDED;
+}
+
+/* Hide by default */
+.desktop-menu,
+.mobile-menu {
+    display: none;
+}
+
+.hamburger {
+    height: 2em;
+    width: 2em;
+}
+
+/* Show desktop layout if window is wide */
+@media (min-width: 1025px) {
+    .desktop-menu {
+        display: flex !important;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* Show mobile layout only if screen is narrow (optional if needed) */
+@media (max-width: 1024px) {
+    .mobile-menu {
+        display: none !important;
+    }
+
+    .phn-mob-menu {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 1em !important;
+    }
+
+    .logo {
+        height: 2.5em;
+        width: 2.5em;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 780px) {
+    .header {
+        padding: 1.5em !important;
+    }
+
+    .logo {
+        height: 2.8em;
+        width: 2.8em;
+    }
+}
+
+.btn-outline {
+    border: none;
+    background-color: #fff;
+}
+
+.plan-head {
+    color: #7c3aed;
+    font-size: 1.2em;
+    font-weight: 500;
+    padding: 0.5em 0.2em;
+}
+
+.plan-head-div {
+    margin-left: 1em;
+    margin-top: 0.5em;
+    display: flex;
+    flex-direction: column;
+}
+
+.plan-spans {
+    color: #526CD0;
+    font-size: 1.1em;
+    font-style: italic;
+
+}
+
+.talk-expert1 {
+    display: flex;
+    flex-direction: row;
+    border: none;
+    justify-content: space-between;
+    width: 9em;
+    padding: 0.5em;
+    background-color: #fff;
+    height: fit-content;
+    align-items: flex-end;
+    border: 1px solid #999;
+    border-radius: 7px;
+}
+
+.talk-expert1>img {
+    height: 1.5em;
+    width: 1.5em;
+}
+
+.btn-logout {
+    background-color: #fff;
+    border: none;
+    height: fit-content;
+    width: fit-content;
+}
+
+.btn-logout>img {
+    height: 2em;
+    width: 2em;
 }

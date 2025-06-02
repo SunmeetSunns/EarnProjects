@@ -122,6 +122,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.modal.dismissAll()
   }
   sendOtp(modalName: any) {
+    this.dangerText = ''
+    this.successText = ''
     let body = {
       email: this.signForm.get('mail').value
     }
@@ -129,38 +131,39 @@ export class SignupComponent implements OnInit, OnDestroy {
       if (res) {
         if (res?.Status == 200) {
           this.successText = res?.message;
-           this.modal.open(modalName, { size: 'md', keyboard: false, backdrop: 'static' })
+          this.modal.open(modalName, { size: 'md', keyboard: false, backdrop: 'static' })
         }
         if (res?.Status == 201) {
           this.dangerText = res?.message
         }
         this.showSuccessToast();
-       
+
       }
     })
   }
   verifyOtp() {
+    this.successText = ''
+    this.dangerText = '';
     let body = {
       email: this.signForm.get('mail').value,
       otp: this.otp
     }
     this.Apiservice.post(Api.verifyOtp, body).subscribe((res: any) => {
       if (res) {
-        if (res?.Status == 200) {
+        if (res?.status == 200) {
           this.successText = res?.message;
           this.modal.dismissAll();
           this.otpVerified = true;
-          this.showSuccessToast()
+          this.showSuccessToast();
+           
+          this.signForm.get('mail').disable();
         }
-        if (res?.Status == 201) {
+        if (res?.status == 201) {
           this.dangerText = res?.message;
           this.showSuccessToast()
         }
 
-        if (this.otpVerified) {
-
-          this.signForm.get('mail').disable();
-        }
+       
       }
     })
 

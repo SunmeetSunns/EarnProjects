@@ -14,7 +14,11 @@
           <h5 class="card-title">{{ plan.name }}</h5>
           <p class="description">{{ plan.description }}</p>
           <h2 class="price">₹{{ plan.price }}/month</h2>
-          <p class="discount">{{ plan.yearlyDiscount }}</p>
+          <div class="discount-div">
+            <span class="discount">₹{{ plan.yearlyDiscount }}/month</span>
+            <div class="disPerc">{{ plan?.discountPer }}% off</div>
+          </div>
+
 
           <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)">Get Started</button>
           <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category)">Choose Plan</button>
@@ -48,12 +52,16 @@
           </ul>
           <!-- <h2 class="price">₹{{ plan.price }}</h2> -->
 
-          <span class="error" *ngIf="showLoggerError">You have logged yourself as {{this.loggerCategory}}. <br> <span class="blue">Choose from {{this.loggerCategory}} Plans.</span></span>
+          <span class="error" *ngIf="showLoggerError">You have logged yourself as {{this.loggerCategory}}. <br> <span
+              class="blue">Choose from {{this.loggerCategory}} Plans.</span></span>
           <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category,true,plan)">₹{{ plan.price
             }}/month</button>
           <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category,true,plan)">₹{{ plan.price
             }}/month</button>
-          <p class="discount" style="text-align: center;">{{ plan.yearlyDiscount }}</p>
+           
+            <div class="disPerc2">You can save {{ plan?.discountPer }}% with this plan.</div>
+
+         
 
         </div>
 
