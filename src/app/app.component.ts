@@ -8,11 +8,12 @@ import { TestimonialsComponent } from "./testimonials/testimonials.component";
 import { FaqComponent } from './faq/faq.component';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
+import { LoaderComponent } from "./loader/loader.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, HeaderComponent, FooterComponent],
+  imports: [RouterOutlet, CommonModule, HeaderComponent, FooterComponent, LoaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

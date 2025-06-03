@@ -19,11 +19,13 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .rev-b2 {
   position: relative;
   overflow: hidden;
   border: none;
-  background-color: #7c3aed; /* Your preferred color */
+  background-color: #7c3aed;
+  /* Your preferred color */
   color: white;
   border-radius: 10px;
   padding: 0.5em 1.5em;
@@ -40,12 +42,10 @@
   left: -75%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.5) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 100%);
   transform: skewX(-20deg);
 }
 
@@ -59,22 +59,26 @@
   0% {
     left: -75%;
   }
+
   100% {
     left: 125%;
   }
 }
+
 .rev-b1 {
 
-    border: 1px solid #7c3aed;
-    color: #5B21B6;
-    background-color: white;
-    border-radius: 10px;
-    padding: 0.5em 1em;
+  border: 1px solid #7c3aed;
+  color: #5B21B6;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0.5em 1em;
 }
-.rev-b1:disabled{
-   border: 1px solid #fff;
-    color: #fafafa;
+
+.rev-b1:disabled {
+  border: 1px solid #fff;
+  color: #fafafa;
 }
+
 .step-label {
   font-size: 1.1rem;
   color: #b2b2b2;
@@ -131,7 +135,7 @@
 .form-ans {
   border: 0;
   border-bottom: 1px solid #e5e8eb;
-  
+
 }
 
 .form-ans:focus {
@@ -140,9 +144,11 @@
   border-color: #fff;
   border-bottom: 2px solid #5264AE;
 }
-.error{
+
+.error {
   color: red;
 }
+
 .bod-bt {
   border-bottom: 1px solid #e5e8eb;
 }
@@ -206,7 +212,7 @@
 
 .plan-name {
   font-size: 1.5em;
-  background: linear-gradient(to right, #7A3CEB,#3D85C1, #1BAFAA);
+  background: linear-gradient(to right, #7A3CEB, #3D85C1, #1BAFAA);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 500;
@@ -223,13 +229,17 @@
   border-radius: 20px;
   text-align: center;
 }
+
 .discount {
   color: #999;
   font-weight: 500;
   margin-left: 1em;
   text-decoration: line-through;
   font-size: 1.1em;
+  display: flex;
+  flex-direction: row;
 }
+
 .detail-area {
   width: 70%;
   background-color: #ffffff;
@@ -242,8 +252,10 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-width: 300px;
   padding: 2em 4em;
+}
+
+.form-ans {
   width: 100%;
 }
 
@@ -263,7 +275,7 @@ input {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
   padding: 1em 2em;
   width: 92%;
-
+  justify-content: space-between;
   align-self: center;
   border-radius: 15px;
   gap: 3em;
@@ -285,7 +297,7 @@ button:disabled {
 .form-tot {
   display: flex;
   flex-direction: row;
-  width: 50%;
+  width: 60%;
   align-items: baseline;
   /* justify-content: space-between; */
   padding: 0.5em;
@@ -298,25 +310,31 @@ button:disabled {
   justify-content: flex-end;
   gap: 1em;
 }
-.tot-name{
+
+.tot-name {
   font-size: 1.25em;
   color: #27313D;
   margin-right: 1em;
   font-weight: 600;
 }
-.tot-price{
+
+.tot-price {
   font-size: 1.5em;
   font-style: italic;
   color: #2fc53c;
   font-weight: 600;
-  
+  display: flex;
+  flex-direction: row;
+
 }
+
 /* Animation */
 @keyframes slideInLeftBottom {
   0% {
     opacity: 0;
     transform: translate(-20px, 20px);
   }
+
   100% {
     opacity: 1;
     transform: translate(0, 0);
@@ -332,8 +350,14 @@ button:disabled {
 @media (max-width:1024px) {
   .subscription-container {
     width: 100%;
+    padding: 1em;
+  }
+
+  .form-content {
+    padding: 1em;
   }
 }
+
 
 /* For screens between 481px and 750px */
 @media (max-width: 750px) {
@@ -346,6 +370,10 @@ button:disabled {
   .form-content {
     flex-direction: column;
     padding: 1em;
+  }
+
+  .form-navigation {
+    gap: 1em;
   }
 
   .sidebar,
@@ -378,6 +406,26 @@ button:disabled {
     padding: 0.5em;
   }
 
+  .step-separator {
+    flex-basis: 0.3em;
+  }
+
+  .side-head {
+    padding: 0.5em !important;
+  }
+
+  .rev-b1 {
+    padding: 0.5em !important
+  }
+
+  .rev-b2 {
+    padding: 0.5em !important
+  }
+
+  .step-cover {
+    padding: 0.2em;
+  }
+
   input {
 
     width: fit-content;
@@ -388,5 +436,23 @@ button:disabled {
   .form-area,
   .form-navigation {
     padding: 0.5em;
+  }
+
+  .tot-name {
+    font-size: 1em !important;
+  }
+
+  .tot-price {
+    font-weight: 300;
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .discount {
+    font-size: 0.9em;
+    font-weight: 300;
+    display: flex;
+    flex-direction: row;
   }
 }

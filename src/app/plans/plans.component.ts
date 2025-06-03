@@ -182,15 +182,36 @@ export class PlansComponent implements OnInit {
 
 
   categoryWisePreferrence() {
-    this.buildForms();
-    if (this.currentCategory === 'student') {
-      this.preferenceOptions = ['Mobile App Development', 'X', 'Y', 'Development', 'Testing', 'Marketing', 'SEO', 'AI', 'Graphic Designing', 'Digital Marketing', 'Others'];
-    } else if (this.currentCategory === 'professional') {
-      this.preferenceOptions = ['Mobile App Development', 'Web Development', 'Testing', 'Marketing', 'SEO', 'AI', 'Others'];
-    } else if (this.currentCategory === 'agency') {
-      this.preferenceOptions = ['Mobile App Development', 'Z', 'Development', 'Testing', 'Marketing', 'SEO', 'AI', 'Others'];
-    }
+  const skillsList = [
+    'Web Development (Frontend / Backend / Full-stack)',
+    'Mobile App Development',
+    'UI/UX Design',
+    'Graphic Design / Branding',
+    'SEO / SEM',
+    'Social Media Management',
+    'Content Writing / Copywriting',
+    'Video Editing ',
+    'Animation',
+    'Chatbox Integration',
+    'Digital Marketing',
+    'Data Analysis / Power BI / Excel',
+    'Virtual Assistant / Admin Support',
+    'Python',
+    'Java',
+    'Others'
+    
+  ];
+
+  this.buildForms();
+
+  if (this.currentCategory === 'student') {
+    this.preferenceOptions = [...skillsList];
+  } else if (this.currentCategory === 'professional') {
+    this.preferenceOptions = [...skillsList];
+  } else if (this.currentCategory === 'agency') {
+    this.preferenceOptions = [...skillsList];
   }
+}
 
   routeToSignup(category: string, proceed?: any, rawData?: any) {
     this.showLoggerError = false;
@@ -222,7 +243,7 @@ export class PlansComponent implements OnInit {
 
       setTimeout(() => {
         this.modal.open(this.studentForm, {
-          size: 'md',
+          size: 'lg',
           centered: true,
           backdrop: 'static', // prevent click outside
           keyboard: false     // prevent ESC close

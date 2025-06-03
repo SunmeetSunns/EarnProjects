@@ -60,13 +60,11 @@ patchUserDetails() {
     });
 
     // ✅ Use .disable()
-    this.form.get('step0.fullName')?.disable();
     this.form.get('step0.email')?.disable();
-    this.form.get('step0.phoneNumber')?.disable();
 
-    this.form.get('step1.pocName')?.disable();
+    // this.form.get('step1.pocName')?.disable();
     this.form.get('step1.pocEmail')?.disable();
-    this.form.get('step1.pocPhoneNumber')?.disable();
+    // this.form.get('step1.pocPhoneNumber')?.disable();
   }
 }
 
@@ -114,13 +112,13 @@ patchUserDetails() {
       }
       
     });
-      this.form.get('step0.fullName')?.disable();
+      // this.form.get('step0.fullName')?.disable();
     this.form.get('step0.email')?.disable();
-    this.form.get('step0.phoneNumber')?.disable();
+    // this.form.get('step0.phoneNumber')?.disable();
 
-    this.form.get('step1.pocName')?.disable();
+    // this.form.get('step1.pocName')?.disable();
     this.form.get('step1.pocEmail')?.disable();
-    this.form.get('step1.pocPhoneNumber')?.disable();
+    // this.form.get('step1.pocPhoneNumber')?.disable();
     this.payFrequency = data?.paymentFrequency
     this.amtToPaid = data?.amount
     this.noOfProj = data?.noOfProj

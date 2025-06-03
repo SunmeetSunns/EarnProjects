@@ -281,8 +281,10 @@
   <div class="form-navigation">
     <div class="form-tot">
       <div class="tot-name">Total Payable Amount: </div>
-      <div class="tot-price">₹ {{this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price}}/-</div>
-      <div class="discount" >₹ {{yearlyDiscount ? yearlyDiscount :this.selectedPlanDetails?.yearlyDiscount}}/-</div>
+      <div class="tot-price"><span>₹ </span> <span>{{this.amtToPaid ? this.amtToPaid :
+          this.selectedPlanDetails?.price}}/-</span></div>
+      <div class="discount"><span>₹ </span> <span>{{yearlyDiscount ? yearlyDiscount
+          :this.selectedPlanDetails?.yearlyDiscount}}/-</span> </div>
     </div>
     <div class="form-btn">
       <button type="button" (click)="previousStep()" class="rev-b1" [disabled]="stepIndex=== 1">PREVIOUS</button>
