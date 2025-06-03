@@ -153,6 +153,7 @@
     border-top: 1px solid #ddd;
 
 }
+
 .drops1 {
 
     display: flex;
@@ -162,6 +163,7 @@
     cursor: pointer;
 
 }
+
 .drops div {
     font-size: 1rem;
     line-height: 1.75rem;
@@ -179,10 +181,12 @@
     height: 1.5em;
     width: 1.5em;
 }
+
 .drops1>img {
     height: 1.5em;
     width: 1.5em;
 }
+
 .profile {
     height: 4em;
     width: 3em;

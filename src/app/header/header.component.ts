@@ -97,29 +97,57 @@ export class HeaderComponent implements OnInit {
   routeToSignup() {
     this.router.navigate(['/signup'])
   }
+  // applyClasses(plan: string) {
+  //   this.activeDropdown = this.activeDropdown === plan ? '' : plan;
+  //   this.currentDrop = plan;
+  //   this.show = true;
+  //   if (plan === 'ourPlan') {
+  //     this.dropDownValues = [
+  //       { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
+  //       { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
+  //       { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
+  //       { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
+  //     ];
+  //   } else if (plan === 'renewPlan') {
+  //     this.show = false;
+  //     this.dropDownValues = []
+  //     return;
+  //   } else if (plan === 'support') {
+  //     this.dropDownValues = [
+  //       { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
+  //       { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
+  //       { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
+  //     ];
+  //   }
+  // }
   applyClasses(plan: string) {
-    this.activeDropdown = this.activeDropdown === plan ? '' : plan;
-    this.currentDrop = plan;
-    this.show = true;
-    if (plan === 'ourPlan') {
-      this.dropDownValues = [
-        { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
-        { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
-        { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
-        { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
-      ];
-    } else if (plan === 'renewPlan') {
-      this.show = false;
-      this.dropDownValues = []
-      return;
-    } else if (plan === 'support') {
-      this.dropDownValues = [
-        { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
-        { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
-        { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
-      ];
-    }
+  this.activeDropdown = this.activeDropdown === plan ? '' : plan;
+  this.currentDrop = plan;
+
+  if (plan === 'renewPlan') {
+    this.show = false;
+    this.dropDownValues = [];
+    return;
   }
+
+  this.show = true;
+
+  if (plan === 'ourPlan') {
+    this.dropDownValues = [
+      { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
+      { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
+      { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
+      { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
+    ];
+  } else if (plan === 'support') {
+    this.dropDownValues = [
+      { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
+      { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
+      { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
+    ];
+  }
+}
+
   performAction(actionName: any, choosePlan: any) {
     this.closeOffcanvas()
     if (actionName === 'ourPlan') {
@@ -140,6 +168,19 @@ export class HeaderComponent implements OnInit {
       return;
     }
   }
+  //For supoorty dialog box
+  handleSupportAction(planName: string) {
+  this.closeOffcanvas(); // Close the hamburger menu (offcanvas) first
+
+  if (planName === 'WhatsApp') {
+    window.open('https://wa.me/9835490474', '_blank');
+  } else if (planName === 'Mail Us') {
+    window.location.href = 'mailto:abhishek.jha@earnprojects.com';
+  } else if (planName === 'Contact Us') {
+    window.location.href = 'tel:9835490474'; 
+  }
+}
+
   logout() {
     this.showProfile = false;
     this.loginService.logout();

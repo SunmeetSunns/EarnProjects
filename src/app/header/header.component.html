@@ -39,7 +39,7 @@
         <button class="btn-logout" (click)="logout()" *ngIf="isLoggedIn">
             <img src="../../assets/svg/logout.svg">
         </button>
-         <button class="btn-logout" (click)="routeToSignup()" *ngIf="!isLoggedIn">
+        <button class="btn-logout" (click)="routeToSignup()" *ngIf="!isLoggedIn">
             <img src="../../assets/svg/logout.svg">
         </button>
         <button class=" d-flex btn-outline align-items-center" type="button" data-bs-toggle="offcanvas"
@@ -51,7 +51,7 @@
 </div>
 
 <!-- ✅ Dropdown Only If show is true -->
-<div class="drop-divs" #dropdownRef [ngClass]="{
+<!--<div class="drop-divs" #dropdownRef [ngClass]="{
     'divs-pos-our-plan': this.currentDrop === 'ourPlan',
     'divs-pos-review-plan': this.currentDrop === 'renewPlan',
     'divs-pos-support-plan': this.currentDrop === 'support'
@@ -61,14 +61,36 @@
         <div>{{ plan.Planname }}</div>
 
     </div>
+</div> -->
+<!-- Our Plans & Renew Plan Dropdown -->
+<div class="drop-divs" #dropdownRef [ngClass]="{
+    'divs-pos-our-plan': currentDrop === 'ourPlan',
+    'divs-pos-review-plan': currentDrop === 'renewPlan'
+  }" *ngIf="show && (currentDrop === 'ourPlan' || currentDrop === 'renewPlan')">
+    <div class="drops" *ngFor="let plan of dropDownValues"
+        (click)="performAction(currentDrop, plan.Planname); $event.stopPropagation()">
+        <img [src]="plan.src" alt="{{plan.Planname}}">
+        <div>{{ plan.Planname }}</div>
+    </div>
 </div>
+
+
+<!-- Support Dropdown (Separate) -->
+<div class="drop-divs support-dropdown" #supportDropdownRef [class.divs-pos-support-plan]="currentDrop === 'support'"
+    *ngIf="show && currentDrop === 'support'">
+    <div class="drops" *ngFor="let item of dropDownValues"
+        (click)="handleSupportAction(item.Planname); $event.stopPropagation()">
+        <img [src]="item.src" alt="{{item.Planname}}">
+        <div>{{ item.Planname }}</div>
+    </div>
+</div>
+
 <div class="profile-div" *ngIf="this.showProfile">
-    <div class="profile-div-btns bd-btm"><img src="../../assets/svg/cart.svg" class="logout"><span>My Plan</span></div>
+    <div class="profile-div-btns bd-btm"><img src="../../assets/svg/cart.svg" class="logout"><span>My Plan</span>
+    </div>
     <div class="profile-div-btns" (click)="logout()"><img src="../../assets/svg/logout.svg"
             class="logout"><span>Logout</span></div>
 </div>
-
-
 
 <!-- Right side Offcanvas -->
 <div class="offcanvas offcanvas-end" #offcanvasRef tabindex="-1" id="mobileOffcanvas"
@@ -79,23 +101,60 @@
             (click)="clearData()"></button>
     </div>
     <div class="offcanvas-body">
-        <!-- Yahan apna mobile menu ya plans dal sakta hai -->
+        <!-- Our Plans Section -->
         <div (click)="applyClasses('ourPlan')" class="plan-head"> Our Plans</div>
         <div *ngIf="activeDropdown === 'ourPlan'" class="plan-head-div">
-            <div  *ngFor="let plan of dropDownValues" class="drops1"  (click)="performAction('ourPlan', plan.Planname)">
+            <div *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('ourPlan', plan.Planname)">
                 <img [src]="plan.src" class="">
-                <span class="list-group-item" class="plan-spans"
-                   >
+                <span class="list-group-item plan-spans">
+                    {{ plan.Planname }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Support Section - Updated to use handleSupportAction -->
+        <div (click)="applyClasses('support')" class="plan-head">Support</div>
+        <div *ngIf="activeDropdown === 'support'" class="plan-head-div">
+            <div *ngFor="let plan of dropDownValues" class="drops1" (click)="handleSupportAction(plan.Planname)">
+                <img [src]="plan.src" class="">
+                <span class="list-group-item plan-spans">{{ plan.Planname }}</span>
+            </div>
+        </div>
+
+        <div (click)="applyClasses('renewPlan')" class="plan-head">Renew Plan</div>
+
+        <button class="talk-expert1">
+            <img src="../../assets/svg/expert.svg">
+            <span>Talk To Expert</span>
+        </button>
+    </div>
+</div>
+
+<!-- Right side Offcanvas -->
+<!--
+<div class="offcanvas offcanvas-end" #offcanvasRef tabindex="-1" id="mobileOffcanvas"
+    aria-labelledby="mobileOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 id="mobileOffcanvasLabel ">Menu</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
+            (click)="clearData()"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- Yahan apna mobile menu ya plans dal sakta hai -->
+<!--   <div (click)="applyClasses('ourPlan')" class="plan-head"> Our Plans</div>
+        <div *ngIf="activeDropdown === 'ourPlan'" class="plan-head-div">
+            <div *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('ourPlan', plan.Planname)">
+                <img [src]="plan.src" class="">
+                <span class="list-group-item" class="plan-spans">
                     {{ plan.Planname }}
                 </span>
             </div>
         </div>
         <div (click)="applyClasses('support')" class="plan-head">Support</div>
         <div *ngIf="activeDropdown === 'support'" class="plan-head-div">
-            <div  *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('support', plan.Planname)">
+            <div *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('support', plan.Planname)">
                 <img [src]="plan.src" class="">
-                <span class="list-group-item" class="plan-spans"
-                    >
+                <span class="list-group-item" class="plan-spans">
                     {{ plan.Planname }}
                 </span>
             </div>
@@ -108,4 +167,4 @@
 
 
     </div>
-</div>
+</div> -->
