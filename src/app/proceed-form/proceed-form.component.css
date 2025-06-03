@@ -228,7 +228,7 @@
   font-weight: 500;
   margin-left: 1em;
   text-decoration: line-through;
-  font-size: 1.2em;
+  font-size: 1.1em;
 }
 .detail-area {
   width: 70%;
@@ -305,7 +305,7 @@ button:disabled {
   font-weight: 600;
 }
 .tot-price{
-  font-size: 1.8em;
+  font-size: 1.5em;
   font-style: italic;
   color: #2fc53c;
   font-weight: 600;

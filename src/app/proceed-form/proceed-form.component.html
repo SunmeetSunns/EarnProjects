@@ -5,7 +5,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="side-head">
-        <div class="plan-name gradient-text">{{this.selectedPlanDetails?.name}}</div>
+        <div class="plan-name">{{this.selectedPlanDetails?.name}}</div>
         <span class="plan-desc">{{this.selectedPlanDetails?.description}}</span>
       </div>
       <div class="sidebar-items">
@@ -19,7 +19,7 @@
         </div>
         <div class="side-align">
           <div class="side-item">Payment frequency</div>
-          <select class="side-ans" (change)="calculateAmt($event)">
+          <select class="side-ans" (change)="calculateAmt($event)" [(ngModel)]="payFrequency">
             <option value="Monthly">Monthly</option>
             <option value="Yearly">Yearly</option>
           </select>
@@ -103,12 +103,19 @@
               <ng-container *ngIf="plan === 'student'">
                 <div class="form-field" *ngFor="let f of studentFields">
                   <label class="side-align">{{ f.label }}</label>
-
                   <!-- Dropdown -->
-                  <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
-                    <option value="" disabled selected>Select {{ f.label }}</option>
-                    <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
-                  </select>
+                  <ng-container *ngIf="f.type === 'dropdown'">
+                    <select *ngIf="!otherValues[f.field]" class="form-ans form-control" [formControlName]="f.field"
+                      (change)="onDropdownChange(f.field)">
+                      <option value="" disabled selected>Select {{ f.label }}</option>
+                      <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                      <option value="Other">Other</option>
+                    </select>
+
+                    <!-- Input shown when "Other" is selected -->
+                    <input *ngIf="otherValues[f.field]" class="form-ans form-control" [formControlName]="f.field"
+                      placeholder="Please specify" (blur)="onOtherValueBlur(f.field)" />
+                  </ng-container>
 
                   <!-- Text input -->
                   <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control"
@@ -168,10 +175,18 @@
                   <label class="side-align">{{ a.label }}</label>
 
                   <!-- If dropdown -->
-                  <select *ngIf="a.type === 'dropdown'" class="form-ans form-control" [formControlName]="a.field">
-                    <option value="" disabled selected>Select {{ a.label }}</option>
-                    <option *ngFor="let opt of a.options" [value]="opt">{{ opt }}</option>
-                  </select>
+                  <ng-container *ngIf="a.type === 'dropdown'">
+                    <select *ngIf="!otherValues[a.field]" class="form-ans form-control" [formControlName]="a.field"
+                      (change)="onDropdownChange(a.field)">
+                      <option value="" disabled selected>Select {{ a.label }}</option>
+                      <option *ngFor="let opt of a.options" [value]="opt">{{ opt }}</option>
+                      <option value="Other">Other</option>
+                    </select>
+
+                    <input *ngIf="otherValues[a.field]" class="form-ans form-control" [formControlName]="a.field"
+                      placeholder="Please specify" (blur)="onOtherValueBlur(a.field)" />
+                  </ng-container>
+
 
                   <!-- If text input -->
                   <input *ngIf="a.type === 'text' || !a.type" class="form-ans form-control"
@@ -191,10 +206,18 @@
               <ng-container *ngIf="plan === 'student'">
                 <div class="form-field" *ngFor="let f of studentFieldsStep2">
                   <label class="side-align">{{ f.label }}</label>
-                  <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
-                    <option value="" disabled selected>Select {{ f.label }}</option>
-                    <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
-                  </select>
+                  <ng-container *ngIf="f.type === 'dropdown'">
+                    <select *ngIf="!otherValues[f.field]" class="form-ans form-control" [formControlName]="f.field"
+                      (change)="onDropdownChange(f.field)">
+                      <option value="" disabled selected>Select {{ f.label }}</option>
+                      <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                      <option value="Other">Other</option>
+                    </select>
+
+                    <input *ngIf="otherValues[f.field]" class="form-ans form-control" [formControlName]="f.field"
+                      placeholder="Please specify" (blur)="onOtherValueBlur(f.field)" />
+                  </ng-container>
+
                   <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control"
                     [formControlName]="f.field" />
                   <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
@@ -205,10 +228,18 @@
               <ng-container *ngIf="plan === 'professional'">
                 <div class="form-field" *ngFor="let f of professionalFieldsStep2">
                   <label class="side-align">{{ f.label }}</label>
-                  <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
-                    <option value="" disabled selected>Select {{ f.label }}</option>
-                    <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
-                  </select>
+                  <ng-container *ngIf="f.type === 'dropdown'">
+                    <select *ngIf="!otherValues[f.field]" class="form-ans form-control" [formControlName]="f.field"
+                      (change)="onDropdownChange(f.field)">
+                      <option value="" disabled selected>Select {{ f.label }}</option>
+                      <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                      <option value="Other">Other</option>
+                    </select>
+
+                    <input *ngIf="otherValues[f.field]" class="form-ans form-control" [formControlName]="f.field"
+                      placeholder="Please specify" (blur)="onOtherValueBlur(f.field)" />
+                  </ng-container>
+
                   <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control"
                     [formControlName]="f.field" />
                   <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
@@ -219,10 +250,18 @@
               <ng-container *ngIf="plan === 'agency'">
                 <div class="form-field" *ngFor="let f of agencyFieldsStep2">
                   <label class="side-align">{{ f.label }}</label>
-                  <select *ngIf="f.type === 'dropdown'" class="form-ans form-control" [formControlName]="f.field">
-                    <option value="" disabled selected>Select {{ f.label }}</option>
-                    <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
-                  </select>
+                  <ng-container *ngIf="f.type === 'dropdown'">
+                    <select *ngIf="!otherValues[f.field]" class="form-ans form-control" [formControlName]="f.field"
+                      (change)="onDropdownChange(f.field)">
+                      <option value="" disabled selected>Select {{ f.label }}</option>
+                      <option *ngFor="let opt of f.options" [value]="opt">{{ opt }}</option>
+                      <option value="Other">Other</option>
+                    </select>
+
+                    <input *ngIf="otherValues[f.field]" class="form-ans form-control" [formControlName]="f.field"
+                      placeholder="Please specify" (blur)="onOtherValueBlur(f.field)" />
+                  </ng-container>
+
                   <input *ngIf="f.type === 'text' || !f.type" class="form-ans form-control"
                     [formControlName]="f.field" />
                   <div class="error" *ngIf="isFieldInvalid(f.field)">{{ f.label }} is required.</div>
@@ -242,8 +281,8 @@
   <div class="form-navigation">
     <div class="form-tot">
       <div class="tot-name">Total Payable Amount: </div>
-      <div class="tot-price">₹ {{this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price}}</div>
-      <div class="discount">₹ {{this.selectedPlanDetails?.yearlyDiscount}}</div>
+      <div class="tot-price">₹ {{this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price}}/-</div>
+      <div class="discount" >₹ {{yearlyDiscount ? yearlyDiscount :this.selectedPlanDetails?.yearlyDiscount}}/-</div>
     </div>
     <div class="form-btn">
       <button type="button" (click)="previousStep()" class="rev-b1" [disabled]="stepIndex=== 1">PREVIOUS</button>

@@ -2,14 +2,14 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../app/enviornments/enviornment';
+import { enviornment } from '../../enviornments/enviornment';
 import { Observable } from 'rxjs';
-
+// https://earnprojects-backend.onrender.com
 @Injectable({
   providedIn: 'root'
 })
 export class HttpWrapperService {
-  private baseUrl = environment.baseUrl;
+  private baseUrl = enviornment.baseUrl;
 
   constructor(private http: HttpClient) {}
 

@@ -302,3 +302,8 @@
         width: 90% !important;
     }
 }
+.grid-3-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem; /* space between cards */
+}

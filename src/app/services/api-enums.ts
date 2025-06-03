@@ -7,6 +7,9 @@ export const Api = {
   getUser: 'api/admin/user',
   sendOtp:'api/auth/send-otp',
   getCategorylans:'api/user/get-category-wise-plans',
-  savePrefference:'api/user/save-prefference'
+  savePrefference:'api/user/save-prefference',
+  forgotPass:'api/auth/forgot-password',
+  changePassword:'api/auth/reset-password'
+  
   // Add more endpoints as needed
 };

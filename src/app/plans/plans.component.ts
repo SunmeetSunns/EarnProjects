@@ -28,17 +28,7 @@ export class PlansComponent implements OnInit {
 
   allPlans: any = [
    
-    {
-      name: '',
-      price: '',
-      yearlyDiscount: '',
-      category: '',
-      description: '.',
-      features: [
-       ''
-      ],
-      popular: true
-    },
+   
    
   ];
 

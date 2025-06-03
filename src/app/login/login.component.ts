@@ -17,11 +17,13 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMsg: String = '';
   authToken: any;
-  showPassword: boolean=false;
+  showPassword: boolean = false;
+  successText: any = '';
+  dangerText = '';
   ngOnInit(): void {
     this.buildForm();
   }
-  constructor(private formBuilder: FormBuilder, public router: Router, private ApiService: HttpWrapperService,public loginService:LoginServiceService) {
+  constructor(private formBuilder: FormBuilder, public router: Router, private ApiService: HttpWrapperService, public loginService: LoginServiceService) {
 
   }
   buildForm(): void {
@@ -50,15 +52,42 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('isLoggedIn', 'true');
           sessionStorage.setItem('authToken', this.authToken);
           sessionStorage.setItem('user', JSON.stringify(res?.user));
-          sessionStorage.setItem('havePreference',res?.user?.havePreference.toString())
-           this.loginService.setLoginStatus(true);
-          const user=res?.user
+          sessionStorage.setItem('havePreference', res?.user?.havePreference.toString())
+          this.loginService.setLoginStatus(true);
+          const user = res?.user
           this.router.navigate([`/plans/${user?.category}`]);
+        }
+        if (res?.status == 201) {
+          this.dangerText = res?.message
+          this.showSuccessToast()
         }
       })
     }
   }
+  forgotPass() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched()
+    };
+    let body = {
+      email: this.loginForm.get('username').value
+    }
+    this.ApiService.post(Api.forgotPass, body).subscribe((res: any) => {
+      if (res?.status == 200) {
+        this.successText = res?.message
+        this.showSuccessToast()
+
+      }
+    })
+  }
   togglePassword() {
-  this.showPassword = !this.showPassword;
-}
+    this.showPassword = !this.showPassword;
+  }
+  showToast = false;
+
+  showSuccessToast() {
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+    }, 9000);
+  }
 }

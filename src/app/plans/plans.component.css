@@ -74,6 +74,17 @@
   .card-body {
     padding: 0.3em !important;
   }
+   .plans{
+    padding: 2em !important;
+  }
+  .discount-div{
+    flex-direction: column !important;
+  }
+}
+@media (min-width: 468px) and (max-width: 1000px) {
+ .discount-div{
+    flex-direction: column !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -89,6 +100,22 @@
 
   .card-body {
     padding: 0.3em !important;
+  }
+
+  .price {
+    font-size: 1.5rem !important;
+  }
+
+  .discount {
+    font-size: 1em !important;
+    text-decoration: none !important;
+  }
+  .disPerc{
+  padding: 0.1em 0.2em !important;
+   margin-left: 0.3em !important;
+  }
+  .plans{
+    padding: 1em !important;
   }
 }
 
@@ -174,11 +201,13 @@
   border-radius: 8px;
 
 }
-.disPerc2{
+
+.disPerc2 {
   color: #16A361;
   font-size: 1em;
   text-align: center;
 }
+
 .description {
   color: #757575;
   font-size: 0.95em;

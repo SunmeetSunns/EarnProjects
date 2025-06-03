@@ -21,11 +21,15 @@ export class SignupComponent implements OnInit, OnDestroy {
   errorMsg: string = '';
   selectedCategory: string = '';
   signUp: boolean;
-  otp: any;
   otpVerified: boolean = false;
   successText: string = '';
   dangerText: any;
-
+otpDigits: string[] = ['', '', '', '', '', ''];
+otpArray = new Array(6).fill(0);
+otpError: string = '';
+shakeOtp = false;
+timer: number = 30;
+timerInterval: any;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -83,6 +87,10 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.router.navigate(['/login']);
 
     }
+    if (this.signForm.valid && !action && !this.otpVerified) {
+      this.dangerText = 'Please Validate OTP first';
+      this.showSuccessToast();
+    }
     if (this.otpVerified) {
       let body = {
         email: this.signForm.get('mail').value,
@@ -122,6 +130,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.modal.dismissAll()
   }
   sendOtp(modalName: any) {
+    
     this.dangerText = ''
     this.successText = ''
     let body = {
@@ -130,8 +139,11 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.Apiservice.post(Api.sendOtp, body).subscribe((res: any) => {
       if (res) {
         if (res?.Status == 200) {
+          this.startTimer()
           this.successText = res?.message;
-          this.modal.open(modalName, { size: 'md', keyboard: false, backdrop: 'static' })
+          this.modal.open(modalName, { size: 'lg', keyboard: false, backdrop: 'static' })
+          console.log("OTP ARRAY LENGTH:", this.otpArray.length);
+
         }
         if (res?.Status == 201) {
           this.dangerText = res?.message
@@ -141,33 +153,49 @@ export class SignupComponent implements OnInit, OnDestroy {
       }
     })
   }
-  verifyOtp() {
-    this.successText = ''
-    this.dangerText = '';
-    let body = {
-      email: this.signForm.get('mail').value,
-      otp: this.otp
-    }
-    this.Apiservice.post(Api.verifyOtp, body).subscribe((res: any) => {
-      if (res) {
-        if (res?.status == 200) {
-          this.successText = res?.message;
-          this.modal.dismissAll();
-          this.otpVerified = true;
-          this.showSuccessToast();
-           
-          this.signForm.get('mail').disable();
-        }
-        if (res?.status == 201) {
-          this.dangerText = res?.message;
-          this.showSuccessToast()
-        }
 
-       
-      }
-    })
+verifyOtp() {
+  this.successText = '';
+  this.dangerText = '';
+  this.otpError = '';
 
+  if (this.otp.length < 6) {
+    this.otpError = 'Please enter the complete 6-digit OTP.';
+    this.triggerShake();
+    return;
   }
+
+  const body = {
+    email: this.signForm.get('mail')?.value,
+    otp: this.otp // from getter this.otpDigits.join('')
+  };
+
+  this.Apiservice.post(Api.verifyOtp, body).subscribe((res: any) => {
+    if (res?.status === 200) {
+      this.successText = res?.message;
+      this.modal.dismissAll();
+      this.otpVerified = true;
+      this.showSuccessToast();
+
+      this.signForm.get('mail')?.disable();
+    } else if (res?.status === 201) {
+      this.dangerText = res?.message;
+      this.otpError = res?.message;
+      this.triggerShake();
+      this.showSuccessToast();
+    } else {
+      this.dangerText = 'Something went wrong.';
+      this.otpError = 'Something went wrong.';
+      this.triggerShake();
+    }
+  }, (err) => {
+    this.dangerText = 'Server error, please try again.';
+    this.otpError = 'Server error, please try again.';
+    this.triggerShake();
+  });
+}
+
+  
   showToast = false;
 
   showSuccessToast() {
@@ -176,4 +204,71 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.showToast = false;
     }, 9000);
   }
+  onOtpInput(event: any, index: number) {
+  const input = event.target;
+  const value = input.value;
+
+  if (value.length === 1 && index < 5) {
+    const nextInput = document.getElementById(`otp-${index + 1}`);
+    (nextInput as HTMLInputElement)?.focus();
+  }
+
+  this.otpDigits[index] = value.charAt(0);
+}
+
+onOtpKeyDown(event: KeyboardEvent, index: number) {
+  const key = event.key;
+  if (key === 'Backspace' && !this.otpDigits[index] && index > 0) {
+    const prevInput = document.getElementById(`otp-${index - 1}`);
+    (prevInput as HTMLInputElement)?.focus();
+  }
+}
+
+get otp(): string {
+  return this.otpDigits.join('');
+}
+triggerShake() {
+  this.shakeOtp = true;
+  setTimeout(() => this.shakeOtp = false, 300);
+}
+
+startTimer() {
+  this.timer = 30;
+  this.timerInterval = setInterval(() => {
+    if (this.timer > 0) {
+      this.timer--;
+    } else {
+      clearInterval(this.timerInterval);
+    }
+  }, 1000);
+}
+resendOtp() {
+  this.dangerText = '';
+  this.successText = '';
+   this.otpDigits = ['', '', '', '', '', ''];
+  this.otpError = '';
+  let body = {
+    email: this.signForm.get('mail').value
+  };
+
+  this.Apiservice.post(Api.sendOtp, body).subscribe((res: any) => {
+    if (res) {
+      if (res?.Status == 200) {
+        this.startTimer();  // timer fir se reset karna
+        this.successText = res?.message;
+       
+      } 
+      else if (res?.Status == 201) {
+        this.dangerText = res?.message;
+       // agar tu error toast bhi dikhata h to
+      }
+    }
+     this.showSuccessToast();
+  }, (error) => {
+    this.dangerText = "Something went wrong, please try again.";
+   this.showSuccessToast();
+  });
+}
+
+
 }

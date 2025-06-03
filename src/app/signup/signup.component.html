@@ -133,14 +133,31 @@
     <div class="modal-content">
       <h3>Enter OTP</h3>
       <p>We’ve sent an OTP to your email address.</p>
-      <input type="text" maxlength="6" placeholder="Enter OTP" [(ngModel)]="otp" />
+
+      <div class="otp-boxes" [class.shake]="shakeOtp">
+        <input type="text" maxlength="1" *ngFor="let digit of otpArray; let i = index"
+               [(ngModel)]="otpDigits[i]"
+               (input)="onOtpInput($event, i)"
+               (keydown)="onOtpKeyDown($event, i)"
+               [attr.id]="'otp-' + i"
+               autocomplete="off" />
+      </div>
+
+      <div class="error" *ngIf="otpError">{{ otpError }}</div>
+
       <div class="modal-actions">
         <button (click)="verifyOtp()">Submit</button>
         <button class="cancel" (click)="closeOtpModal()">Cancel</button>
       </div>
+
+      <div class="resend-otp">
+        <button [disabled]="timer > 0" (click)="resendOtp()" class="resend-otp-btn">Resend OTP</button>
+        <span *ngIf="timer > 0">Resend in {{ timer }}s</span>
+      </div>
     </div>
   </div>
 </ng-template>
+
 
 <div
   class="toast-container position-fixed top-0 end-0 p-3"

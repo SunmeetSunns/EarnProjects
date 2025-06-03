@@ -8,30 +8,70 @@
             <div>Review below details before proceeding</div>
             <span>These cannot be changed at a later stage</span>
         </div>
-        <div class="review-edits" >
+        <div class="review-edits">
             <div *ngIf="fieldData?.plan=='student'" class="plan-alignment">
-                 <div class="review-edits-title" >
-                <div class="box-test">
-                    <div class="box-test-head">Name</div>
-                    <div class="box-test-foot">{{fieldData?.fullName}}</div>
+                <div class="review-edits-title">
+                    <div class="box-test">
+                        <div class="box-test-head">Name</div>
+                        <div class="box-test-foot">{{fieldData?.fullName}}</div>
+                    </div>
+                    <div class="box-test">
+                        <div class="box-test-head">Date of Birth</div>
+                        <div class="box-test-foot">{{formatDate(fieldData?.dob)}}</div>
+                    </div>
                 </div>
-                <div class="box-test">
-                    <div class="box-test-head">Date of Birth</div>
-                    <div class="box-test-foot">{{formatDate(fieldData?.dob)}}</div>
+                <div class="review-edits-title">
+                    <div class="box-test">
+                        <div class="box-test-head">Email</div>
+                        <div class="box-test-foot">{{fieldData?.email}}</div>
+                    </div>
+                    <div class="box-test">
+                        <div class="box-test-head">Mobile Number</div>
+                        <div class="box-test-foot">{{fieldData?.phoneNumber}}</div>
+                    </div>
                 </div>
             </div>
-            <div class="review-edits-title" >
-                <div class="box-test">
-                    <div class="box-test-head">Email</div>
-                    <div class="box-test-foot">{{fieldData?.email}}</div>
+            <div *ngIf="fieldData?.plan=='professional'" class="plan-alignment">
+                <div class="review-edits-title">
+                    <div class="box-test">
+                        <div class="box-test-head">Name</div>
+                        <div class="box-test-foot">{{fieldData?.fullName}}</div>
+                    </div>
+                    <div class="box-test">
+                        <div class="box-test-head">Date of Birth</div>
+                        <div class="box-test-foot">{{formatDate(fieldData?.dob)}}</div>
+                    </div>
                 </div>
-                <div class="box-test">
-                    <div class="box-test-head">Mobile Number</div>
-                    <div class="box-test-foot">{{fieldData?.phoneNumber}}</div>
+                <div class="review-edits-title">
+                    <div class="box-test">
+                        <div class="box-test-head">Email</div>
+                        <div class="box-test-foot">{{fieldData?.email}}</div>
+                    </div>
+                    <div class="box-test">
+                        <div class="box-test-head">Mobile Number</div>
+                        <div class="box-test-foot">{{fieldData?.phoneNumber}}</div>
+                    </div>
                 </div>
             </div>
+            <div *ngIf="fieldData?.plan=='agency'" class="plan-alignment">
+                <div class="review-edits-title">
+                    <div class="box-test">
+                        <div class="box-test-head">Agency Name</div>
+                        <div class="box-test-foot">{{fieldData?.agencyName}}</div>
+                    </div>
+                    <div class="box-test">
+                        <div class="box-test-head">Website</div>
+                        <div class="box-test-foot">{{fieldData?.website}}</div>
+                    </div>
+                </div>
+                <div class="review-edits-title">
+                    <div class="box-test">
+                        <div class="box-test-head">Location</div>
+                        <div class="box-test-foot">{{fieldData?.location}}</div>
+                    </div>
+
+                </div>
             </div>
-           
             <!-- Additional Information Section -->
             <div class="review-edits-title">
                 <div class="toggle-section">
@@ -44,64 +84,104 @@
 
                     <div class="toggle-body"
                         [ngClass]="{ 'open': activeSection === 'additional', 'closed': activeSection !== 'additional' }">
-                        <!-- Yaha tera custom content for Additional Information -->
-                        <div class="gap-review">Personal Details</div>
-                        <div class="review-edits-title gap-review">
-                            <div class="box-test">
-                                <div class="box-test-head">Name</div>
-                                <div class="box-test-foot">sunmeet</div>
+
+                        <!-- 👨‍🎓 Student -->
+                        <ng-container *ngIf="fieldData?.plan === 'student'">
+                            <div class="gap-review ">Educational Details</div>
+                            <div class="grid-3-cols">
+                                <div class="review-edits-title gap-review " *ngFor="let f of studentFields">
+                                    <div class="box-test">
+                                        <div class="box-test-head">{{ f.field }}</div>
+                                        <div class="box-test-foot">{{ f.value }}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="box-test">
-                                <div class="box-test-head">Date of Birth</div>
-                                <div class="box-test-foot">04/02/2002</div>
+
+
+                            <div class="gap-review">Preference Details</div>
+                            <div class="grid-3-cols">
+                                <div class="review-edits-title gap-review" *ngFor="let f of studentFieldsStep2">
+                                    <div class="box-test">
+                                        <div class="box-test-head">{{ f.field }}</div>
+                                        <div class="box-test-foot">{{ f.value }}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="box-test">
-                                <div class="box-test-head">Date of Birth</div>
-                                <div class="box-test-foot">04/02/2002</div>
+
+                        </ng-container>
+
+                        <!-- 👨‍💼 Professional -->
+                        <ng-container *ngIf="fieldData?.plan === 'professional'">
+                            <div class="gap-review">Work Details</div>
+                            <div class="grid-3-cols">
+                                <div class="review-edits-title gap-review" *ngFor="let f of professionalFields">
+                                    <div class="box-test">
+                                        <div class="box-test-head">{{ f.field }}</div>
+                                        <div class="box-test-foot">{{ f.value }}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="review-edits-title gap-review">
-                            <div class="box-test">
-                                <div class="box-test-head">Name</div>
-                                <div class="box-test-foot">sunmeet</div>
+
+
+                            <div class="gap-review">Preference Details</div>
+                            <div class="grid-3-cols">
+                                <div class="review-edits-title gap-review" *ngFor="let f of professionalFieldsStep2">
+                                    <div class="box-test">
+                                        <div class="box-test-head">{{ f.field }}</div>
+                                        <div class="box-test-foot">{{ f.value }}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="box-test">
-                                <div class="box-test-head">Date of Birth</div>
-                                <div class="box-test-foot">04/02/2002</div>
+
+                        </ng-container>
+
+                        <!-- 🏢 Agency -->
+                        <ng-container *ngIf="fieldData?.plan === 'agency'">
+
+                            <div class="gap-review">Agency Information</div>
+                            <div class="grid-3-cols">
+                                <div class="review-edits-title gap-review" *ngFor="let f of agencyFields">
+                                    <div class="box-test">
+                                        <div class="box-test-head">{{ f.field }}</div>
+                                        <div class="box-test-foot">{{ f.value }}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="box-test">
-                                <div class="box-test-head">Date of Birth</div>
-                                <div class="box-test-foot">04/02/2002</div>
+
+
+                            <div class="gap-review">Operations & Preferences</div>
+                            <div class="grid-3-cols">
+                                <div class="review-edits-title gap-review" *ngFor="let f of agencyFieldsStep2">
+                                    <div class="box-test">
+                                        <div class="box-test-head">{{ f.field }}</div>
+                                        <div class="box-test-foot">{{ f.value }}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="gap-review">Skills and Experience Details</div>
-                        <div class="review-edits-title gap-review">
-                            <div class="box-test">
-                                <div class="box-test-head">Name</div>
-                                <div class="box-test-foot">sunmeet</div>
-                            </div>
-                            <div class="box-test">
-                                <div class="box-test-head">Date of Birth</div>
-                                <div class="box-test-foot">04/02/2002</div>
-                            </div>
-                            <div class="box-test">
-                                <div class="box-test-head">Date of Birth</div>
-                                <div class="box-test-foot">04/02/2002</div>
-                            </div>
-                        </div>
+
+                        </ng-container>
+
+                        <!-- 🔖 Plan Details -->
                         <div class="gap-review">Plan Details</div>
-                        <div class="review-edits-title gap-review">
-                            <div class="box-test">
-                                <div class="box-test-head">Name</div>
-                                <div class="box-test-foot">sunmeet</div>
+                        <div class="grid-3-cols">
+                            <div class="review-edits-title gap-review">
+                                <div class="box-test">
+                                    <div class="box-test-head">Payment Frequency</div>
+                                    <div class="box-test-foot">{{fieldData?.paymentFrequency}}</div>
+                                </div>
+
                             </div>
-                            <div class="box-test">
-                                <div class="box-test-head">Date of Birth</div>
-                                <div class="box-test-foot">04/02/2002</div>
+                            <div class="review-edits-title gap-review">
+                                <div class="box-test">
+                                    <div class="box-test-head">No Of Projects</div>
+                                    <div class="box-test-foot">{{fieldData?.noOfProj}}</div>
+                                </div>
                             </div>
 
                         </div>
+
                     </div>
+
                 </div>
             </div>
 
@@ -125,7 +205,7 @@
             </div>
 
         </div>
-        
+
         <div class="review-agree">
             <input type="checkbox" class="agree-check">
             <div class="review-agree-title">I agree to the terms and conditions
@@ -136,10 +216,10 @@
     <div class="review-foot">
         <div class="tot-prem">
             <div class="prem-text">Total Premium</div>
-            <div class="prem-num">₹ {{fieldData?.amount}}</div>
+            <div class="prem-num">₹ {{fieldData?.amount}}/-</div>
         </div>
         <div class="rev-btn">
-            <button class="rev-b1">EDIT DETAILS</button>
+            <button class="rev-b1" (click)="editDetails()">EDIT DETAILS</button>
             <button class="rev-b2">CHECKOUT</button>
         </div>
     </div>
