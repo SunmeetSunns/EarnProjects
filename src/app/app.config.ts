@@ -2,8 +2,10 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { withInterceptors,provideHttpClient } from '@angular/common/http';
-import { AuthInterceptor } from './auth.interceptor'; // interceptor ka path sahi set kar lena
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+
+import { AuthInterceptor } from './auth.interceptor'; // ✅ path check kar lena
+import { SpinnerInterceptor } from './spinner.interceptor'; // ✅ path check kar lena
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,9 +16,11 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientHydration(),
 
-    // 👇 Yeh line add karo token inject karne ke liye
     provideHttpClient(
-      withInterceptors([AuthInterceptor])
+      withInterceptors([
+        AuthInterceptor,
+        SpinnerInterceptor // ✅ yeh line add ki
+      ])
     )
   ]
 };
