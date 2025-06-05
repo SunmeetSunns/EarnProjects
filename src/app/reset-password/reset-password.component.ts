@@ -78,7 +78,8 @@ export class ResetPasswordComponent implements OnInit {
     this.ApiService.post(Api.changePassword, payload).subscribe((res:any) => {
       if(res?.status==200){
         this.successText=res?.message;
-         this.showSuccessToast()
+         this.showSuccessToast();
+         this.router.navigate(['/login'])
       }
       if(res?.status==201){
         this.dangerText=res?.message;

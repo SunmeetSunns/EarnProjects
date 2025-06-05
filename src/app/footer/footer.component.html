@@ -37,21 +37,27 @@
     <div class="footer-section">
       <h4>COMPANY</h4>
       <span>About</span>
-      <span>Team</span>
 
     </div>
 
     <div class="footer-section">
       <h4>RESOURCES</h4>
       <span>Documentation</span>
-      <span>Support</span>
-      <span>FAQ</span>
+      <span (click)="performAction('support')">Support</span>
+      <span (click)="performAction('faq')">FAQ</span>
     </div>
 
     <div class="footer-section">
       <h4>LEGAL</h4>
-      <span>Privacy Policy</span>
-      <span>Terms of Service</span>
+      <span> <a href="../../assets/files/PrivacyPolicy.pdf" download="Privacy_Policy.pdf">Privacy Policy</a></span>
+      <!-- <span>Terms of Service</span> -->
+      <span>
+        <a href="../../assets/files/Terms&Conditions.pdf" download="Terms-and-Conditions.pdf">
+          Terms and Conditions
+        </a>
+      </span>
+
+
       <span>Cookie Policy</span>
     </div>
   </div>

@@ -86,8 +86,8 @@
 </div>
 
 <div class="profile-div" *ngIf="this.showProfile">
-    <div class="profile-div-btns bd-btm"><img src="../../assets/svg/cart.svg" class="logout"><span>My Plan</span>
-    </div>
+    <!-- <div class="profile-div-btns bd-btm"><img src="../../assets/svg/cart.svg" class="logout"><span>My Plan</span>
+    </div> -->
     <div class="profile-div-btns" (click)="logout()"><img src="../../assets/svg/logout.svg"
             class="logout"><span>Logout</span></div>
 </div>
@@ -121,9 +121,9 @@
             </div>
         </div>
 
-        <div (click)="applyClasses('renewPlan')" class="plan-head">Renew Plan</div>
+        <!-- <div (click)="applyClasses('renewPlan')" class="plan-head">Renew Plan</div> -->
 
-        <button class="talk-expert1">
+        <button class="talk-expert1" (click)="talkToExpert(studentForm)">
             <img src="../../assets/svg/expert.svg">
             <span>Talk To Expert</span>
         </button>

@@ -12,6 +12,18 @@ export class FooterComponent {
 
   }
   performAction(action: any) {
-    this.router.navigate(['/plans/all'])
+    if (action == 'pricing') {
+      this.router.navigate(['/plans/all'])
+    }
+    if (action == 'support') {
+      this.scrollToTop()
+    }
+    if(action=='faq'){
+      this.router.navigate(['/faq'])
+    }
+
+  }
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
