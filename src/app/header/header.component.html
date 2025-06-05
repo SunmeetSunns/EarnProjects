@@ -13,10 +13,10 @@
                 <span class="line"></span>
             </div>
 
-            <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('renewPlan')">
+            <!-- <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('renewPlan')">
                 <span class="head-heading">Renew Your Plan</span>
                 <span class="line"></span>
-            </div>
+            </div> -->
 
             <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('support')">
                 <span class="head-heading">Support</span>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="header-btns d-flex flex-row justify-content-between align-items-center ms-4">
-            <span class="expert-btn cursor-pointer">
+            <span class="expert-btn cursor-pointer" (click)="talkToExpert(studentForm)">
                 <img class="talk-expert" src="../../assets/svg/expert.svg" />Talk To Expert
             </span>
             <button class="head-btn" *ngIf="!isLoggedIn" (click)="routeToSignup()">Get Started</button>
@@ -168,3 +168,64 @@
 
     </div>
 </div> -->
+
+<ng-template #studentForm let-modal>
+    <div class="modal-header-pop">
+        <div class="heading-mod my-modal text-center w-100">
+            Please Enter you phone number to get call from expert.
+        </div>
+
+        <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+            <form *ngIf="expertForm" [formGroup]="expertForm" class="w-100 px-4" (ngSubmit)="submitForm()">
+
+                <!-- College Name -->
+                <div class="form-group mb-2">
+                    <label for="collegeName">Mobile Number</label>
+                    <input type="text" class="form-control" id="collegeName" formControlName="mobile"
+                        [ngClass]="{ 'redBorder': expertForm.get('mobile')?.invalid && expertForm.get('mobile')?.touched }">
+                    <span class="error"
+                        *ngIf="expertForm.get('mobile')?.hasError('required') && expertForm.get('mobile')?.touched">
+                        Mobile number is required
+                    </span>
+                    <span class="error"
+                        *ngIf="expertForm.get('mobile')?.hasError('minlength') && expertForm.get('mobile')?.touched">
+                        Mobile number must be 10 digits
+                    </span>
+                    <span class="error"
+                        *ngIf="expertForm.get('mobile')?.hasError('maxlength') && expertForm.get('mobile')?.touched">
+                        Mobile number must be 10 digits
+                    </span>
+                    <span class="error"
+                        *ngIf="expertForm.get('mobile')?.hasError('pattern') && expertForm.get('mobile')?.touched">
+                        Enter a valid mobile number (starting with 6-9)
+                    </span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="modal-footer d-flex flex-row justify-content-center mt-3">
+                    <button type="submit" class="btn pop-btn1" [disabled]="expertForm.invalid">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #successModal let-modal>
+  <div class="modal-header-pop text-center p-4" style="width: 100%;">
+    <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-3">
+
+      <!-- ✅ Success Icon -->
+      <img src="assets/svg/success.svg" alt="Success" style="width: 80px; height: 80px;" />
+
+      <!-- ✅ Success Text -->
+      <h5 class="text-success fw-bold mt-2">
+        {{ successMsg || 'Your request has been submitted successfully!' }}
+      </h5>
+
+      <!-- ✅ Optional Close Button -->
+      <button class="btn btn-success px-4 mt-3" (click)="modal.close()">
+        OK
+      </button>
+    </div>
+  </div>
+</ng-template>

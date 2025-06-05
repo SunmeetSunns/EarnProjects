@@ -339,3 +339,28 @@
     height: 2em;
     width: 2em;
 }
+.heading-mod{
+    font-size: 1.2rem;
+    font-weight: 700;
+padding: 1em;
+}
+.error{
+    color: red;
+    font-weight: 500;
+}
+.redBorder {
+    border: 1px solid #e80001 !important
+}
+.pop-btn1 {
+  background-color: #7C3AED;
+  color: white;
+  font-weight: bold;
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+}

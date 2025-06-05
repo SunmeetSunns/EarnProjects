@@ -210,8 +210,9 @@
 
 .description {
   color: #757575;
-  font-size: 0.95em;
+  font-size: 1em;
   margin-bottom: 3em;
+  font-weight: 500;
 
 }
 
@@ -275,6 +276,7 @@
 
 .error {
   color: red;
+  font-weight: 500;
 }
 
 .pop-btn:hover {

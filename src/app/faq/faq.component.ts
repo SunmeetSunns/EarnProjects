@@ -18,6 +18,10 @@ export class FaqComponent implements OnInit{
 constructor(){
 
 }
+scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 populateFaqs(){
 this.faqs=[
   {

@@ -12,7 +12,7 @@
       <div class="card-body" [ngClass]="{'mt-3':plan.popular}">
         <div>
           <h5 class="card-title">{{ plan.name }}</h5>
-          <p class="description">{{ plan.description }}</p>
+          <p class="description">"{{ plan.description }}"</p>
           <h2 class="price">₹{{ plan.price }}/month</h2>
           <div class="discount-div">
             <span class="discount">₹{{ plan.yearlyDiscount }}/month</span>

@@ -17,6 +17,10 @@
     margin-bottom: 1em;
 
 }
+.faq-btn:focus{
+    outline: none;
+    border: none;
+}
 
 .faq-head {
     text-align: center;

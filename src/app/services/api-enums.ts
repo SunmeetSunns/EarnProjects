@@ -9,7 +9,8 @@ export const Api = {
   getCategorylans:'api/user/get-category-wise-plans',
   savePrefference:'api/user/save-prefference',
   forgotPass:'api/auth/forgot-password',
-  changePassword:'api/auth/reset-password'
+  changePassword:'api/auth/reset-password',
+  talkToExpert:'api/auth/talk-to-expert',
   
   // Add more endpoints as needed
 };

@@ -29,6 +29,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/favicon",
+                "output": "/"
               }
             ],
             "styles": [
@@ -113,8 +118,14 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/favicon",
+                "output": "/"
               }
             ],
+
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"

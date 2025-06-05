@@ -90,7 +90,6 @@ patchUserDetails() {
         linkedinProfile: data.linkedinProfile || '',
 
         yearsOfExperience: data.yearsOfExperience || '',
-        totalWorkExperience: data.totalWorkExperience || '',
         projectDescriptions: data.projectDescriptions || '',
         resume: data.resume || '',
 
@@ -161,7 +160,6 @@ patchUserDetails() {
 
         // Professional
         yearsOfExperience: [''],
-        totalWorkExperience: [''],
         projectDescriptions: [''],
         resume: [''],
 

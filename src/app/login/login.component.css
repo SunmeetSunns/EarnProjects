@@ -70,7 +70,8 @@
 }
 
 .error {
-    color: #e80001
+    color: #e80001;
+    font-weight: 500;
 }
 
 .input-fields-in {

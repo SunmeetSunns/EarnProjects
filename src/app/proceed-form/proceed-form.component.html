@@ -155,12 +155,7 @@
                   <input class="form-ans form-control" formControlName="yearsOfExperience" />
                   <div class="error" *ngIf="isFieldInvalid('yearsOfExperience')">Years of Experience is required.</div>
                 </div>
-                <div class="form-field">
-                  <label class="side-align">Total Work Experience</label>
-                  <input class="form-ans form-control" formControlName="totalWorkExperience" />
-                  <div class="error" *ngIf="isFieldInvalid('totalWorkExperience')">Total Work Experience is required.
-                  </div>
-                </div>
+               
                 <div class="form-field">
                   <label class="side-align">Project Descriptions</label>
                   <textarea class="form-ans form-control" formControlName="projectDescriptions"></textarea>
@@ -287,7 +282,7 @@
           :this.selectedPlanDetails?.yearlyDiscount}}/-</span> </div>
     </div>
     <div class="form-btn">
-      <button type="button" (click)="previousStep()" class="rev-b1" [disabled]="stepIndex=== 1">PREVIOUS</button>
+      <button type="button" (click)="previousStep()" class="rev-b1" [disabled]="stepIndex=== 0">PREVIOUS</button>
       <button type="button" (click)="nextStep()" *ngIf="stepIndex < 2" class="rev-b2"
         [disabled]="!currentStepGroup.valid">PROCEED</button>
       <button type="submit" *ngIf="stepIndex=== 2" class="rev-b2" (click)="navigateToReview()">Review your

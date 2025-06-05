@@ -1,14 +1,18 @@
-import { Component, HostListener, AfterViewInit, ElementRef, Renderer2, ChangeDetectorRef, OnInit, NgZone } from '@angular/core';
+import { Component, HostListener, AfterViewInit, ElementRef, Renderer2, OnInit, NgZone, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { LoginServiceService } from '../services/login-service.service';
 import { Offcanvas } from 'bootstrap';  // bootstrap JS import
+import { FormControl, FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Api } from '../services/api-enums';
+import { HttpWrapperService } from '../services/api-service.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -16,7 +20,7 @@ export class HeaderComponent implements OnInit {
   @ViewChild('dropdownRef') dropdownRef!: ElementRef;
   @ViewChild('headerRef') headerRef!: ElementRef;
   @ViewChild('offcanvasRef', { static: false }) offcanvasRef!: ElementRef;
-
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
   isScrolled: boolean = false;
   dropDownValues: any[] = [];
   show: boolean = false;
@@ -25,8 +29,12 @@ export class HeaderComponent implements OnInit {
   showProfile: boolean = false;
   isLaptop: boolean = false;
   activeDropdown: string = '';
+  expertForm!: FormGroup;
+  successMsg: any;
 
-  constructor(private el: ElementRef, private renderer: Renderer2, public router: Router, private zone: NgZone, public loginService: LoginServiceService) { }
+  constructor(private el: ElementRef, private renderer: Renderer2, public router: Router,
+    private formBuilder: FormBuilder, private zone: NgZone,
+    public loginService: LoginServiceService, private modal: NgbModal,public ApiService:HttpWrapperService) { }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -50,6 +58,11 @@ export class HeaderComponent implements OnInit {
     if (!clickedInsideHeader && !clickedInsideDropdown) {
       this.show = false;
     }
+  }
+  buildForm() {
+    this.expertForm = this.formBuilder.group({
+      mobile: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^[6-9][0-9]{9}$')]],
+    });
   }
 
   ngAfterViewInit(): void {
@@ -79,7 +92,24 @@ export class HeaderComponent implements OnInit {
   }
 
 
-
+  submitForm() {
+    if (this.expertForm.invalid) {
+      this.expertForm.markAllAsTouched();
+      return;
+    }
+    let body={
+      phone:this.expertForm.get('mobile').value
+    }
+    this.ApiService.post(Api.talkToExpert,body).subscribe((res:any)=>{
+      if(res?.status==200){
+        this.modal.dismissAll()
+         this.successMsg=res?.message
+        this.modal.open(this.successModal,{size:'md',centered:true})
+       
+       
+      }
+    })
+  }
   checkWindowSize(): void {
     const isNowLaptop = window.innerWidth > 1024;
 
@@ -121,32 +151,32 @@ export class HeaderComponent implements OnInit {
   //   }
   // }
   applyClasses(plan: string) {
-  this.activeDropdown = this.activeDropdown === plan ? '' : plan;
-  this.currentDrop = plan;
+    this.activeDropdown = this.activeDropdown === plan ? '' : plan;
+    this.currentDrop = plan;
 
-  if (plan === 'renewPlan') {
-    this.show = false;
-    this.dropDownValues = [];
-    return;
+    if (plan === 'renewPlan') {
+      this.show = false;
+      this.dropDownValues = [];
+      return;
+    }
+
+    this.show = true;
+
+    if (plan === 'ourPlan') {
+      this.dropDownValues = [
+        { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
+        { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
+        { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
+        { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
+      ];
+    } else if (plan === 'support') {
+      this.dropDownValues = [
+        { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
+        { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
+        { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
+      ];
+    }
   }
-
-  this.show = true;
-
-  if (plan === 'ourPlan') {
-    this.dropDownValues = [
-      { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
-      { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
-      { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
-      { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
-    ];
-  } else if (plan === 'support') {
-    this.dropDownValues = [
-      { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
-      { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
-      { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
-    ];
-  }
-}
 
   performAction(actionName: any, choosePlan: any) {
     this.closeOffcanvas()
@@ -170,16 +200,16 @@ export class HeaderComponent implements OnInit {
   }
   //For supoorty dialog box
   handleSupportAction(planName: string) {
-  this.closeOffcanvas(); // Close the hamburger menu (offcanvas) first
+    this.closeOffcanvas(); // Close the hamburger menu (offcanvas) first
 
-  if (planName === 'WhatsApp') {
-    window.open('https://wa.me/9835490474', '_blank');
-  } else if (planName === 'Mail Us') {
-    window.location.href = 'mailto:abhishek.jha@earnprojects.com';
-  } else if (planName === 'Contact Us') {
-    window.location.href = 'tel:9835490474'; 
+    if (planName === 'WhatsApp') {
+      window.open('https://wa.me/9835490474', '_blank');
+    } else if (planName === 'Mail Us') {
+      window.location.href = 'mailto:abhishek.jha@earnprojects.com';
+    } else if (planName === 'Contact Us') {
+      window.location.href = 'tel:9835490474';
+    }
   }
-}
 
   logout() {
     this.showProfile = false;
@@ -210,5 +240,13 @@ export class HeaderComponent implements OnInit {
   }
 
 
-
+  talkToExpert(popup) {
+    this.buildForm()
+    this.modal.open(popup, {
+      size: 'md',
+      centered: true,
+      backdrop: 'static', // prevent click outside
+      keyboard: false     // prevent ESC close
+    });
+  }
 }
