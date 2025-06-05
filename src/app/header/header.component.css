@@ -132,7 +132,7 @@
 }
 
 .divs-pos-our-plan {
-    left: 46.8em;
+    left: 62.8em;
 }
 
 .divs-pos-review-plan {
@@ -140,7 +140,7 @@
 }
 
 .divs-pos-support-plan {
-    left: 64.1em;
+    left: 70em;
 }
 
 .drops {
@@ -363,4 +363,10 @@ padding: 1em;
   margin-bottom: 1em;
   transition: background-color 0.3s ease;
   width: fit-content;
+}
+
+.finger{
+    height: 2em;
+    width: 2em;
+    margin-right: 1em;
 }

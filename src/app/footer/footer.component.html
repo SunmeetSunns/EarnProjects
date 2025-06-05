@@ -36,7 +36,7 @@
 
     <div class="footer-section">
       <h4>COMPANY</h4>
-      <span>About</span>
+      <span  (click)="openAboutModal(aboutUs)">About</span>
 
     </div>
 
@@ -71,3 +71,54 @@
     </div>
   </div>
 </div>
+<ng-template #aboutUs let-modal>
+  <div class="modal-header-pop p-4" style="width: 100%; max-width: 650px; margin: auto; color: #222; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.close()"
+      style="float: right; font-size: 1.5rem; font-weight: 700; align-content: center;color: #555; opacity: 0.7; border: none; background: none; cursor: pointer;"
+   
+    >
+      &times;
+    </button>
+
+    <h2 style="color: #2c3e50; font-weight: 700; margin-bottom: 1rem; text-align: center;">
+      About Us 
+    </h2>
+<h4 style="color: #2c3e50; font-weight: 700; margin-bottom: 2rem; text-align: center;">✅ EarnProjects – Real Work. No Hustle.</h4>
+    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem; ">
+      At EarnProjects, we’re changing how skilled freelancers, students, and agencies find work.
+      No bidding, no cold emails, no delayed payments — just real, ready-to-start projects matched to your skills.
+    </p>
+
+    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">
+      You pick a subscription. We deliver quality projects. You focus on the work — and get paid directly by us.
+    </p>
+
+    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+      We’re already live with paying clients and freelance developers working on real assignments.
+    </p>
+
+    <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.6rem;">
+      EarnProjects is perfect for:
+    </p>
+
+    <ul style="margin-left: 1.2rem; margin-bottom: 1.5rem; color: #444; font-size: 1rem; line-height: 1.5;">
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger">Freelancers who want consistent work without chasing leads</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger">Students building portfolios and earning on the side</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger">Professionals shifting to freelance</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger">Agencies who want projects delivered — no sales involved</li>
+    </ul>
+
+    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">
+      We’re not another gig platform. We’re building a smart pipeline where talent meets trusted projects — with no time wasted.
+    </p>
+
+    <p style="font-size: 1rem; font-weight: 600; text-align: center; margin-top: 2rem;">
+      This is just the beginning.<br />
+      Join us. Work freely. Earn right.
+    </p>
+  </div>
+</ng-template>

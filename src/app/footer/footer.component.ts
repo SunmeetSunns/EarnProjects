@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-footer',
   standalone: true,
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-  constructor(private router: Router) {
+  constructor(private router: Router,private modal:NgbModal) {
 
   }
   performAction(action: any) {
@@ -26,4 +27,7 @@ export class FooterComponent {
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  openAboutModal(popup) {
+  this.modal.open(popup,{size:'lg',centered:true})
+}
 }

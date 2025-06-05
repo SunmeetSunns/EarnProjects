@@ -54,7 +54,11 @@ a {
   text-decoration: none;
 
 }
-
+.finger{
+    height: 2em;
+    width: 2em;
+    margin-right: 1em;
+}
 .icon {
   background-color: #fff;
   width: 32px;

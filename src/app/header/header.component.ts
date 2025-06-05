@@ -9,12 +9,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Api } from '../services/api-enums';
 import { HttpWrapperService } from '../services/api-service.service';
 
+
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
   @ViewChild('dropdownRef') dropdownRef!: ElementRef;
@@ -203,14 +204,23 @@ export class HeaderComponent implements OnInit {
     this.closeOffcanvas(); // Close the hamburger menu (offcanvas) first
 
     if (planName === 'WhatsApp') {
-      window.open('https://wa.me/9835490474', '_blank');
+      window.open('https://wa.me/7726936325', '_blank');
     } else if (planName === 'Mail Us') {
-      window.location.href = 'mailto:abhishek.jha@earnprojects.com';
+      window.location.href = 'mailto:ashok.choudhary@earnprojects.com';
     } else if (planName === 'Contact Us') {
-      window.location.href = 'tel:9835490474';
+      window.location.href = 'tel:7726936325';
     }
   }
+ aboutModalOpen = false;
 
+
+openAboutModal(popup) {
+  this.modal.open(popup,{size:'lg',centered:true})
+}
+
+  closeAboutModal() {
+    this.aboutModalOpen = false;
+  }
   logout() {
     this.showProfile = false;
     this.loginService.logout();
@@ -248,5 +258,8 @@ export class HeaderComponent implements OnInit {
       backdrop: 'static', // prevent click outside
       keyboard: false     // prevent ESC close
     });
+  }
+  close(){
+    this.modal.dismissAll()
   }
 }
