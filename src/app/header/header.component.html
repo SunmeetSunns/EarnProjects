@@ -2,7 +2,7 @@
     <div class="d-flex flex-row align-items-center cursor-pointer" [routerLink]="['/']">
         <!-- <video class="logo" autoplay muted loop src="../../assets/images/logo_v.mp4"></video>
           -->
-        <img class="logo" src="../../assets/images/hand_logo.png">
+        <img class="logo" src="../../assets/images/hand_logo.png" alt="logo">
         <h3 class="brand-name">EarnProjects</h3>
     </div>
 
@@ -30,21 +30,21 @@
 
         <div class="header-btns d-flex flex-row justify-content-between align-items-center ms-4">
             <span class="expert-btn cursor-pointer" (click)="talkToExpert(studentForm)">
-                <img class="talk-expert" src="../../assets/svg/expert.svg" />Talk To Expert
+                <img class="talk-expert" src="../../assets/svg/expert.svg" alt="talk-to-expert"/>Talk To Expert
             </span>
             <button class="head-btn" *ngIf="!isLoggedIn" (click)="routeToSignup()">Get Started</button>
             <!-- <button class="head-btn" (click)="routeToSignup()"></button> -->
-            <img class="profile" *ngIf="isLoggedIn" src="../../assets//svg/profile.svg" (click)="openProfile()">
+            <img class="profile" *ngIf="isLoggedIn" src="../../assets//svg/profile.svg" alt="profile"(click)="openProfile()">
         </div>
 
     </div>
     <div *ngIf="!isLaptop" class="d-flex">
         <!-- Hamburger Button (mobile only) -->
         <button class="btn-logout" (click)="logout()" *ngIf="isLoggedIn">
-            <img src="../../assets/svg/logout.svg">
+            <img src="../../assets/svg/logout.svg" alt="logout">
         </button>
         <button class="btn-logout" (click)="routeToSignup()" *ngIf="!isLoggedIn">
-            <img src="../../assets/svg/logout.svg">
+            <img src="../../assets/svg/logout.svg" alt="logout">
         </button>
         <button class=" d-flex btn-outline align-items-center" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#mobileOffcanvas" aria-controls="mobileOffcanvas">
@@ -92,7 +92,7 @@
 <div class="profile-div" *ngIf="this.showProfile">
     <!-- <div class="profile-div-btns bd-btm"><img src="../../assets/svg/cart.svg" class="logout"><span>My Plan</span>
     </div> -->
-    <div class="profile-div-btns" (click)="logout()"><img src="../../assets/svg/logout.svg"
+    <div class="profile-div-btns" (click)="logout()"><img src="../../assets/svg/logout.svg" alt="logout"
             class="logout"><span>Logout</span></div>
 </div>
 
@@ -105,11 +105,12 @@
             (click)="clearData()"></button>
     </div>
     <div class="offcanvas-body">
+         <div (click)="openAboutModal(aboutUs)" class="plan-head"> About Us</div>
         <!-- Our Plans Section -->
         <div (click)="applyClasses('ourPlan')" class="plan-head"> Our Plans</div>
         <div *ngIf="activeDropdown === 'ourPlan'" class="plan-head-div">
             <div *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('ourPlan', plan.Planname)">
-                <img [src]="plan.src" class="">
+                <img [src]="plan.src" class="" alt="plan-image">
                 <span class="list-group-item plan-spans">
                     {{ plan.Planname }}
                 </span>
@@ -120,7 +121,7 @@
         <div (click)="applyClasses('support')" class="plan-head">Support</div>
         <div *ngIf="activeDropdown === 'support'" class="plan-head-div">
             <div *ngFor="let plan of dropDownValues" class="drops1" (click)="handleSupportAction(plan.Planname)">
-                <img [src]="plan.src" class="">
+                <img [src]="plan.src" class="" alt="plan-image"> 
                 <span class="list-group-item plan-spans">{{ plan.Planname }}</span>
             </div>
         </div>
@@ -128,7 +129,7 @@
         <!-- <div (click)="applyClasses('renewPlan')" class="plan-head">Renew Plan</div> -->
 
         <button class="talk-expert1" (click)="talkToExpert(studentForm)">
-            <img src="../../assets/svg/expert.svg">
+            <img src="../../assets/svg/expert.svg" alt="expert">
             <span>Talk To Expert</span>
         </button>
     </div>
@@ -268,10 +269,10 @@
     </p>
 
     <ul style="margin-left: 1.2rem; margin-bottom: 1.5rem; color: #444; font-size: 1rem; line-height: 1.5;">
-      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger">Freelancers who want consistent work without chasing leads</li>
-      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger">Students building portfolios and earning on the side</li>
-      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger">Professionals shifting to freelance</li>
-      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger">Agencies who want projects delivered — no sales involved</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger" alt="finger">Freelancers who want consistent work without chasing leads</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger" alt="finger">Students building portfolios and earning on the side</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger" alt="finger">Professionals shifting to freelance</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger" alt="finger">Agencies who want projects delivered — no sales involved</li>
     </ul>
 
     <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">

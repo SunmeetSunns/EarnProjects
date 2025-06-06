@@ -8,7 +8,7 @@
 
     <div class="login-box">
       <div class="d-flex flex-row box-error mb-2" *ngIf="this.errorMsg !==''">
-        <img class="caution" src="../../assets/caution.svg">
+        <img class="caution" src="../../assets/caution.svg" alt="caution"> 
         <span class="error">{{this.errorMsg}}</span>
       </div>
       <h2>Login</h2>
@@ -26,8 +26,8 @@
         <div class="eye-set">
           <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="input-fields-in"
             [ngClass]="{'redBorder':this.loginForm.get('password')?.value==null}">
-          <img *ngIf="!showPassword" class="eye" src="../../assets/svg/eye-close.svg" (click)="togglePassword()">
-          <img *ngIf="showPassword" class="eye" src="../../assets/svg/eye-open.svg" (click)="togglePassword()">
+          <img *ngIf="!showPassword" class="eye" src="../../assets/svg/eye-close.svg" alt="eye" (click)="togglePassword()">
+          <img *ngIf="showPassword" class="eye" src="../../assets/svg/eye-open.svg" alt="eye"(click)="togglePassword()">
         </div>
         <span class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">Please
           enter correct password</span>

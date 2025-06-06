@@ -78,8 +78,8 @@
                     <button class="toggle-header" [ngClass]="{'active-toggle': activeSection === 'additional'}"
                         (click)="toggleSection('additional')">
                         <div>Additional Details</div>
-                        <img *ngIf="activeSection !== 'additional'" src="../../assets/svg/low-arrow.svg" />
-                        <img *ngIf="activeSection === 'additional'" src="../../assets/svg/up-arrow.svg" />
+                        <img *ngIf="activeSection !== 'additional'" src="../../assets/svg/low-arrow.svg" alt="arrow"/>
+                        <img *ngIf="activeSection === 'additional'" src="../../assets/svg/up-arrow.svg" alt="arrow"/>
                     </button>
 
                     <div class="toggle-body"
@@ -191,14 +191,14 @@
                     <button class="toggle-header" [ngClass]="{'active-toggle': activeSection === 'declaration'}"
                         (click)="toggleSection('declaration')">
                         <div>Declarations</div>
-                        <img *ngIf="activeSection !== 'declaration'" src="../../assets/svg/low-arrow.svg" />
-                        <img *ngIf="activeSection === 'declaration'" src="../../assets/svg/up-arrow.svg" />
+                        <img *ngIf="activeSection !== 'declaration'" src="../../assets/svg/low-arrow.svg" alt="arrow"/>
+                        <img *ngIf="activeSection === 'declaration'" src="../../assets/svg/up-arrow.svg" alt="arrow"/>
                     </button>
 
                     <div class="toggle-body"
                         [ngClass]="{ 'open': activeSection === 'declaration', 'closed': activeSection !== 'declaration' }">
                         <!-- Yaha tera custom content for Declarations -->
-                        <p class="d-flex flex-row d-step">Get Updates on <img class="w-app-r"
+                        <p class="d-flex flex-row d-step">Get Updates on <img class="w-app-r" alt="wapp"
                                 src="../../assets/svg/wapp.svg"> WhatsApp</p>
                     </div>
                 </div>

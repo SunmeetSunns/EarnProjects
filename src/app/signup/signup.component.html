@@ -24,7 +24,7 @@
 
     <div class="sign-box">
       <div class="d-flex flex-row box-error mb-2" *ngIf="this.errorMsg !==''">
-        <img class="caution" src="../../assets/caution.svg">
+        <img class="caution" src="../../assets/caution.svg" alt="caution">
         <span class="error">{{this.errorMsg}}</span>
       </div>
       <h2>Sign Up</h2>
@@ -81,7 +81,7 @@
         signForm.get('mail')?.invalid ||!signForm.get('mail')?.value" (click)="sendOtp(otpModal)">
             Verify
           </button>
-          <img *ngIf="this.otpVerified" class="verif" src="../../assets/svg/verified1.svg">
+          <img *ngIf="this.otpVerified" class="verif" src="../../assets/svg/verified1.svg" alt="verified">
         </div>
 
         <span class="error" *ngIf="
@@ -103,8 +103,8 @@
           <label>Password</label>
           <div class="eye-set">
             <input [type]="showPassword ? 'text' : 'password'" formControlName="password">
-            <img *ngIf="!showPassword" class="eye" src="../../assets/svg/eye-close.svg" (click)="togglePassword()">
-            <img *ngIf="showPassword" class="eye" src="../../assets/svg/eye-open.svg" (click)="togglePassword()">
+            <img *ngIf="!showPassword" class="eye" src="../../assets/svg/eye-close.svg" (click)="togglePassword()" alt="eye">
+            <img *ngIf="showPassword" class="eye" src="../../assets/svg/eye-open.svg" (click)="togglePassword()" alt="eye"> 
           </div>
           <span class="error" *ngIf="signForm.get('password')?.touched && signForm.get('password')?.invalid">
             Password is required.
@@ -120,9 +120,9 @@
           <div class="eye-set">
             <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirm_password">
             <img *ngIf="!showConfirmPassword" class="eye" src="../../assets/svg/eye-close.svg"
-              (click)="toggleConfirmPassword()">
+              (click)="toggleConfirmPassword()" alt="eye">
             <img *ngIf="showConfirmPassword" class="eye" src="../../assets/svg/eye-open.svg"
-              (click)="toggleConfirmPassword()">
+              (click)="toggleConfirmPassword()" alt="eye">
           </div>
           <span class="error"
             *ngIf="signForm.get('confirm_password')?.touched && signForm.get('confirm_password')?.invalid">

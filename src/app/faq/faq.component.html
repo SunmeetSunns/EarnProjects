@@ -6,8 +6,8 @@
     <div *ngFor="let faq of faqs; let i = index" class="faq-div">
         <div class="faq-qa-div">
             <button class="faq-q-div" [ngClass]="{'click-faq-q-div':faq.show}" (click)="openQues(i)">
-                <div>{{faq.question}}</div><img *ngIf="!faq.show" src="../../assets/svg/low-arrow.svg">
-                <img *ngIf="faq.show" src="../../assets/svg/up-arrow.svg">
+                <div>{{faq.question}}</div><img *ngIf="!faq.show" src="../../assets/svg/low-arrow.svg" alt="low-arrow">
+                <img *ngIf="faq.show" src="../../assets/svg/up-arrow.svg" alt="up-arrow">
             </button>
             <div class="faq-a-div" [ngClass]="{ 'faq-a-show': faq.show, 'faq-a-hide': !faq.show }">
                 {{ faq.answer }}
