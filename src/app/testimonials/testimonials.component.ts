@@ -19,7 +19,7 @@ export class TestimonialsComponent implements OnInit, OnDestroy {
       name: "Rahul Sharma",
       role: "Freelance Designer",
       photo: "../../assets/images/rahul.jpeg",
-      message: "ProjectXchange helped me gain real-world experience while studying. The project leads are high-quality, and I've earned enough to support my education!"
+      message: "EarnProjects helped me gain real-world experience while studying. The project leads are high-quality, and I've earned enough to support my education!"
     },
     {
       name: "Anjali Verma",

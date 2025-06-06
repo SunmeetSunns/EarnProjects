@@ -43,7 +43,7 @@
         <button class="btn-logout" (click)="logout()" *ngIf="isLoggedIn">
             <img src="../../assets/svg/logout.svg" alt="logout">
         </button>
-        <button class="btn-logout" (click)="routeToSignup()" *ngIf="!isLoggedIn">
+        <button class="btn-logout" (click)="openProfile()" *ngIf="!isLoggedIn">
             <img src="../../assets/svg/logout.svg" alt="logout">
         </button>
         <button class=" d-flex btn-outline align-items-center" type="button" data-bs-toggle="offcanvas"
@@ -139,7 +139,7 @@
 <ng-template #studentForm let-modal>
     <div class="modal-header-pop">
         <div class="heading-mod my-modal text-center w-100">
-            Please Enter you phone number to get call from expert.
+            Please Enter your phone number to get call from expert.
         </div>
 
         <div class="modal-body d-flex flex-column justify-content-center align-items-center">
@@ -148,7 +148,7 @@
                 <!-- College Name -->
                 <div class="form-group mb-2">
                     <label for="collegeName">Mobile Number</label>
-                    <input type="text" class="form-control" id="collegeName" formControlName="mobile"
+                    <input type="number" class="form-control" id="collegeName" formControlName="mobile"
                         [ngClass]="{ 'redBorder': expertForm.get('mobile')?.invalid && expertForm.get('mobile')?.touched }">
                     <span class="error"
                         *ngIf="expertForm.get('mobile')?.hasError('required') && expertForm.get('mobile')?.touched">

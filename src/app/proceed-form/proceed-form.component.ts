@@ -39,34 +39,34 @@ export class ProceedFormComponent implements OnInit {
     if (sessionStorage.getItem('forEdit')) {
       this.patchValuesForEdit();
     }
-    
+
   }
-patchUserDetails() {
-  if (sessionStorage.getItem('user')) {
-    const data = JSON.parse(sessionStorage.getItem('user') || '{}');
-    if (!data) return;
+  patchUserDetails() {
+    if (sessionStorage.getItem('user')) {
+      const data = JSON.parse(sessionStorage.getItem('user') || '{}');
+      if (!data) return;
 
-    this.form.patchValue({
-      step0: {
-        fullName: data.name || '',
-        email: data.email || '',
-        phoneNumber: data.mobile || '',
-      },
-      step1: {
-        pocName: data.name || '',
-        pocEmail: data.email || '',
-        pocPhoneNumber: data.mobile || '',
-      },
-    });
+      this.form.patchValue({
+        step0: {
+          fullName: data.name || '',
+          email: data.email || '',
+          phoneNumber: data.mobile || '',
+        },
+        step1: {
+          pocName: data.name || '',
+          pocEmail: data.email || '',
+          pocPhoneNumber: data.mobile || '',
+        },
+      });
 
-    // ✅ Use .disable()
-    this.form.get('step0.email')?.disable();
+      // ✅ Use .disable()
+      this.form.get('step0.email')?.disable();
 
-    // this.form.get('step1.pocName')?.disable();
-    this.form.get('step1.pocEmail')?.disable();
-    // this.form.get('step1.pocPhoneNumber')?.disable();
+      // this.form.get('step1.pocName')?.disable();
+      this.form.get('step1.pocEmail')?.disable();
+      // this.form.get('step1.pocPhoneNumber')?.disable();
+    }
   }
-}
 
   patchValuesForEdit() {
     const data = JSON.parse(sessionStorage.getItem('overallData') || '{}');
@@ -109,9 +109,9 @@ patchUserDetails() {
         communicationTools: data.communicationTools || '',
         salesHelpRequired: data.salesHelpRequired || 'false',
       }
-      
+
     });
-      // this.form.get('step0.fullName')?.disable();
+    // this.form.get('step0.fullName')?.disable();
     this.form.get('step0.email')?.disable();
     // this.form.get('step0.phoneNumber')?.disable();
 
@@ -201,6 +201,16 @@ patchUserDetails() {
       step0.get(key)?.clearValidators();
       step0.get(key)?.updateValueAndValidity();
     });
+    Object.keys(step1.controls).forEach((key) => {
+      step1.get(key)?.clearValidators();
+      step1.get(key)?.updateValueAndValidity();
+    });
+
+    // Clear validators for step2
+    Object.keys(step2.controls).forEach((key) => {
+      step2.get(key)?.clearValidators();
+      step2.get(key)?.updateValueAndValidity();
+    });
     // Clear validators for step1 and step2 too similarly (optional but recommended)
 
     if (plan === 'student') {
@@ -212,6 +222,18 @@ patchUserDetails() {
       ]);
       step0.get('city')?.setValidators([Validators.required]);
       step0.get('dob')?.setValidators([Validators.required]);
+       ['college', 'course', 'yearOfStudy','techStack'].forEach(
+        (field) => {
+          step1.get(field)?.setValidators([Validators.required]);
+          step1.get(field)?.updateValueAndValidity();
+        }
+      );
+      ['availability',  'languageComfort', 'preferredLearningAreas'].forEach(
+        (field) => {
+          step2.get(field)?.setValidators([Validators.required]);
+          step2.get(field)?.updateValueAndValidity();
+        }
+      );
 
       // similarly apply validators for step1 and step2 fields for student plan
 
@@ -225,6 +247,18 @@ patchUserDetails() {
       step0.get('city')?.setValidators([Validators.required]);
       step0.get('dob')?.setValidators([Validators.required]);
       // validators for step1 professional fields...
+      ['yearsOfExperience', 'projectDescriptions', 'techStack'].forEach(
+        (field) => {
+          step1.get(field)?.setValidators([Validators.required]);
+          step1.get(field)?.updateValueAndValidity();
+        }
+      );
+      ['availability',  'languageComfort', 'preferredProjectType'].forEach(
+        (field) => {
+          step2.get(field)?.setValidators([Validators.required]);
+          step2.get(field)?.updateValueAndValidity();
+        }
+      );
 
     } else if (plan === 'agency') {
       step0.get('agencyName')?.setValidators([Validators.required]);
@@ -376,28 +410,29 @@ patchUserDetails() {
     }
   ];
 
-navigateToReview() {
-  if (this.form.valid) {
-    const formData = this.form.getRawValue(); // ✅ Includes disabled fields
+  navigateToReview() {
+    console.log(this.form.value)
+    if (this.form.valid) {
+      const formData = this.form.getRawValue(); // ✅ Includes disabled fields
 
-    this.Overalldata = {
-      plan: this.plan,
-      ...formData.step0,
-      ...formData.step1,
-      ...formData.step2,
-      amount: this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price,
-      noOfProj: this.noOfProj ? this.noOfProj : this.selectedPlanDetails?.noOfLeads,
-      paymentFrequency: this.payFrequency,
-      discount: this.yearlyDiscount ? this.yearlyDiscount : this.selectedPlanDetails?.yearlyDiscount
-    };
+      this.Overalldata = {
+        plan: this.plan,
+        ...formData.step0,
+        ...formData.step1,
+        ...formData.step2,
+        amount: this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price,
+        noOfProj: this.noOfProj ? this.noOfProj : this.selectedPlanDetails?.noOfLeads,
+        paymentFrequency: this.payFrequency,
+        discount: this.yearlyDiscount ? this.yearlyDiscount : this.selectedPlanDetails?.yearlyDiscount
+      };
 
-    console.log('Form Data:', this.Overalldata);
-    sessionStorage.setItem('overallData', JSON.stringify(this.Overalldata));
-    this.router.navigate(['/review']);
-  } else {
-    this.form.markAllAsTouched();
+      console.log('Form Data:', this.Overalldata);
+      sessionStorage.setItem('overallData', JSON.stringify(this.Overalldata));
+      this.router.navigate(['/review']);
+    } else {
+      this.form.markAllAsTouched();
+    }
   }
-}
 
 
   onSubmit() {

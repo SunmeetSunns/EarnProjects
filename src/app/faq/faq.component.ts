@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormGroup, FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { HttpWrapperService } from '../services/api-service.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Api } from '../services/api-enums';
 
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'
 })
 export class FaqComponent implements OnInit {
 
   faqs: any[] = [];
-
-
+  expertForm!: FormGroup;
+  successMsg: any;
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
   ngOnInit(): void {
     this.populateFaqs();
   }
-  constructor() {
+  constructor(private ApiService: HttpWrapperService, private formBuilder: FormBuilder, private modal: NgbModal) {
 
   }
   scrollToTop() {
@@ -57,6 +62,35 @@ export class FaqComponent implements OnInit {
       faq.show = i === index ? !faq.show : false;
     });
   }
+  talkToExpert(popup) {
+    this.buildForm()
+    this.modal.open(popup, {
+      size: 'md',
+      centered: true,
+      // prevent ESC close
+    });
+  }
+  buildForm() {
+    this.expertForm = this.formBuilder.group({
+      mobile: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^[6-9][0-9]{9}$')]],
+    });
+  }
+  submitForm() {
+    if (this.expertForm.invalid) {
+      this.expertForm.markAllAsTouched();
+      return;
+    }
+    let body = {
+      phone: this.expertForm.get('mobile').value
+    }
+    this.ApiService.post(Api.talkToExpert, body).subscribe((res: any) => {
+      if (res?.status == 200) {
+        this.modal.dismissAll()
+        this.successMsg = res?.message
+        this.modal.open(this.successModal, { size: 'md', centered: true })
 
 
+      }
+    })
+  }
 }

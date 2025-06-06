@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, FormsModule, ValidationErrors, AbstractControl, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BrowserCheckService } from '../services/browser-check.service'; // ✅ Import service
@@ -24,12 +24,12 @@ export class SignupComponent implements OnInit, OnDestroy {
   otpVerified: boolean = false;
   successText: string = '';
   dangerText: any;
-otpDigits: string[] = ['', '', '', '', '', ''];
-otpArray = new Array(6).fill(0);
-otpError: string = '';
-shakeOtp = false;
-timer: number = 30;
-timerInterval: any;
+  otpDigits: string[] = ['', '', '', '', '', ''];
+  otpArray = new Array(6).fill(0);
+  otpError: string = '';
+  shakeOtp = false;
+  timer: number = 30;
+  timerInterval: any;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -57,11 +57,50 @@ timerInterval: any;
       phn_no: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^[6-9][0-9]{9}$')]],
       category: ['', Validators.required],
       mail: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-      confirm_password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-    });
+      password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        this.passwordStrengthValidator
+      ])]
+      ,
+      confirm_password: ['', [Validators.required]],
+    }, {
+    validators: this.confirmPasswordValidator() // Apply the group-level validator here
+  });
   }
+getPasswordError() {
+  const errors = this.signForm.get('password')?.errors;
+  if (errors?.['passwordStrength']) {
+    return errors['passwordStrength'];
+  }
+  // If no error, return all true to show all green ticks
+  return {
+    hasUpperCase: true,
+    hasLowerCase: true,
+    hasNumeric: true,
+    hasSpecial: true,
+    isValidLength: true,
+  };
+}
 
+confirmPasswordValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirm_password')?.value;
+
+    if (password && confirmPassword && password !== confirmPassword) {
+      control.get('confirm_password')?.setErrors({ mismatch: true });
+      return { mismatch: true };
+    } else {
+      // Remove mismatch error if they match now
+      const confirmControl = control.get('confirm_password');
+      if (confirmControl?.hasError('mismatch')) {
+        confirmControl.setErrors(null);
+      }
+      return null;
+    }
+  };
+}
   selectCategory(category: string): void {
     this.selectedCategory = category;
     this.signForm.get('category')?.setValue(category);
@@ -78,9 +117,11 @@ timerInterval: any;
   }
 
   routeToSignUp(action?: any): void {
-
+    this.dangerText = ''
+    this.successText = ''
     if (this.signForm.invalid && !action) {
       this.signForm.markAllAsTouched();
+      this.scrollToFirstInvalidControl(); 
       return;
     }
     if (action) {
@@ -88,7 +129,7 @@ timerInterval: any;
 
     }
     if (this.signForm.valid && !action && !this.otpVerified) {
-      this.dangerText = 'Please Validate OTP first';
+      this.dangerText = 'Please Validate you Email first';
       this.showSuccessToast();
     }
     if (this.otpVerified) {
@@ -100,25 +141,70 @@ timerInterval: any;
         category: this.signForm.get('category').value,
         mobile: this.signForm.get('phn_no').value
       }
-      this.Apiservice.post(Api.signup, body).subscribe((res) => {
-        if (res) {
 
+      this.Apiservice.post(Api.signup, body).subscribe((res: any) => {
+
+        if (res?.status == 400 || res?.status == 201) {
+          this.dangerText = res?.error ? res?.error : res?.message;
+
+        }
+        if (res?.status == 200) {
+          this.successText = res?.message
           this.router.navigate(['/login']);
         }
+        this.showSuccessToast()
       })
     }
 
 
   }
+  passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value || '';
 
-  // changeState(): void {
-  //   if (this.signForm.invalid) {
-  //     this.signForm.markAllAsTouched();
-  //     return;
-  //   }
-  //   console.log(this.signForm.value);
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasNumeric = /[0-9]/.test(value);
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);  // ✅ updated special char regex
+    const isValidLength = value.length >= 8;
 
-  // }
+    const passwordValid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial && isValidLength;
+
+    if (!passwordValid) {
+      return {
+        passwordStrength: {
+          hasUpperCase,
+          hasLowerCase,
+          hasNumeric,
+          hasSpecial,
+          isValidLength,
+        },
+      };
+    }
+
+    return null;
+  }
+scrollToFirstInvalidControl() {
+  const formElement = document.querySelector('form');
+  const firstInvalidControl = formElement?.querySelector('.ng-invalid');
+
+  if (firstInvalidControl) {
+    firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    (firstInvalidControl as HTMLElement).focus();
+  }
+
+  // ✅ Handle category separately (outside form)
+  const categoryControl = this.signForm.get('category');
+  if (categoryControl?.invalid && categoryControl?.touched) {
+    const categoryElement = document.getElementById('category');
+    if (categoryElement) {
+      categoryElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Optional shake animation
+      categoryElement.classList.add('shake');
+      setTimeout(() => categoryElement.classList.remove('shake'), 500);
+    }
+  }
+}
+
 
   ngOnDestroy(): void {
     if (this.browserCheck.isBrowser()) {
@@ -130,7 +216,7 @@ timerInterval: any;
     this.modal.dismissAll()
   }
   sendOtp(modalName: any) {
-    
+
     this.dangerText = ''
     this.successText = ''
     let body = {
@@ -154,48 +240,48 @@ timerInterval: any;
     })
   }
 
-verifyOtp() {
-  this.successText = '';
-  this.dangerText = '';
-  this.otpError = '';
+  verifyOtp() {
+    this.successText = '';
+    this.dangerText = '';
+    this.otpError = '';
 
-  if (this.otp.length < 6) {
-    this.otpError = 'Please enter the complete 6-digit OTP.';
-    this.triggerShake();
-    return;
+    if (this.otp.length < 6) {
+      this.otpError = 'Please enter the complete 6-digit OTP.';
+      this.triggerShake();
+      return;
+    }
+
+    const body = {
+      email: this.signForm.get('mail')?.value,
+      otp: this.otp // from getter this.otpDigits.join('')
+    };
+
+    this.Apiservice.post(Api.verifyOtp, body).subscribe((res: any) => {
+      if (res?.status === 200) {
+        this.successText = res?.message;
+        this.modal.dismissAll();
+        this.otpVerified = true;
+        this.showSuccessToast();
+
+        this.signForm.get('mail')?.disable();
+      } else if (res?.status === 201) {
+        this.dangerText = res?.message;
+        this.otpError = res?.message;
+        this.triggerShake();
+        this.showSuccessToast();
+      } else {
+        this.dangerText = 'Something went wrong.';
+        this.otpError = 'Something went wrong.';
+        this.triggerShake();
+      }
+    }, (err) => {
+      this.dangerText = 'Server error, please try again.';
+      this.otpError = 'Server error, please try again.';
+      this.triggerShake();
+    });
   }
 
-  const body = {
-    email: this.signForm.get('mail')?.value,
-    otp: this.otp // from getter this.otpDigits.join('')
-  };
 
-  this.Apiservice.post(Api.verifyOtp, body).subscribe((res: any) => {
-    if (res?.status === 200) {
-      this.successText = res?.message;
-      this.modal.dismissAll();
-      this.otpVerified = true;
-      this.showSuccessToast();
-
-      this.signForm.get('mail')?.disable();
-    } else if (res?.status === 201) {
-      this.dangerText = res?.message;
-      this.otpError = res?.message;
-      this.triggerShake();
-      this.showSuccessToast();
-    } else {
-      this.dangerText = 'Something went wrong.';
-      this.otpError = 'Something went wrong.';
-      this.triggerShake();
-    }
-  }, (err) => {
-    this.dangerText = 'Server error, please try again.';
-    this.otpError = 'Server error, please try again.';
-    this.triggerShake();
-  });
-}
-
-  
   showToast = false;
 
   showSuccessToast() {
@@ -205,70 +291,70 @@ verifyOtp() {
     }, 9000);
   }
   onOtpInput(event: any, index: number) {
-  const input = event.target;
-  const value = input.value;
+    const input = event.target;
+    const value = input.value;
 
-  if (value.length === 1 && index < 5) {
-    const nextInput = document.getElementById(`otp-${index + 1}`);
-    (nextInput as HTMLInputElement)?.focus();
-  }
-
-  this.otpDigits[index] = value.charAt(0);
-}
-
-onOtpKeyDown(event: KeyboardEvent, index: number) {
-  const key = event.key;
-  if (key === 'Backspace' && !this.otpDigits[index] && index > 0) {
-    const prevInput = document.getElementById(`otp-${index - 1}`);
-    (prevInput as HTMLInputElement)?.focus();
-  }
-}
-
-get otp(): string {
-  return this.otpDigits.join('');
-}
-triggerShake() {
-  this.shakeOtp = true;
-  setTimeout(() => this.shakeOtp = false, 300);
-}
-
-startTimer() {
-  this.timer = 30;
-  this.timerInterval = setInterval(() => {
-    if (this.timer > 0) {
-      this.timer--;
-    } else {
-      clearInterval(this.timerInterval);
+    if (value.length === 1 && index < 5) {
+      const nextInput = document.getElementById(`otp-${index + 1}`);
+      (nextInput as HTMLInputElement)?.focus();
     }
-  }, 1000);
-}
-resendOtp() {
-  this.dangerText = '';
-  this.successText = '';
-   this.otpDigits = ['', '', '', '', '', ''];
-  this.otpError = '';
-  let body = {
-    email: this.signForm.get('mail').value
-  };
 
-  this.Apiservice.post(Api.sendOtp, body).subscribe((res: any) => {
-    if (res) {
-      if (res?.Status == 200) {
-        this.startTimer();  // timer fir se reset karna
-        this.successText = res?.message;
-       
-      } 
-      else if (res?.Status == 201) {
-        this.dangerText = res?.message;
-       // agar tu error toast bhi dikhata h to
+    this.otpDigits[index] = value.charAt(0);
+  }
+
+  onOtpKeyDown(event: KeyboardEvent, index: number) {
+    const key = event.key;
+    if (key === 'Backspace' && !this.otpDigits[index] && index > 0) {
+      const prevInput = document.getElementById(`otp-${index - 1}`);
+      (prevInput as HTMLInputElement)?.focus();
+    }
+  }
+
+  get otp(): string {
+    return this.otpDigits.join('');
+  }
+  triggerShake() {
+    this.shakeOtp = true;
+    setTimeout(() => this.shakeOtp = false, 300);
+  }
+
+  startTimer() {
+    this.timer = 30;
+    this.timerInterval = setInterval(() => {
+      if (this.timer > 0) {
+        this.timer--;
+      } else {
+        clearInterval(this.timerInterval);
       }
-    }
-     this.showSuccessToast();
-  }, (error) => {
-    this.dangerText = "Something went wrong, please try again.";
-   this.showSuccessToast();
-  });
-}
+    }, 1000);
+  }
+  resendOtp() {
+    this.dangerText = '';
+    this.successText = '';
+    this.otpDigits = ['', '', '', '', '', ''];
+    this.otpError = '';
+    let body = {
+      email: this.signForm.get('mail').value
+    };
+
+    this.Apiservice.post(Api.sendOtp, body).subscribe((res: any) => {
+      if (res) {
+        if (res?.Status == 200) {
+          this.startTimer();  // timer fir se reset karna
+          this.successText = res?.message;
+
+        }
+        else if (res?.Status == 201) {
+          this.dangerText = res?.message;
+          // agar tu error toast bhi dikhata h to
+        }
+      }
+      this.showSuccessToast();
+    }, (error) => {
+      this.dangerText = "Something went wrong, please try again.";
+      this.showSuccessToast();
+    });
+  }
 
 
 }

@@ -16,7 +16,7 @@
       <div class="input-fields">
         <label>Email</label>
         <input type="email" class="input-fields-in" [ngClass]="{'redBorder':this.loginForm.get('username')?.value==null}"
-          placeholder="name@xyz.com" formControlName="username">
+          placeholder="abc@gmail.com" formControlName="username">
         <span class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">Please
           enter valid email</span>
       </div>

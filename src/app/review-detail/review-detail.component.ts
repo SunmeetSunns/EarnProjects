@@ -119,11 +119,6 @@ export class ReviewDetailComponent implements OnInit {
       },
       {
 
-        field: 'Total Work Experience',
-        value: this.fieldData?.totalWorkExperience
-      },
-      {
-
         field: 'Project Descriptions',
         value: this.fieldData?.projectDescriptions
       }
