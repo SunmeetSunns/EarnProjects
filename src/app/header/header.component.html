@@ -12,7 +12,7 @@
                 <span class="head-heading">About Us</span>
                 <span class="line"></span>
             </div>
-            <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('ourPlan')">
+            <div class="d-flex flex-column cursor-pointer menu-item"  #ourPlansBtn  (click)="applyClasses('ourPlan')">
                 <span class="head-heading">Our Plans</span>
                 <span class="line"></span>
             </div>
@@ -22,7 +22,7 @@
                 <span class="line"></span>
             </div> -->
 
-            <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('support')">
+            <div class="d-flex flex-column cursor-pointer menu-item"  #supportBtn (click)="applyClasses('support')">
                 <span class="head-heading">Support</span>
                 <span class="line"></span>
             </div>
@@ -135,44 +135,6 @@
     </div>
 </div>
 
-<!-- Right side Offcanvas -->
-<!--
-<div class="offcanvas offcanvas-end" #offcanvasRef tabindex="-1" id="mobileOffcanvas"
-    aria-labelledby="mobileOffcanvasLabel">
-    <div class="offcanvas-header">
-        <h5 id="mobileOffcanvasLabel ">Menu</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
-            (click)="clearData()"></button>
-    </div>
-    <div class="offcanvas-body">
-        <!-- Yahan apna mobile menu ya plans dal sakta hai -->
-<!--   <div (click)="applyClasses('ourPlan')" class="plan-head"> Our Plans</div>
-        <div *ngIf="activeDropdown === 'ourPlan'" class="plan-head-div">
-            <div *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('ourPlan', plan.Planname)">
-                <img [src]="plan.src" class="">
-                <span class="list-group-item" class="plan-spans">
-                    {{ plan.Planname }}
-                </span>
-            </div>
-        </div>
-        <div (click)="applyClasses('support')" class="plan-head">Support</div>
-        <div *ngIf="activeDropdown === 'support'" class="plan-head-div">
-            <div *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('support', plan.Planname)">
-                <img [src]="plan.src" class="">
-                <span class="list-group-item" class="plan-spans">
-                    {{ plan.Planname }}
-                </span>
-            </div>
-
-        </div>
-
-        <div (click)="applyClasses('renewPlan')" class="plan-head">Renew Plan</div>
-
-        <button class="talk-expert1"> <img src="../../assets/svg/expert.svg"><span>Talk To Expert</span></button>
-
-
-    </div>
-</div> -->
 
 <ng-template #studentForm let-modal>
     <div class="modal-header-pop">

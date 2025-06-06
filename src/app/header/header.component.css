@@ -131,7 +131,7 @@
     padding: 1em;
 }
 
-.divs-pos-our-plan {
+/* .divs-pos-our-plan {
     left: 62.8em;
 }
 
@@ -141,7 +141,7 @@
 
 .divs-pos-support-plan {
     left: 70em;
-}
+} */
 
 .drops {
 
@@ -369,4 +369,20 @@ padding: 1em;
     height: 2em;
     width: 2em;
     margin-right: 1em;
+}
+.divs-pos-our-plan {
+  top: 5.1em !important;
+  /* left: 12em !important; */
+  right: 26em; /* adjust as needed */
+}
+
+.divs-pos-review-plan {
+  top: 5.1em !important;
+  left: 21em !important;
+}
+
+.divs-pos-support-plan {
+  top: 5.1em !important;
+  /* left: 31em !important; */
+  right: 22em;
 }

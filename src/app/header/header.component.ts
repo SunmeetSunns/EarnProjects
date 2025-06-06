@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   @ViewChild('headerRef') headerRef!: ElementRef;
   @ViewChild('offcanvasRef', { static: false }) offcanvasRef!: ElementRef;
   @ViewChild('successModal') successModal!: TemplateRef<any>;
+@ViewChild('supportDropdownRef') supportDropdownRef!: ElementRef;
   isScrolled: boolean = false;
   dropDownValues: any[] = [];
   show: boolean = false;
@@ -35,7 +36,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private el: ElementRef, private renderer: Renderer2, public router: Router,
     private formBuilder: FormBuilder, private zone: NgZone,
-    public loginService: LoginServiceService, private modal: NgbModal,public ApiService:HttpWrapperService) { }
+    public loginService: LoginServiceService, private modal: NgbModal, public ApiService: HttpWrapperService,
+ ) { }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -51,6 +53,21 @@ export class HeaderComponent implements OnInit {
       }
     }
   }
+  setDropdownPosition(triggerElement: HTMLElement, type: 'support' | 'ourPlan') {
+  const rect = triggerElement.getBoundingClientRect();
+  const scrollTop = window.scrollY;
+  const scrollLeft = window.scrollX;
+
+  const dropdown = type === 'support' ? this.supportDropdownRef?.nativeElement : this.dropdownRef?.nativeElement;
+
+  if (dropdown) {
+    this.renderer.setStyle(dropdown, 'position', 'absolute');
+    this.renderer.setStyle(dropdown, 'top', `${rect.bottom + scrollTop}px`);
+    this.renderer.setStyle(dropdown, 'left', `${rect.left + scrollLeft}px`);
+    this.renderer.setStyle(dropdown, 'z-index', '10000');
+  }
+}
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const clickedInsideHeader = this.headerRef?.nativeElement.contains(event.target);
@@ -98,16 +115,16 @@ export class HeaderComponent implements OnInit {
       this.expertForm.markAllAsTouched();
       return;
     }
-    let body={
-      phone:this.expertForm.get('mobile').value
+    let body = {
+      phone: this.expertForm.get('mobile').value
     }
-    this.ApiService.post(Api.talkToExpert,body).subscribe((res:any)=>{
-      if(res?.status==200){
+    this.ApiService.post(Api.talkToExpert, body).subscribe((res: any) => {
+      if (res?.status == 200) {
         this.modal.dismissAll()
-         this.successMsg=res?.message
-        this.modal.open(this.successModal,{size:'md',centered:true})
-       
-       
+        this.successMsg = res?.message
+        this.modal.open(this.successModal, { size: 'md', centered: true })
+
+
       }
     })
   }
@@ -151,33 +168,38 @@ export class HeaderComponent implements OnInit {
   //     ];
   //   }
   // }
-  applyClasses(plan: string) {
-    this.activeDropdown = this.activeDropdown === plan ? '' : plan;
-    this.currentDrop = plan;
+  applyClasses(plan: string, triggerElement?: HTMLElement) {
+  this.activeDropdown = this.activeDropdown === plan ? '' : plan;
+  this.currentDrop = plan;
 
-    if (plan === 'renewPlan') {
-      this.show = false;
-      this.dropDownValues = [];
-      return;
-    }
-
-    this.show = true;
-
-    if (plan === 'ourPlan') {
-      this.dropDownValues = [
-        { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
-        { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
-        { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
-        { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
-      ];
-    } else if (plan === 'support') {
-      this.dropDownValues = [
-        { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
-        { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
-        { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
-      ];
-    }
+  if (plan === 'renewPlan') {
+    this.show = false;
+    this.dropDownValues = [];
+    return;
   }
+
+  this.show = true;
+
+  if (plan === 'ourPlan') {
+    this.dropDownValues = [
+      { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
+      { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
+      { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
+      { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
+    ];
+  } else if (plan === 'support') {
+    this.dropDownValues = [
+      { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
+      { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
+      { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
+    ];
+  }
+
+  if (triggerElement) {
+    this.setDropdownPosition(triggerElement, plan as 'ourPlan' | 'support');
+  }
+}
+
 
   performAction(actionName: any, choosePlan: any) {
     this.closeOffcanvas()
@@ -211,12 +233,13 @@ export class HeaderComponent implements OnInit {
       window.location.href = 'tel:7726936325';
     }
   }
- aboutModalOpen = false;
+  aboutModalOpen = false;
 
 
-openAboutModal(popup) {
-  this.modal.open(popup,{size:'lg',centered:true})
-}
+  openAboutModal(popup) {
+    this.show = false;
+    this.modal.open(popup, { size: 'lg', centered: true })
+  }
 
   closeAboutModal() {
     this.aboutModalOpen = false;
@@ -251,15 +274,15 @@ openAboutModal(popup) {
 
 
   talkToExpert(popup) {
+    this.show = false;
     this.buildForm()
     this.modal.open(popup, {
       size: 'md',
       centered: true,
-      backdrop: 'static', // prevent click outside
-      keyboard: false     // prevent ESC close
+      // prevent ESC close
     });
   }
-  close(){
+  close() {
     this.modal.dismissAll()
   }
 }
