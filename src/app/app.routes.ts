@@ -8,6 +8,7 @@ import { ReviewDetailComponent } from './review-detail/review-detail.component';
 import { OfferingsComponent } from './offerings/offerings.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { FaqComponent } from './faq/faq.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },         // ✅ Show full home
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'review', component: ReviewDetailComponent },
   { path: 'offerings', component: OfferingsComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
-  { path: 'faq', component: FaqComponent }
+  { path: 'faq', component: FaqComponent },
+  {path:'dashboard',component:DashboardComponent}
 
 ];

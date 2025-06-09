@@ -50,6 +50,8 @@ export class PlansComponent implements OnInit {
   clientSetupDone: boolean = false;
   loggerCategory: any;
   showLoggerError: boolean = false;
+  planPurchased: boolean;
+  purchasedMsg: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -72,6 +74,9 @@ export class PlansComponent implements OnInit {
       if (sessionStorage.getItem('user')) {
         const loggerCategory = JSON.parse(sessionStorage.getItem('user'))
         this.loggerCategory = loggerCategory.category
+      }
+      if(sessionStorage.getItem('planPurchased')){
+        this.planPurchased=true;
       }
 
     });
@@ -216,6 +221,10 @@ export class PlansComponent implements OnInit {
   routeToSignup(category: string, proceed?: any, rawData?: any) {
     this.showLoggerError = false;
 
+ if(this.planPurchased){
+   this.purchasedMsg='You currently have an active plan. You can upgrade or renew after it expires.'
+  return
+ }
     if (proceed) {
       if (this.loggerCategory !== category) {
         this.showLoggerError = true;
@@ -351,8 +360,9 @@ export class PlansComponent implements OnInit {
         formData.append('pincode', values.pincode);
         formData.append('document', this.selectedFile as Blob);
         valid = true;
-      } else {
+      } if(this.studentFormArea.invalid){
         this.studentFormArea.markAllAsTouched();
+        return;
       }
 
     } else if (this.currentCategory === 'professional') {
@@ -387,7 +397,6 @@ export class PlansComponent implements OnInit {
     }
 
     if (valid) {
-      console.log(`${this.currentCategory} Form Submitted:`, formData);
       this.setPrefferenceInDB();
       this.modal.dismissAll();
     }

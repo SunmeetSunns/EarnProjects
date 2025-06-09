@@ -63,7 +63,12 @@
                 <div class="form-field">
                   <label class="side-align">Phone Number</label>
                   <input class="form-ans form-control" formControlName="phoneNumber" />
-                  <div class="error" *ngIf="isFieldInvalid('phoneNumber')">Valid Phone Number is required.</div>
+                  <div class="error" *ngIf="isFieldInvalid('phoneNumber')">Valid Mobile Number is required.</div>
+                  <div class="error"
+                    *ngIf="form.get('step0.phoneNumber')?.hasError('pattern') && form.get('step0.phoneNumber')?.touched">
+                    Only Indian mobile numbers (starting with 6-9) are allowed.
+                  </div>
+
                 </div>
 
                 <div class="form-field">

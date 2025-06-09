@@ -1,11 +1,11 @@
 <div class="plans">
   <div class="heading">
-    <h2>Our Plans</h2>
+    <h2>{{(currentCategory ? currentCategory :'Our') | titlecase}} Plans</h2>
     <p>Simple, Transparent Pricing</p>
     <span>Choose the plan that's right for you and start growing your subscription business <br> today.</span>
   </div>
 
-  <div class="cards-align" *ngIf="!isloggedIn">
+  <div class="cards-align" *ngIf="!isloggedIn || planPurchased">
     <div class="card" *ngFor="let plan of allPlans" [ngClass]="{'popular': plan.popular}">
       <div class="badge" *ngIf="plan.popular">Most Popular</div>
 
@@ -19,9 +19,9 @@
             <div class="disPerc">{{ plan?.discountPer }}% off</div>
           </div>
 
-
-          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)">Get Started</button>
-          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category)">Choose Plan</button>
+ <span class="error" *ngIf="planPurchased">{{this.purchasedMsg}}</span>
+          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)" >Get Started</button>
+          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category)" >Choose Plan</button>
           <span class="spl-features">Features Include</span>
           <ul class="features">
             <li *ngFor="let feature of plan.features">
@@ -34,7 +34,7 @@
       </div>
     </div>
   </div>
-  <div class="cards-align" *ngIf="isloggedIn">
+  <div class="cards-align" *ngIf="isloggedIn && !planPurchased">
     <div class="card" *ngFor="let plan of allPlans" [ngClass]="{'popular': plan.popular}">
       <div class="badge" *ngIf="plan.popular">Most Popular</div>
 

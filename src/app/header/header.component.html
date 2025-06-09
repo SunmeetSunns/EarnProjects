@@ -90,8 +90,8 @@
 </div>
 
 <div class="profile-div" *ngIf="this.showProfile">
-    <!-- <div class="profile-div-btns bd-btm"><img src="../../assets/svg/cart.svg" class="logout"><span>My Plan</span>
-    </div> -->
+    <div class="profile-div-btns bd-btm"><img src="../../assets/svg/cart.svg" class="logout" (click)="goToDashboard()"><span>My Plan</span>
+    </div>
     <div class="profile-div-btns" (click)="logout()"><img src="../../assets/svg/logout.svg" alt="logout"
             class="logout"><span>Logout</span></div>
 </div>
@@ -139,7 +139,7 @@
 <ng-template #studentForm let-modal>
     <div class="modal-header-pop">
         <div class="heading-mod my-modal text-center w-100">
-            Please Enter your phone number to get call from expert.
+           Enter your mobile number and our expert will call you shortly!
         </div>
 
         <div class="modal-body d-flex flex-column justify-content-center align-items-center">

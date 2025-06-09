@@ -373,7 +373,7 @@ padding: 1em;
 .divs-pos-our-plan {
   top: 5.1em !important;
   /* left: 12em !important; */
-  right: 26em; /* adjust as needed */
+  right: 21em; /* adjust as needed */
 }
 
 .divs-pos-review-plan {
@@ -384,5 +384,5 @@ padding: 1em;
 .divs-pos-support-plan {
   top: 5.1em !important;
   /* left: 31em !important; */
-  right: 22em;
+  right: 16em;
 }

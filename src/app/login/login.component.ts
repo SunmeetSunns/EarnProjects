@@ -51,11 +51,24 @@ export class LoginComponent implements OnInit {
           this.authToken = res?.token;
           sessionStorage.setItem('isLoggedIn', 'true');
           sessionStorage.setItem('authToken', this.authToken);
+          sessionStorage.setItem('loginTime', Date.now().toString()); // ✅ Add this line
           sessionStorage.setItem('user', JSON.stringify(res?.user));
+          sessionStorage.setItem('planPurchased', res?.user?.planPurchased.toString())
+          const planPurchased = res?.user?.planPurchased
+          const havePreference = res?.user?.havePreference
           sessionStorage.setItem('havePreference', res?.user?.havePreference.toString())
           this.loginService.setLoginStatus(true);
           const user = res?.user
+          if (havePreference && !planPurchased) {
+            this.router.navigate([`/plans/${user?.category}`]);
+          }
+         if(!havePreference && !planPurchased){
           this.router.navigate([`/plans/${user?.category}`]);
+         }
+          if(planPurchased){
+             this.router.navigate(['/dashboard']);
+          }
+
         }
         if (res?.status == 201) {
           this.dangerText = res?.message

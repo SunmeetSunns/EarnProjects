@@ -23,19 +23,27 @@ export class ReviewDetailComponent implements OnInit {
   agencyFieldsStep2: { field: string; value: any; }[];
   professionalFields: { field: string; value: any; }[];
   @ViewChild('successModal') successModal!: TemplateRef<any>;
-  successMsg:any;
+  successMsg: any;
+  termsAgreed: any = false;
+  userId: any;
+  planAndUserDetails: any = [];
 
   ngOnInit(): void {
     const fieldData = JSON.parse(sessionStorage.getItem('overallData'))
     const planDetails = JSON.parse(sessionStorage.getItem('selectedPlan'))
     this.planDetails = planDetails
     this.fieldData = fieldData
-    console.log(planDetails)
-    console.log(fieldData)
+    this.planAndUserDetails.push(this.fieldData)
+    this.planAndUserDetails.push(this.planDetails)
+    if (sessionStorage.getItem('user')) {
+      const data = JSON.parse(sessionStorage.getItem('user') || '{}');
+      this.userId = data?._id
+      if (!data) return;
+    }
     this.populateData()
   }
   constructor(private router: Router, private paymentService: PaymentService, private ApiService: HttpWrapperService
-    ,private modal :NgbModal
+    , private modal: NgbModal
   ) {
 
   }
@@ -158,11 +166,11 @@ export class ReviewDetailComponent implements OnInit {
   toggleSection(section: 'additional' | 'declaration') {
     this.activeSection = this.activeSection === section ? null : section;
   }
-  payNow() {
-
+  payNow(amount) {
     let body = {
-      amount: 500
+      amount: amount
     }
+
     this.ApiService.post(Api.createPayment, body).subscribe((res: any) => {
       const options = {
         key: 'rzp_test_L2tLtBAVGNYhwL',
@@ -171,10 +179,14 @@ export class ReviewDetailComponent implements OnInit {
         name: 'EarnProjects',
         order_id: res.order.id,
         handler: (response: any) => {
+          // Verify payment
           this.ApiService.post(Api.verifyPayment, response).subscribe((verifyRes: any) => {
             if (verifyRes?.success) {
-              this.modal.open(this.successModal,{size:'md',centered:true})
-              this.successMsg='✅ Payment Successful!'
+
+              this.successMsg = '✅ Payment Successful!';
+              this.modal.open(this.successModal, { size: 'md', centered: true })
+              this.savePlanData(response)
+
             }
           });
         },
@@ -182,9 +194,33 @@ export class ReviewDetailComponent implements OnInit {
           color: '#7C3AED'
         }
       };
+
       const rzp = new Razorpay(options);
       rzp.open();
     });
+  }
+  savePlanData(response: any) {
+    this.successMsg=''
+    let saveBody = {
+      userId: this.userId,
+      formDataArray: this.planAndUserDetails,
+      razorpayOrderId: response.razorpay_order_id,
+      razorpayPaymentId: response.razorpay_payment_id
+    };
+
+    this.ApiService.post(Api.saveUserPlan, saveBody).subscribe((result: any) => {
+     if(result?.status==200){
+      const dataSaved=true
+      sessionStorage.setItem('planPurchased',dataSaved.toString());
+      this.successMsg=result?.message
+      this.modal.open(this.successModal,{size:'md',centered:true})
+      
+      this.router.navigate(['/dashboard'])
+     }
+    });
+  }
+  agreeToTerms() {
+    this.termsAgreed = !this.termsAgreed
   }
 
 }

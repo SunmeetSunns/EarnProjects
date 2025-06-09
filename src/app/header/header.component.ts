@@ -75,6 +75,7 @@ export class HeaderComponent implements OnInit {
 
     if (!clickedInsideHeader && !clickedInsideDropdown) {
       this.show = false;
+      this.showProfile=false;
     }
   }
   buildForm() {
@@ -108,7 +109,9 @@ export class HeaderComponent implements OnInit {
       this.isLoggedIn = status;
     });
   }
-
+goToDashboard(){
+  this.router.navigate(['/dashboard'])
+}
 
   submitForm() {
     if (this.expertForm.invalid) {
@@ -133,7 +136,6 @@ export class HeaderComponent implements OnInit {
 
     if (this.isLaptop !== isNowLaptop) {
       this.isLaptop = isNowLaptop;
-      console.log('Window resized, isLaptop:', this.isLaptop); // Debug log
     }
   }
 
@@ -174,6 +176,7 @@ export class HeaderComponent implements OnInit {
 
   if (plan === 'renewPlan') {
     this.show = false;
+    this.showProfile=false;
     this.dropDownValues = [];
     return;
   }
@@ -205,6 +208,7 @@ export class HeaderComponent implements OnInit {
     this.closeOffcanvas()
     if (actionName === 'ourPlan') {
       this.show = false;
+      this.showProfile=false;
       if (choosePlan === 'All Plans') {
         this.router.navigate(['/plans/all']);
       } else if (choosePlan === 'Student Plans') {
@@ -238,6 +242,7 @@ export class HeaderComponent implements OnInit {
 
   openAboutModal(popup) {
     this.show = false;
+    this.showProfile=false;
     this.modal.open(popup, { size: 'lg', centered: true })
   }
 
@@ -274,6 +279,7 @@ export class HeaderComponent implements OnInit {
 
 
   talkToExpert(popup) {
+    this.showProfile=false;
     this.show = false;
     this.buildForm()
     this.modal.open(popup, {

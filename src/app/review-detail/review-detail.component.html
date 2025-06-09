@@ -207,7 +207,7 @@
         </div>
 
         <div class="review-agree">
-            <input type="checkbox" class="agree-check">
+            <input type="checkbox" class="agree-check" (click)="agreeToTerms()">
             <div class="review-agree-title">I agree to the <a href="../../assets/files/Terms&Conditions.pdf"
                     download="Terms-and-Conditions.pdf">
                     Terms and Conditions
@@ -223,7 +223,7 @@
         </div>
         <div class="rev-btn">
             <button class="rev-b1" (click)="editDetails()">EDIT DETAILS</button>
-            <button class="rev-b2" (click)="payNow()">CHECKOUT</button>
+            <button class="rev-b2" (click)="payNow(fieldData?.amount)" [disabled]="!termsAgreed">CHECKOUT</button>
         </div>
     </div>
 </div>

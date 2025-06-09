@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 export class ProceedFormComponent implements OnInit {
   form!: FormGroup;
   stepIndex = 0;
-maxDate: string = '';
+  maxDate: string = '';
   // You can dynamically set this.plan via Input() or another way as needed
   plan: 'student' | 'professional' | 'agency';
   selectedPlanDetails: any;
@@ -34,9 +34,9 @@ maxDate: string = '';
   constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
-      const today = new Date();
-  today.setFullYear(today.getFullYear() - 18); // 18 years ago
-  this.maxDate = today.toISOString().split('T')[0]; // yyyy-mm-dd format
+    const today = new Date();
+    today.setFullYear(today.getFullYear() - 18); // 18 years ago
+    this.maxDate = today.toISOString().split('T')[0]; // yyyy-mm-dd format
     this.fillPlanDetails()
     this.initializeForm();
     this.applyPlanBasedValidators(this.plan);
@@ -146,7 +146,10 @@ maxDate: string = '';
       step0: this.fb.group({
         fullName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+        phoneNumber: ['', [Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10),
+        Validators.pattern('^[6-9][0-9]{9}$')]],
         city: ['', Validators.required],
         dob: ['', Validators.required],
         agencyName: ['', Validators.required],
@@ -194,29 +197,29 @@ maxDate: string = '';
         salesHelpRequired: ['false'],
       }),
     });
-      // Add validator when creating form
-  this.form.get('dob')?.setValidators([Validators.required, this.minAgeValidator(18)]);
+    // Add validator when creating form
+    this.form.get('dob')?.setValidators([Validators.required, this.minAgeValidator(18)]);
   }
 
-validateAge() {
-  this.form.get('dob')?.updateValueAndValidity();
-}
+  validateAge() {
+    this.form.get('dob')?.updateValueAndValidity();
+  }
 
-minAgeValidator(minAge: number) {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const dob = new Date(control.value);
-    const today = new Date();
+  minAgeValidator(minAge: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const dob = new Date(control.value);
+      const today = new Date();
 
-    const age = today.getFullYear() - dob.getFullYear();
-    const month = today.getMonth() - dob.getMonth();
-    const day = today.getDate() - dob.getDate();
+      const age = today.getFullYear() - dob.getFullYear();
+      const month = today.getMonth() - dob.getMonth();
+      const day = today.getDate() - dob.getDate();
 
-    const isUnderAge =
-      age < minAge || (age === minAge && (month < 0 || (month === 0 && day < 0)));
+      const isUnderAge =
+        age < minAge || (age === minAge && (month < 0 || (month === 0 && day < 0)));
 
-    return isUnderAge ? { underage: true } : null;
-  };
-}
+      return isUnderAge ? { underage: true } : null;
+    };
+  }
   applyPlanBasedValidators(plan: string) {
     const step0 = this.form.get('step0') as FormGroup;
     const step1 = this.form.get('step1') as FormGroup;
@@ -248,13 +251,13 @@ minAgeValidator(minAge: number) {
       ]);
       step0.get('city')?.setValidators([Validators.required]);
       step0.get('dob')?.setValidators([Validators.required]);
-       ['college', 'course', 'yearOfStudy','techStack'].forEach(
+      ['college', 'course', 'yearOfStudy', 'techStack'].forEach(
         (field) => {
           step1.get(field)?.setValidators([Validators.required]);
           step1.get(field)?.updateValueAndValidity();
         }
       );
-      ['availability',  'languageComfort', 'preferredLearningAreas'].forEach(
+      ['availability', 'languageComfort', 'preferredLearningAreas'].forEach(
         (field) => {
           step2.get(field)?.setValidators([Validators.required]);
           step2.get(field)?.updateValueAndValidity();
@@ -279,7 +282,7 @@ minAgeValidator(minAge: number) {
           step1.get(field)?.updateValueAndValidity();
         }
       );
-      ['availability',  'languageComfort', 'preferredProjectType'].forEach(
+      ['availability', 'languageComfort', 'preferredProjectType'].forEach(
         (field) => {
           step2.get(field)?.setValidators([Validators.required]);
           step2.get(field)?.updateValueAndValidity();
@@ -437,7 +440,7 @@ minAgeValidator(minAge: number) {
   ];
 
   navigateToReview() {
-    console.log(this.form.value)
+
     if (this.form.valid) {
       const formData = this.form.getRawValue(); // ✅ Includes disabled fields
 
@@ -451,8 +454,6 @@ minAgeValidator(minAge: number) {
         paymentFrequency: this.payFrequency,
         discount: this.yearlyDiscount ? this.yearlyDiscount : this.selectedPlanDetails?.yearlyDiscount
       };
-
-      console.log('Form Data:', this.Overalldata);
       sessionStorage.setItem('overallData', JSON.stringify(this.Overalldata));
       this.router.navigate(['/review']);
     } else {
