@@ -19,9 +19,9 @@
             <div class="disPerc">{{ plan?.discountPer }}% off</div>
           </div>
 
- <span class="error" *ngIf="planPurchased">{{this.purchasedMsg}}</span>
-          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)" >Get Started</button>
-          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category)" >Choose Plan</button>
+          <span class="error" *ngIf="planPurchased">{{this.purchasedMsg}}</span>
+          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)">Get Started</button>
+          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category)">Choose Plan</button>
           <span class="spl-features">Features Include</span>
           <ul class="features">
             <li *ngFor="let feature of plan.features">
@@ -58,10 +58,10 @@
             }}/month</button>
           <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category,true,plan)">₹{{ plan.price
             }}/month</button>
-           
-            <div class="disPerc2">You can save {{ plan?.discountPer }}% with this plan.</div>
 
-         
+          <div class="disPerc2">You can save {{ plan?.discountPer }}% with this plan.</div>
+
+
 
         </div>
 

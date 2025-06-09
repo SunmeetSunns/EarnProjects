@@ -27,9 +27,9 @@ export class PlansComponent implements OnInit {
   @ViewChild('agencyForm') agencyForm!: TemplateRef<any>;
 
   allPlans: any = [
-   
-   
-   
+
+
+
   ];
 
 
@@ -62,21 +62,22 @@ export class PlansComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.showLoggerError=false
+    this.showLoggerError = false
     this.route.params.subscribe(params => {
       this.category = params['category'];
       this.populatePlanData();
       this.currentCategory = this.category;
       if (sessionStorage.getItem('havePreference')) {
-        const setUpDone=JSON.parse(sessionStorage.getItem('havePreference'))
+        const setUpDone = JSON.parse(sessionStorage.getItem('havePreference'))
         this.clientSetupDone = setUpDone;
       }
       if (sessionStorage.getItem('user')) {
         const loggerCategory = JSON.parse(sessionStorage.getItem('user'))
         this.loggerCategory = loggerCategory.category
       }
-      if(sessionStorage.getItem('planPurchased')){
-        this.planPurchased=true;
+      if (sessionStorage.getItem('planPurchased')) {
+        const data=JSON.parse(sessionStorage.getItem('planPurchased'))
+        this.planPurchased = data
       }
 
     });
@@ -102,7 +103,7 @@ export class PlansComponent implements OnInit {
     }
   }
   populatePlanData() {
-    this.showLoggerError=false;
+    this.showLoggerError = false;
     let body = {
       category: this.category
     }
@@ -118,20 +119,20 @@ export class PlansComponent implements OnInit {
     for (let i = 0; i < plans.length; i++) {
       this.allPlans.push({
         name: plans[i].planName,
-        price: plans[i].priceINR ,
+        price: plans[i].priceINR,
         yearlyDiscount: plans[i].discount,
         category: plans[i].category,
         description: plans[i].planDescription,
         features: plans[i].features,
         popular: plans[i].popular,
-        noOfLeads:plans[i].noOfLeads,
-        discountPer:this.calculateDiscount(plans[i].priceINR,plans[i].discount),
-        
+        noOfLeads: plans[i].noOfLeads,
+        discountPer: this.calculateDiscount(plans[i].priceINR, plans[i].discount),
+
       })
     }
   }
-  calculateDiscount(oPrice:any,discount:any){
-    const discountPercentage=Math.round((Number(discount)-Number(oPrice))/Number(discount)*100);
+  calculateDiscount(oPrice: any, discount: any) {
+    const discountPercentage = Math.round((Number(discount) - Number(oPrice)) / Number(discount) * 100);
     return discountPercentage.toFixed(2);
 
 
@@ -187,44 +188,44 @@ export class PlansComponent implements OnInit {
 
 
   categoryWisePreferrence() {
-  const skillsList = [
-    'Web Development (Frontend / Backend / Full-stack)',
-    'Mobile App Development',
-    'UI/UX Design',
-    'Graphic Design / Branding',
-    'SEO / SEM',
-    'Social Media Management',
-    'Content Writing / Copywriting',
-    'Video Editing ',
-    'Animation',
-    'Chatbox Integration',
-    'Digital Marketing',
-    'Data Analysis / Power BI / Excel',
-    'Virtual Assistant / Admin Support',
-    'Python',
-    'Java',
-    'Others'
-    
-  ];
+    const skillsList = [
+      'Web Development (Frontend / Backend / Full-stack)',
+      'Mobile App Development',
+      'UI/UX Design',
+      'Graphic Design / Branding',
+      'SEO / SEM',
+      'Social Media Management',
+      'Content Writing / Copywriting',
+      'Video Editing ',
+      'Animation',
+      'Chatbox Integration',
+      'Digital Marketing',
+      'Data Analysis / Power BI / Excel',
+      'Virtual Assistant / Admin Support',
+      'Python',
+      'Java',
+      'Others'
 
-  this.buildForms();
+    ];
 
-  if (this.currentCategory === 'student') {
-    this.preferenceOptions = [...skillsList];
-  } else if (this.currentCategory === 'professional') {
-    this.preferenceOptions = [...skillsList];
-  } else if (this.currentCategory === 'agency') {
-    this.preferenceOptions = [...skillsList];
+    this.buildForms();
+
+    if (this.currentCategory === 'student') {
+      this.preferenceOptions = [...skillsList];
+    } else if (this.currentCategory === 'professional') {
+      this.preferenceOptions = [...skillsList];
+    } else if (this.currentCategory === 'agency') {
+      this.preferenceOptions = [...skillsList];
+    }
   }
-}
 
   routeToSignup(category: string, proceed?: any, rawData?: any) {
     this.showLoggerError = false;
 
- if(this.planPurchased){
-   this.purchasedMsg='You currently have an active plan. You can upgrade or renew after it expires.'
-  return
- }
+    if (this.planPurchased==true) {
+      this.purchasedMsg = 'You currently have an active plan. You can upgrade or renew after it expires.'
+      return
+    }
     if (proceed) {
       if (this.loggerCategory !== category) {
         this.showLoggerError = true;
@@ -360,7 +361,7 @@ export class PlansComponent implements OnInit {
         formData.append('pincode', values.pincode);
         formData.append('document', this.selectedFile as Blob);
         valid = true;
-      } if(this.studentFormArea.invalid){
+      } if (this.studentFormArea.invalid) {
         this.studentFormArea.markAllAsTouched();
         return;
       }
