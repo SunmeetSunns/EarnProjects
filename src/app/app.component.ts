@@ -29,9 +29,6 @@ export class AppComponent implements OnInit {
     const token = sessionStorage.getItem('authToken');
     const loginTime = sessionStorage.getItem('loginTime');
     const expiryTime = 60 * 60 * 1000; // 1 hour
-    if (!token && !loginTime) {
-      this.router.navigate(['/login'])
-    }
     if (token && loginTime) {
       const timePassed = Date.now() - parseInt(loginTime);
       const timeLeft = expiryTime - timePassed;
