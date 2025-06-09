@@ -5,6 +5,8 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  AbstractControl,
+  ValidationErrors
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -19,7 +21,7 @@ import { Router } from '@angular/router';
 export class ProceedFormComponent implements OnInit {
   form!: FormGroup;
   stepIndex = 0;
-
+maxDate: string = '';
   // You can dynamically set this.plan via Input() or another way as needed
   plan: 'student' | 'professional' | 'agency';
   selectedPlanDetails: any;
@@ -32,6 +34,9 @@ export class ProceedFormComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
+      const today = new Date();
+  today.setFullYear(today.getFullYear() - 18); // 18 years ago
+  this.maxDate = today.toISOString().split('T')[0]; // yyyy-mm-dd format
     this.fillPlanDetails()
     this.initializeForm();
     this.applyPlanBasedValidators(this.plan);
@@ -189,8 +194,29 @@ export class ProceedFormComponent implements OnInit {
         salesHelpRequired: ['false'],
       }),
     });
+      // Add validator when creating form
+  this.form.get('dob')?.setValidators([Validators.required, this.minAgeValidator(18)]);
   }
 
+validateAge() {
+  this.form.get('dob')?.updateValueAndValidity();
+}
+
+minAgeValidator(minAge: number) {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const dob = new Date(control.value);
+    const today = new Date();
+
+    const age = today.getFullYear() - dob.getFullYear();
+    const month = today.getMonth() - dob.getMonth();
+    const day = today.getDate() - dob.getDate();
+
+    const isUnderAge =
+      age < minAge || (age === minAge && (month < 0 || (month === 0 && day < 0)));
+
+    return isUnderAge ? { underage: true } : null;
+  };
+}
   applyPlanBasedValidators(plan: string) {
     const step0 = this.form.get('step0') as FormGroup;
     const step1 = this.form.get('step1') as FormGroup;

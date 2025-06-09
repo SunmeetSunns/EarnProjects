@@ -59,6 +59,12 @@
         flex-direction: column !important;
         align-items: center !important;
     }
+    .input-fields{
+        width: 100% !important;
+    }
+    .eye-set{
+        width: 100% !important;
+    }
 }
 
 .sign-box h2 {

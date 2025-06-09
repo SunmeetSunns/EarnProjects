@@ -40,10 +40,10 @@
     </div>
     <div *ngIf="!isLaptop" class="d-flex">
         <!-- Hamburger Button (mobile only) -->
-        <button class="btn-logout" (click)="logout()" *ngIf="isLoggedIn">
+        <button class="btn-logout" (click)="openProfile()" *ngIf="isLoggedIn">
             <img src="../../assets/svg/logout.svg" alt="logout">
         </button>
-        <button class="btn-logout" (click)="openProfile()" *ngIf="!isLoggedIn">
+        <button class="btn-logout" (click)="routeToSignup()" *ngIf="!isLoggedIn">
             <img src="../../assets/svg/logout.svg" alt="logout">
         </button>
         <button class=" d-flex btn-outline align-items-center" type="button" data-bs-toggle="offcanvas"

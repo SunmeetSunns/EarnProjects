@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { PaymentService } from '../services/payment.service';
+import { HttpWrapperService } from '../services/api-service.service';
+import { Api } from '../services/api-enums';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+declare var Razorpay: any;
 @Component({
   selector: 'app-review-detail',
   standalone: true,
@@ -10,12 +15,15 @@ import { Router } from '@angular/router';
   styleUrl: './review-detail.component.css'
 })
 export class ReviewDetailComponent implements OnInit {
+  Razorpay: any;
   planDetails: any;
   fieldData: any;
   agencyFields: { field: string; value: any; }[];
   professionalFieldsStep2: { field: string; value: any; }[];
   agencyFieldsStep2: { field: string; value: any; }[];
   professionalFields: { field: string; value: any; }[];
+  @ViewChild('successModal') successModal!: TemplateRef<any>;
+  successMsg:any;
 
   ngOnInit(): void {
     const fieldData = JSON.parse(sessionStorage.getItem('overallData'))
@@ -26,7 +34,9 @@ export class ReviewDetailComponent implements OnInit {
     console.log(fieldData)
     this.populateData()
   }
-  constructor(private router:Router){
+  constructor(private router: Router, private paymentService: PaymentService, private ApiService: HttpWrapperService
+    ,private modal :NgbModal
+  ) {
 
   }
   populateData() {
@@ -126,9 +136,9 @@ export class ReviewDetailComponent implements OnInit {
 
 
   }
-  editDetails(){
-    const forEdit=true
-    sessionStorage.setItem('forEdit',forEdit.toString())
+  editDetails() {
+    const forEdit = true
+    sessionStorage.setItem('forEdit', forEdit.toString())
     this.router.navigate(['/proceed-form'])
   }
   formatDate(dateStr: string): string {
@@ -147,6 +157,34 @@ export class ReviewDetailComponent implements OnInit {
 
   toggleSection(section: 'additional' | 'declaration') {
     this.activeSection = this.activeSection === section ? null : section;
+  }
+  payNow() {
+
+    let body = {
+      amount: 500
+    }
+    this.ApiService.post(Api.createPayment, body).subscribe((res: any) => {
+      const options = {
+        key: 'rzp_test_L2tLtBAVGNYhwL',
+        amount: res.order.amount,
+        currency: 'INR',
+        name: 'EarnProjects',
+        order_id: res.order.id,
+        handler: (response: any) => {
+          this.ApiService.post(Api.verifyPayment, response).subscribe((verifyRes: any) => {
+            if (verifyRes?.success) {
+              this.modal.open(this.successModal,{size:'md',centered:true})
+              this.successMsg='✅ Payment Successful!'
+            }
+          });
+        },
+        theme: {
+          color: '#7C3AED'
+        }
+      };
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
   }
 
 }

@@ -73,9 +73,11 @@
                 </div>
                 <div class="form-field">
                   <label class="side-align">DOB</label>
-                  <input class="form-ans form-control" formControlName="dob" type="date" />
-                  <div class="error" *ngIf="isFieldInvalid('dob')">Date Of Birth is required.</div>
+                  <input class="form-ans form-control dob-input" formControlName="dob" type="date" [attr.max]="maxDate"
+                    (change)="validateAge()" />
+                  <div class="error" *ngIf="isFieldInvalid('dob')">You must be at least 18 years old.</div>
                 </div>
+
               </ng-container>
 
               <ng-container *ngIf="plan === 'agency'">
@@ -155,14 +157,14 @@
                   <input class="form-ans form-control" formControlName="yearsOfExperience" />
                   <div class="error" *ngIf="isFieldInvalid('yearsOfExperience')">Years of Experience is required.</div>
                 </div>
-               
+
                 <div class="form-field">
                   <label class="side-align">Project Descriptions</label>
                   <textarea class="form-ans form-control" formControlName="projectDescriptions"></textarea>
                   <div class="error" *ngIf="isFieldInvalid('projectDescriptions')">Project Description is required.
                   </div>
                 </div>
-                 <div class="form-field">
+                <div class="form-field">
                   <label class="side-align">Portfolio Link</label>
                   <input class="form-ans form-control" formControlName="portfolioLink" />
                 </div>

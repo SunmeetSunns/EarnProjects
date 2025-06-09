@@ -39,18 +39,18 @@
   </url>
 
   <!-- Proceed Form -->
-  <url>
+  <!-- <url>
     <loc>https://earnprojects.com/proceed-form</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url>
+  </url> -->
 
   <!-- Review -->
-  <url>
+  <!-- <url>
     <loc>https://earnprojects.com/review</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url>
+  </url> -->
 
   <!-- Offerings -->
   <url>

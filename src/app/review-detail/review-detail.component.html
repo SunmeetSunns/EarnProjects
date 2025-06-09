@@ -223,7 +223,27 @@
         </div>
         <div class="rev-btn">
             <button class="rev-b1" (click)="editDetails()">EDIT DETAILS</button>
-            <button class="rev-b2">CHECKOUT</button>
+            <button class="rev-b2" (click)="payNow()">CHECKOUT</button>
         </div>
     </div>
 </div>
+
+<ng-template #successModal let-modal>
+  <div class="modal-header-pop text-center p-4" style="width: 100%;">
+    <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-3">
+
+      <!-- ✅ Success Icon -->
+      <img src="assets/svg/success.svg" alt="Success" style="width: 80px; height: 80px;" />
+
+      <!-- ✅ Success Text -->
+      <h5 class="text-success fw-bold mt-2">
+        {{ successMsg || 'Your request has been submitted successfully!' }}
+      </h5>
+
+      <!-- ✅ Optional Close Button -->
+      <button class="btn btn-success px-4 mt-3" (click)="modal.close()">
+        OK
+      </button>
+    </div>
+  </div>
+</ng-template>

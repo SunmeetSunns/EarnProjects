@@ -11,6 +11,8 @@ export const Api = {
   forgotPass:'api/auth/forgot-password',
   changePassword:'api/auth/reset-password',
   talkToExpert:'api/auth/talk-to-expert',
+  createPayment:'api/payment/create-order',
+  verifyPayment:'api/payment/verify-payment'
   
   // Add more endpoints as needed
 };
