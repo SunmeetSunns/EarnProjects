@@ -90,7 +90,7 @@
 </div>
 
 <div class="profile-div" *ngIf="this.showProfile">
-    <div class="profile-div-btns bd-btm"><img src="../../assets/svg/cart.svg" class="logout" (click)="goToDashboard()"><span>My Plan</span>
+    <div *ngIf="this.planPurchased"class="profile-div-btns bd-btm" (click)="goToDashboard()"><img src="../../assets/svg/cart.svg" class="logout" ><span>My Plan</span>
     </div>
     <div class="profile-div-btns" (click)="logout()"><img src="../../assets/svg/logout.svg" alt="logout"
             class="logout"><span>Logout</span></div>

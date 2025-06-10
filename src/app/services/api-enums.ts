@@ -13,7 +13,8 @@ export const Api = {
   talkToExpert:'api/auth/talk-to-expert',
   createPayment:'api/payment/create-order',
   verifyPayment:'api/payment/verify-payment',
-  saveUserPlan:'api/user/saveUserPlan'
+  saveUserPlan:'api/user/saveUserPlan',
+  findPlan:'api/user/findPlan'
   
   // Add more endpoints as needed
 };

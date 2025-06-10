@@ -1,0 +1,9 @@
+.features{
+    height: 50em;
+    width: 100%;
+    background-color: white;
+   
+}
+.fe-card{
+ background: linear-gradient(to bottom , #9c75e1,#7286d0,#43aaa6);
+}

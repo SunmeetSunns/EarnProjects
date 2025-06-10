@@ -1,1 +1,90 @@
-<p class="dashboard">dashboard works!</p>
+<div class="dashboard">
+    <!-- <div>Dashboard</div> -->
+    <!-- <div class="dashboard-head">Dashboard</div> -->
+    <div class="dash-adha">
+        <div class="dashboard-70">
+            <div class="vertical">
+                <div class="vertical-head">
+                    <div class="field">Name</div>
+                    <div class="field-name">{{userPlanData?.fullFormData?.fullName}}</div>
+                </div>
+                <div class="br"></div>
+                <div class="vertical-head">
+                    <div class="field">Email</div>
+                    <div class="field-name">{{userPlanData?.fullFormData?.email}}</div>
+                </div>
+                <div class="br"></div>
+                <div class="vertical-head">
+                    <div class="field">Mobile Number</div>
+                    <div class="field-name">{{userPlanData?.fullFormData?.phoneNumber}}</div>
+                </div>
+                <div class="br"></div>
+                <div class="vertical-head">
+                    <div class="field">City</div>
+                    <div class="field-name">{{userPlanData?.fullFormData?.city}}</div>
+                </div>
+
+            </div>
+            <div class="dash-item">
+                <div class="plan-grad">
+                    <div class="plan-details">
+                        <div class="p-heading">{{userPlanData?.planName}}</div>
+                        <div class="p-box">
+                            <div class="p-list">
+                                <div class="f-head">Price</div>
+                                <div class="f-ans">{{userPlanData?.fullFormData?.amount}}</div>
+                            </div>
+                            <div class="p-list">
+                                <div class="f-head">Payment Frequency</div>
+                                <div class="f-ans">{{userPlanData?.fullFormData?.paymentFrequency}}</div>
+                            </div>
+                            <div class="p-list">
+                                <div class="f-head">Purchase Date</div>
+                                <div class="f-ans">{{formatDate(userPlanData?.paymentDate)}}</div>
+                            </div>
+                            <div class="p-list">
+                                <div class="f-head">Expiry Date</div>
+                                <div class="f-ans">{{formatDate(userPlanData?.expiryDate)}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plan-grad">
+                    <div class="plan-details1">
+                        <div class="p-heading">Plan Features</div>
+                        <div class="p-box">
+                            <div class="p-list-1" *ngFor="let feature of userPlanData?.features">
+                                <div class="dot"></div>
+                                <div>{{feature}}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="dashboard-30">
+            <div class="plan-grad">
+                <div class="chart-details">
+                    <div style="max-width: 15em;">
+                        <canvas baseChart [data]="doughnutChartData" [type]="doughnutChartType"
+                            [options]="chartOptions">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="plan-grad">
+                <div class="plan-details" style="width: 15em; height: 15em;">
+                    <div class="p-heading">Total Earrnings</div>
+                    <div class="earning" >$ 0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

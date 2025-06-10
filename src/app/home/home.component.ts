@@ -33,11 +33,13 @@ import { TestimonialsComponent } from '../testimonials/testimonials.component';
 import { WhyusComponent } from '../whyus/whyus.component';
 import { FaqComponent } from '../faq/faq.component';
 import { FooterComponent } from '../footer/footer.component';
+import { FeaturesComponent } from '../features/features.component';
 
 @Component({
   standalone: true,
   imports: [
     HeroComponent,
+    FeaturesComponent,
     WhyusComponent,
     OfferingsComponent,
     TestimonialsComponent,
@@ -45,6 +47,7 @@ import { FooterComponent } from '../footer/footer.component';
   ],
   template: `
     <app-hero></app-hero>
+   
     <app-whyus></app-whyus>
     <app-offerings></app-offerings>
     <app-testimonials></app-testimonials>

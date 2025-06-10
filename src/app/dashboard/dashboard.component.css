@@ -1,3 +1,274 @@
-.dashboard{
-    margin-top: 6em;
+.dashboard {
+    margin-top: 5em;
+    padding: 3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-items: center; */
+    gap: 2em;
+    margin-bottom: 3em;
+}
+
+.dashboard-head {
+    padding: 0.5em 1em;
+    background-color: #EDE9FE;
+    color: #7C3AED;
+    width: fit-content;
+    font-size: 1em;
+    align-self: center;
+    border-radius: 2em;
+    font-weight: 500;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: linear-gradient(to right, #9c75e1, #7286d0, #43aaa6);
+    color: white;
+    padding: 1em 2em;
+    gap: 1em;
+    border-radius: 30px;
+    margin-top: 2em;
+}
+
+.vertical-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.br {
+    border-right: 2px solid white;
+}
+
+.field {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.field-name {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.dash-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    padding: 1em;
+}
+
+.plan-grad {
+    padding: 3px;
+    /* Border thickness */
+    border-radius: 12px;
+    background: linear-gradient(to bottom, #9c75e1, #7286d0, #43aaa6);
+    display: inline-block;
+    /* Only as wide as content */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: fit-content;
+}
+
+.dash-adha {
+    display: flex;
+    flex-direction: row;
+}
+
+.dashboard-70 {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    justify-content: space-between;
+}
+
+.dashboard-30 {
+    width: 35%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2em;
+}
+
+.dot {
+    background-color: #1BAFAA;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%
+}
+
+.plan-details {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5em;
+    gap: 1em;
+    height: 100%;
+    width: fit-content;
+}
+
+.plan-details1 {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5em;
+    gap: 1em;
+    height: 100%;
+    width: fit-content;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.05);
+}
+
+.chart-details {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    gap: 1em;
+    width: fit-content;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.05);
+    padding: 0.2em;
+}
+
+
+.p-box {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.p-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3em;
+}
+
+.p-list>div {
+    color: #5C6872;
+    margin-bottom: 0.5em;
+}
+
+.p-list-1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3em;
+}
+
+.p-list-1>div {
+    color: #5C6872;
+    margin-bottom: 0.5em;
+}
+
+.p-heading {
+    font-size: 1.5em;
+    font-style: italic;
+    background: linear-gradient(to right, #7A3CEB, #3D85C1, #1BAFAA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    align-self: center;
+    font-weight: 500;
+}
+
+.earning {
+    color: #5C6872;
+    font-size: 3em;
+    margin: 0.3em auto;
+}
+
+.f-head {
+    font-size: 1em;
+    font-weight: 500;
+}
+
+@media (max-width:1090px) {
+    .vertical {
+        padding: 0.5em;
+        gap: 0;
+    }
+
+    .dash-item {
+        gap: 1em;
+    }
+
+    .field {
+        font-size: 1em;
+    }
+
+    .field-name {
+        font-size: 0.9em;
+    }
+
+    .br {
+        border-right: 1px solid white;
+    }
+}
+
+@media (max-width:900px) {
+    .vertical {
+        border-radius: 10px;
+
+    }
+
+    .dash-adha {
+        flex-direction: column;
+    }
+
+    .dashboard-30 {
+        width: 100%;
+    }
+
+    .dashboard-70 {
+        width: 100%;
+    }
+
+    .dash-item {
+        gap: 1em;
+    }
+
+    .dashboard-30 {
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 1em;
+    }
+}
+
+@media (max-width:600px) {
+    .dash-item {
+        flex-direction: column;
+        align-items: center;
+        gap: 2em;
+    }
+
+    .dashboard-30 {
+        flex-direction: column;
+    }
+      .vertical {
+        flex-direction: column;
+    }
+
+    .br {
+        display: none;
+    }
+}
+
+@media (max-width:480px) {
+    .dashboard {
+        padding: 1em;
+    }
+
+    .vertical {
+        flex-direction: column;
+    }
+
+    .br {
+        display: none;
+    }
 }

@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   @ViewChild('headerRef') headerRef!: ElementRef;
   @ViewChild('offcanvasRef', { static: false }) offcanvasRef!: ElementRef;
   @ViewChild('successModal') successModal!: TemplateRef<any>;
-@ViewChild('supportDropdownRef') supportDropdownRef!: ElementRef;
+  @ViewChild('supportDropdownRef') supportDropdownRef!: ElementRef;
   isScrolled: boolean = false;
   dropDownValues: any[] = [];
   show: boolean = false;
@@ -33,11 +33,12 @@ export class HeaderComponent implements OnInit {
   activeDropdown: string = '';
   expertForm!: FormGroup;
   successMsg: any;
+  planPurchased: any;
 
   constructor(private el: ElementRef, private renderer: Renderer2, public router: Router,
     private formBuilder: FormBuilder, private zone: NgZone,
     public loginService: LoginServiceService, private modal: NgbModal, public ApiService: HttpWrapperService,
- ) { }
+  ) { }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -54,19 +55,19 @@ export class HeaderComponent implements OnInit {
     }
   }
   setDropdownPosition(triggerElement: HTMLElement, type: 'support' | 'ourPlan') {
-  const rect = triggerElement.getBoundingClientRect();
-  const scrollTop = window.scrollY;
-  const scrollLeft = window.scrollX;
+    const rect = triggerElement.getBoundingClientRect();
+    const scrollTop = window.scrollY;
+    const scrollLeft = window.scrollX;
 
-  const dropdown = type === 'support' ? this.supportDropdownRef?.nativeElement : this.dropdownRef?.nativeElement;
+    const dropdown = type === 'support' ? this.supportDropdownRef?.nativeElement : this.dropdownRef?.nativeElement;
 
-  if (dropdown) {
-    this.renderer.setStyle(dropdown, 'position', 'absolute');
-    this.renderer.setStyle(dropdown, 'top', `${rect.bottom + scrollTop}px`);
-    this.renderer.setStyle(dropdown, 'left', `${rect.left + scrollLeft}px`);
-    this.renderer.setStyle(dropdown, 'z-index', '10000');
+    if (dropdown) {
+      this.renderer.setStyle(dropdown, 'position', 'absolute');
+      this.renderer.setStyle(dropdown, 'top', `${rect.bottom + scrollTop}px`);
+      this.renderer.setStyle(dropdown, 'left', `${rect.left + scrollLeft}px`);
+      this.renderer.setStyle(dropdown, 'z-index', '10000');
+    }
   }
-}
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
@@ -75,7 +76,7 @@ export class HeaderComponent implements OnInit {
 
     if (!clickedInsideHeader && !clickedInsideDropdown) {
       this.show = false;
-      this.showProfile=false;
+      this.showProfile = false;
     }
   }
   buildForm() {
@@ -108,10 +109,12 @@ export class HeaderComponent implements OnInit {
     this.loginService.isLoggedIn$.subscribe((status: boolean) => {
       this.isLoggedIn = status;
     });
+    const data=JSON.parse(sessionStorage.getItem('planPurchased'))
+    this.planPurchased=data
   }
-goToDashboard(){
-  this.router.navigate(['/dashboard'])
-}
+  goToDashboard() {
+    this.router.navigate(['/dashboard'])
+  }
 
   submitForm() {
     if (this.expertForm.invalid) {
@@ -125,9 +128,7 @@ goToDashboard(){
       if (res?.status == 200) {
         this.modal.dismissAll()
         this.successMsg = res?.message
-        this.modal.open(this.successModal, { size: 'md', centered: true })
-
-
+        this.modal.open(this.successModal, { size: 'md', centered: true, keyboard: true })
       }
     })
   }
@@ -171,44 +172,44 @@ goToDashboard(){
   //   }
   // }
   applyClasses(plan: string, triggerElement?: HTMLElement) {
-  this.activeDropdown = this.activeDropdown === plan ? '' : plan;
-  this.currentDrop = plan;
+    this.activeDropdown = this.activeDropdown === plan ? '' : plan;
+    this.currentDrop = plan;
 
-  if (plan === 'renewPlan') {
-    this.show = false;
-    this.showProfile=false;
-    this.dropDownValues = [];
-    return;
+    if (plan === 'renewPlan') {
+      this.show = false;
+      this.showProfile = false;
+      this.dropDownValues = [];
+      return;
+    }
+
+    this.show = true;
+
+    if (plan === 'ourPlan') {
+      this.dropDownValues = [
+        { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
+        { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
+        { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
+        { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
+      ];
+    } else if (plan === 'support') {
+      this.dropDownValues = [
+        { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
+        { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
+        { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
+      ];
+    }
+
+    if (triggerElement) {
+      this.setDropdownPosition(triggerElement, plan as 'ourPlan' | 'support');
+    }
   }
-
-  this.show = true;
-
-  if (plan === 'ourPlan') {
-    this.dropDownValues = [
-      { Planname: 'All Plans', src: '../../assets/svg/all-plan.svg' },
-      { Planname: 'Student Plans', src: '../../assets/svg/stud-plan.svg' },
-      { Planname: 'Professional Plans', src: '../../assets/svg/prof-plan.svg' },
-      { Planname: 'Agency Plans', src: '../../assets/svg/comp-plan.svg' }
-    ];
-  } else if (plan === 'support') {
-    this.dropDownValues = [
-      { Planname: 'WhatsApp', src: '../../assets/svg/wapp.svg' },
-      { Planname: 'Mail Us', src: '../../assets/svg/mail.svg' },
-      { Planname: 'Contact Us', src: '../../assets/svg/phn-support.svg' }
-    ];
-  }
-
-  if (triggerElement) {
-    this.setDropdownPosition(triggerElement, plan as 'ourPlan' | 'support');
-  }
-}
 
 
   performAction(actionName: any, choosePlan: any) {
     this.closeOffcanvas()
     if (actionName === 'ourPlan') {
       this.show = false;
-      this.showProfile=false;
+      this.showProfile = false;
       if (choosePlan === 'All Plans') {
         this.router.navigate(['/plans/all']);
       } else if (choosePlan === 'Student Plans') {
@@ -242,7 +243,7 @@ goToDashboard(){
 
   openAboutModal(popup) {
     this.show = false;
-    this.showProfile=false;
+    this.showProfile = false;
     this.modal.open(popup, { size: 'lg', centered: true })
   }
 
@@ -279,7 +280,7 @@ goToDashboard(){
 
 
   talkToExpert(popup) {
-    this.showProfile=false;
+    this.showProfile = false;
     this.show = false;
     this.buildForm()
     this.modal.open(popup, {

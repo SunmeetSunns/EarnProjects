@@ -183,8 +183,8 @@ export class ReviewDetailComponent implements OnInit {
           this.ApiService.post(Api.verifyPayment, response).subscribe((verifyRes: any) => {
             if (verifyRes?.success) {
 
-              this.successMsg = '✅ Payment Successful!';
-              this.modal.open(this.successModal, { size: 'md', centered: true })
+              // this.successMsg = '✅ Payment Successful!';
+              // this.modal.open(this.successModal, { size: 'md', centered: true })
               this.savePlanData(response)
 
             }
