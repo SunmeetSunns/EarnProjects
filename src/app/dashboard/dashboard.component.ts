@@ -65,7 +65,7 @@ public chartOptions = {
 
     this.ApiService.post(Api.findPlan, body).subscribe((res: any) => {
       this.userPlanData = res?.planPurchased;
-console.log()
+
       // 👇 example: assuming API returns counts like this:
       const completed = this.userPlanData?.completedProj || 0;
       const allotted = this.userPlanData?.fullFormData?.noOfProj|| 0;

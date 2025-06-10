@@ -96,6 +96,9 @@ export class HeaderComponent implements OnInit {
 
   }
   ngOnInit() {
+    const data = JSON.parse(sessionStorage.getItem('planPurchased'))
+    this.planPurchased = data
+
     this.checkWindowSize(); // run on init
 
     // Use NgZone to force Angular to be aware of change
@@ -109,8 +112,7 @@ export class HeaderComponent implements OnInit {
     this.loginService.isLoggedIn$.subscribe((status: boolean) => {
       this.isLoggedIn = status;
     });
-    const data=JSON.parse(sessionStorage.getItem('planPurchased'))
-    this.planPurchased=data
+
   }
   goToDashboard() {
     this.router.navigate(['/dashboard'])
