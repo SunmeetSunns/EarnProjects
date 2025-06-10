@@ -62,7 +62,7 @@ public chartOptions = {
     };
 
     this.ApiService.post(Api.findPlan, body).subscribe((res: any) => {
-      if(!res?.planPurchased){
+      if(res?.status==201){
         this.noPlanPurchased=true;
         return
       }
