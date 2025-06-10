@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate([`/plans/${user?.category}`]);
          }
           if(planPurchased){
-             this.router.navigate(['/dashboard']);
+             this.router.navigate(['/']);
           }
 
         }
@@ -89,6 +89,10 @@ export class LoginComponent implements OnInit {
         this.successText = res?.message
         this.showSuccessToast()
 
+      }
+      if(res?.status==201){
+        this.dangerText=res?.message
+        this.showSuccessToast()
       }
     })
   }

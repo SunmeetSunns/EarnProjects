@@ -1,9 +1,9 @@
 <div class="dashboard">
     <!-- <div>Dashboard</div> -->
     <!-- <div class="dashboard-head">Dashboard</div> -->
-    <div class="dash-adha">
+    <div class="dash-adha" *ngIf="!noPlanPurchased">
         <div class="dashboard-70">
-            <div class="vertical">
+            <div class="vertical" *ngIf="userPlanData?.fullFormData?.plan=='student' || 'professional'">
                 <div class="vertical-head">
                     <div class="field">Name</div>
                     <div class="field-name">{{userPlanData?.fullFormData?.fullName}}</div>
@@ -25,6 +25,28 @@
                 </div>
 
             </div>
+            <div class="vertical" *ngIf="userPlanData?.fullFormData?.plan=='agency' ">
+                <div class="vertical-head">
+                    <div class="field">Agency Name</div>
+                    <div class="field-name">{{userPlanData?.fullFormData?.agencyName}}</div>
+                </div>
+                <div class="br"></div>
+                <div class="vertical-head">
+                    <div class="field">POC Name</div>
+                    <div class="field-name">{{userPlanData?.fullFormData?.pocName}}</div>
+                </div>
+                <div class="br"></div>
+                <div class="vertical-head">
+                    <div class="field">POC Mobile Number</div>
+                    <div class="field-name">{{userPlanData?.fullFormData?.pocPhoneNumber}}</div>
+                </div>
+                <div class="br"></div>
+                <div class="vertical-head">
+                    <div class="field">POC Email</div>
+                    <div class="field-name">{{userPlanData?.fullFormData?.pocEmail}}</div>
+                </div>
+
+            </div>
             <div class="dash-item">
                 <div class="plan-grad">
                     <div class="plan-details">
@@ -32,7 +54,7 @@
                         <div class="p-box">
                             <div class="p-list">
                                 <div class="f-head">Price</div>
-                                <div class="f-ans">{{userPlanData?.fullFormData?.amount}}</div>
+                                <div class="f-ans">₹ {{userPlanData?.fullFormData?.amount}}</div>
                             </div>
                             <div class="p-list">
                                 <div class="f-head">Payment Frequency</div>
@@ -80,11 +102,15 @@
             <div class="plan-grad">
                 <div class="plan-details" style="width: 15em; height: 15em;">
                     <div class="p-heading">Total Earrnings</div>
-                    <div class="earning" >$ 0</div>
+                    <div class="earning">$ 0</div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="no-record" *ngIf="noPlanPurchased">
 
+        <img src="../../assets/svg/empty-folder.svg">
+        <div>No record Found !</div>
+    </div>
 
 </div>

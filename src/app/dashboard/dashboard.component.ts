@@ -43,13 +43,11 @@ public chartOptions = {
 };
 
   public doughnutChartType: any = 'doughnut';
+  noPlanPurchased: boolean;
 
   constructor(private router: Router, private ApiService: HttpWrapperService) { }
 
   ngOnInit(): void {
-    if (!sessionStorage.getItem('user') && !sessionStorage.getItem('planPurchased')) {
-      this.router.navigate(['/']);
-    }
     this.findPlan();
   }
 
@@ -64,6 +62,10 @@ public chartOptions = {
     };
 
     this.ApiService.post(Api.findPlan, body).subscribe((res: any) => {
+      if(!res?.planPurchased){
+        this.noPlanPurchased=true;
+        return
+      }
       this.userPlanData = res?.planPurchased;
 
       // 👇 example: assuming API returns counts like this:

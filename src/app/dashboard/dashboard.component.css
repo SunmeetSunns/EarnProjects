@@ -272,3 +272,14 @@
         display: none;
     }
 }
+.no-record{
+    margin: auto;
+}
+.no-record>div{
+    color: #5C6872;
+    font-size: 1.5em;
+}
+.no-record>img{
+    height: 10em;
+    width: 10em;
+}
