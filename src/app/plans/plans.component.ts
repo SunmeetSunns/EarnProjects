@@ -33,7 +33,7 @@ export class PlansComponent implements OnInit {
   ];
 
 
-  filteredPlans: Plan[] = [];
+  filteredPlans: any = [];
   preferenceForm!: FormGroup;
   studentFormArea!: FormGroup;
   professionalFormArea!: FormGroup;
@@ -114,23 +114,42 @@ export class PlansComponent implements OnInit {
       }
     })
   }
-  populatePlanArray(plans: any) {
-    this.allPlans = []
-    for (let i = 0; i < plans.length; i++) {
-      this.allPlans.push({
-        name: plans[i].planName,
-        price: plans[i].priceINR,
-        yearlyDiscount: plans[i].discount,
-        category: plans[i].category,
-        description: plans[i].planDescription,
-        features: plans[i].features,
-        popular: plans[i].popular,
-        noOfLeads: plans[i].noOfLeads,
-        discountPer: this.calculateDiscount(plans[i].priceINR, plans[i].discount),
+ populatePlanArray(plans: any) {
+  this.allPlans = [];
+  for (let i = 0; i < plans.length; i++) {
+    this.allPlans.push({
+      name: plans[i].planName,
+      price: plans[i].priceINR,
+      yearlyDiscount: plans[i].discount,
+      category: plans[i].category,
+      description: plans[i].planDescription,
+      features: plans[i].features,
+      popular: plans[i].popular,
+      noOfLeads: plans[i].noOfLeads,
+      discountPer: this.calculateDiscount(plans[i].priceINR, plans[i].discount),
+    });
 
-      })
-    }
+    this.filteredPlans.push({
+      discountPer: this.calculateDiscount(plans[i].priceINR, plans[i].discount),
+    })
   }
+
+  // ✅ Sort only if 'all' category is selected
+  if (this.category === 'all' && this.loggerCategory) {
+    this.allPlans = [
+      ...this.allPlans.filter(plan => plan.category === this.loggerCategory),
+      ...this.allPlans.filter(plan => plan.category !== this.loggerCategory)
+    ];
+  }
+
+  // Agar specific category selected hai to filter bhi yahan kar sakta hai
+  if (this.category !== 'all') {
+    this.filteredPlans = this.allPlans.filter(plan => plan.category === this.category);
+  } else {
+    this.filteredPlans = this.allPlans;
+  }
+}
+
   calculateDiscount(oPrice: any, discount: any) {
     const discountPercentage = Math.round((Number(discount) - Number(oPrice)) / Number(discount) * 100);
     return discountPercentage.toFixed(2);

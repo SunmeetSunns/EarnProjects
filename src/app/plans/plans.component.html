@@ -6,7 +6,7 @@
   </div>
 
   <div class="cards-align" *ngIf="!isloggedIn || planPurchased">
-    <div class="card" *ngFor="let plan of allPlans" [ngClass]="{'popular': plan.popular}">
+    <div class="card" *ngFor="let plan of filteredPlans" [ngClass]="{'popular': plan.popular}">
       <div class="badge" *ngIf="plan.popular">Most Popular</div>
 
       <div class="card-body" [ngClass]="{'mt-3':plan.popular}">
