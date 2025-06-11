@@ -1,0 +1,16 @@
+.stud-dashboard{
+    height: 50em;
+    width: 100%;
+    background-color: #fff;
+    margin-top: 5em;
+    display: flex;
+    flex-direction: row;
+}
+.sidebar-dash{
+width: 25%;
+height: 100%;
+background: linear-gradient(to bottom right, #d7c7db, #7C3AED);
+}
+.main-dash{
+    width: 70%;
+}
