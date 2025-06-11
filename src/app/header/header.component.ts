@@ -281,17 +281,23 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  talkToExpert(popup) {
-    this.showProfile = false;
-    this.show = false;
-    this.buildForm()
+ talkToExpert(popup) {
+  this.showProfile = false;
+  this.show = false;
+  this.buildForm();
+
+  this.closeOffcanvas();
+
+  // ✅ Wait a bit for offcanvas backdrop cleanup before opening modal
+  setTimeout(() => {
     this.modal.open(popup, {
       size: 'md',
       centered: true,
-      keyboard:true
-      // prevent ESC close
+      keyboard: true
     });
-  }
+  }, 300);  // 300ms is enough; can tweak to 200–400ms
+}
+
   close() {
     this.modal.dismissAll()
   }

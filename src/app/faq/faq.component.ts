@@ -30,31 +30,41 @@ export class FaqComponent implements OnInit {
 
   populateFaqs() {
     this.faqs = [
-      {
-        question: 'How do the project leads work?',
-        answer: "We source and verify real project opportunities from businesses and individuals. Once subscribed, you'll receive leads matching your expertise and preferences directly in your dashboard.",
-        show: false,
-      },
-      {
-        question: 'Is there a free trial available?',
-        answer: 'No, we don’t offer a free trial. However, you can explore sample projects and platform details on our homepage to see how it works before subscribing.',
-        show: false,
-      },
-      {
-        question: 'Can I cancel my subscription at any time?',
-        answer: "Absolutely. You can cancel your subscription at any time from your account settings. You'll continue to have access until the end of your current billing period.",
-        show: false,
-      },
-      {
-        question: 'How are project leads verified?',
-        answer: 'Our team thoroughly vets each project lead through a comprehensive verification process, checking client authenticity, project scope, and budget to ensure quality opportunities.',
-        show: false,
-      },
-      {
-        question: "What happens if I don't use all my monthly leads?",
-        answer: "Unused leads from your monthly quota expire at the end of each billing cycle. We encourage active participation to make the most of your subscription.",
-        show: false,
-      }
+     {
+    question: "What is EarnProjects?",
+    answer: "EarnProjects is a subscription-based project outsourcing and collaboration platform that connects businesses and agencies with a curated team of experts in Web, Mobile, Dashboard development, and Marketing. We handle everything from client acquisition to project delivery -- you only focus on execution.",
+    show: false,
+  },
+  {
+    question: "How does EarnProjects work?",
+    answer: "Once you subscribe to one of our plans, our team will actively bring you suitable, qualified projects through Upwork bidding, outbound marketing, and our internal client network. You select the projects that fit your team’s skillset. We manage communication, expectations, and delivery timelines -- all under the EarnProjects umbrella.",
+    show: false,
+  },
+  {
+    question: "Do I have to search for projects or clients myself?",
+    answer: "No. That’s our job. Our core service is to bring the right clients to you — pre-qualified and aligned with your expertise. You just need to focus on building and delivering the solution.",
+    show: false,
+  },
+  {
+    question: "Can clients contact me directly?",
+    answer: "All client communications are managed by EarnProjects to ensure transparency, consistency, and professionalism. If required, we will arrange project-specific communication -- always under the EarnProjects brand.",
+    show: false,
+  },
+  {
+    question: "What kind of projects can I expect?",
+    answer: "We match projects based on your expertise in Web, Mobile Apps, Dashboards (Admin Panels), and Marketing. We work with clients from multiple industries including SaaS, Healthcare, Education, Real Estate, Retail, and more.",
+    show: false,
+  },
+  {
+    question: "Is there a contract?",
+    answer: "There’s no need for a separate contract -- everything is covered under our subscription model. You have full flexibility to upgrade, downgrade, or cancel your subscription at any time, depending on your business capacity. We believe in commitment through value, not long-term lock-ins.",
+    show: false,
+  },
+  {
+    question: "Can I speak to someone before subscribing?",
+    answer: "Yes! You can schedule a free consultation with our team to understand how EarnProjects can add value to your business.",
+    show: false,
+  }
     ]
   }
   openQues(index: number) {
