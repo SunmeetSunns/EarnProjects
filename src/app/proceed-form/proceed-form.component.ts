@@ -6,7 +6,8 @@ import {
   FormGroup,
   Validators,
   AbstractControl,
-  ValidationErrors
+  ValidationErrors,
+  ValidatorFn
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -141,65 +142,60 @@ export class ProceedFormComponent implements OnInit {
     return this.form.get(`step${this.stepIndex}`) as FormGroup;
   }
 
-  initializeForm() {
-    this.form = this.fb.group({
-      step0: this.fb.group({
-        fullName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        phoneNumber: ['', [Validators.required,
+initializeForm() {
+  this.form = this.fb.group({
+    step0: this.fb.group({
+      fullName: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      email: ['', [Validators.required, Validators.email, this.noOnlySpacesValidator()]],
+      phoneNumber: ['', [
+        Validators.required,
         Validators.minLength(10),
         Validators.maxLength(10),
-        Validators.pattern('^[6-9][0-9]{9}$')]],
-        city: ['', Validators.required],
-        dob: ['', Validators.required],
-        agencyName: ['', Validators.required],
-        website: ['', Validators.required],
-        location: ['', Validators.required],
-      }),
-      step1: this.fb.group({
-        // Student
-        college: [''],
-        course: [''],
-        yearOfStudy: [''],
-        techStack: [''],
-        portfolioLink: [''],
-        githubProfile: [''],
-        linkedinProfile: [''],
+        Validators.pattern('^[6-9][0-9]{9}$')
+      ]],
+      city: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      dob: ['', [Validators.required, this.minAgeValidator(18)]],
+      agencyName: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      website: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      location: ['', [Validators.required, this.noOnlySpacesValidator()]],
+    }),
+    step1: this.fb.group({
+      college: ['', this.noOnlySpacesValidator()],
+      course: ['', this.noOnlySpacesValidator()],
+      yearOfStudy: ['', this.noOnlySpacesValidator()],
+      techStack: ['', this.noOnlySpacesValidator()],
+      portfolioLink: ['', this.noOnlySpacesValidator()],
+      githubProfile: ['', this.noOnlySpacesValidator()],
+      linkedinProfile: ['', this.noOnlySpacesValidator()],
+      yearsOfExperience: ['', this.noOnlySpacesValidator()],
+      projectDescriptions: ['', this.noOnlySpacesValidator()],
+      resume: [''], // file
+      teamSize: ['', this.noOnlySpacesValidator()],
+      pocName: ['', this.noOnlySpacesValidator()],
+      pocEmail: ['', [Validators.email, this.noOnlySpacesValidator()]],
+      pocPhoneNumber: ['', this.noOnlySpacesValidator()],
+      coreServices: ['', this.noOnlySpacesValidator()],
+    }),
+    step2: this.fb.group({
+      availability: ['', this.noOnlySpacesValidator()],
+      preferredLearningAreas: ['', this.noOnlySpacesValidator()],
+      languageComfort: ['', this.noOnlySpacesValidator()],
+      preferredProjectType: ['', this.noOnlySpacesValidator()],
+      teamCapacity: ['', this.noOnlySpacesValidator()],
+      pastClients: ['', this.noOnlySpacesValidator()],
+      budgetRange: ['', this.noOnlySpacesValidator()],
+      communicationTools: ['', this.noOnlySpacesValidator()],
+      salesHelpRequired: ['false'],
+    }),
+  });
+}
+noOnlySpacesValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isWhitespaceOnly = typeof control.value === 'string' && control.value.trim().length === 0;
+    return isWhitespaceOnly ? { whitespace: true } : null;
+  };
+}
 
-        // Professional
-        yearsOfExperience: [''],
-        projectDescriptions: [''],
-        resume: [''],
-
-        // Agency
-        teamSize: [''],
-        pocName: [''],
-        pocEmail: [''],
-        pocPhoneNumber: [''],
-        coreServices: [''],
-        // add resume control for file upload
-      }),
-      step2: this.fb.group({
-        // Student
-        availability: [''],
-        preferredLearningAreas: [''],
-        languageComfort: [''],
-
-        // Professional
-        preferredProjectType: [''],
-
-
-        // Agency
-        teamCapacity: [''],
-        pastClients: [''],
-        budgetRange: [''],
-        communicationTools: [''],
-        salesHelpRequired: ['false'],
-      }),
-    });
-    // Add validator when creating form
-    this.form.get('dob')?.setValidators([Validators.required, this.minAgeValidator(18)]);
-  }
 
   validateAge() {
     this.form.get('dob')?.updateValueAndValidity();
@@ -220,108 +216,65 @@ export class ProceedFormComponent implements OnInit {
       return isUnderAge ? { underage: true } : null;
     };
   }
-  applyPlanBasedValidators(plan: string) {
-    const step0 = this.form.get('step0') as FormGroup;
-    const step1 = this.form.get('step1') as FormGroup;
-    const step2 = this.form.get('step2') as FormGroup;
+applyPlanBasedValidators(plan: string) {
+  const step0 = this.form.get('step0') as FormGroup;
+  const step1 = this.form.get('step1') as FormGroup;
+  const step2 = this.form.get('step2') as FormGroup;
 
-    // Clear all validators first for step0 fields
-    Object.keys(step0.controls).forEach((key) => {
-      step0.get(key)?.clearValidators();
-      step0.get(key)?.updateValueAndValidity();
+  const spaceValidator = this.noOnlySpacesValidator();
+
+  const setValidators = (group: FormGroup, fields: string[], validators: any[]) => {
+    fields.forEach((field) => {
+      group.get(field)?.setValidators(validators);
+      group.get(field)?.updateValueAndValidity();
     });
-    Object.keys(step1.controls).forEach((key) => {
-      step1.get(key)?.clearValidators();
-      step1.get(key)?.updateValueAndValidity();
+  };
+
+  // Clear all validators first
+  [step0, step1, step2].forEach(group => {
+    Object.keys(group.controls).forEach(key => {
+      group.get(key)?.clearValidators();
+      group.get(key)?.updateValueAndValidity();
     });
+  });
 
-    // Clear validators for step2
-    Object.keys(step2.controls).forEach((key) => {
-      step2.get(key)?.clearValidators();
-      step2.get(key)?.updateValueAndValidity();
-    });
-    // Clear validators for step1 and step2 too similarly (optional but recommended)
+  if (plan === 'student') {
+    setValidators(step0, ['fullName', 'city'], [Validators.required, spaceValidator]);
+    setValidators(step0, ['email'], [Validators.required, Validators.email, spaceValidator]);
+    setValidators(step0, ['phoneNumber'], [Validators.required, Validators.pattern(/^[0-9]{10}$/)]);
+    setValidators(step0, ['dob'], [Validators.required, this.minAgeValidator(18)]);
 
-    if (plan === 'student') {
-      step0.get('fullName')?.setValidators([Validators.required]);
-      step0.get('email')?.setValidators([Validators.required, Validators.email]);
-      step0.get('phoneNumber')?.setValidators([
-        Validators.required,
-        Validators.pattern(/^[0-9]{10}$/),
-      ]);
-      step0.get('city')?.setValidators([Validators.required]);
-      step0.get('dob')?.setValidators([Validators.required]);
-      ['college', 'course', 'yearOfStudy', 'techStack'].forEach(
-        (field) => {
-          step1.get(field)?.setValidators([Validators.required]);
-          step1.get(field)?.updateValueAndValidity();
-        }
-      );
-      ['availability', 'languageComfort', 'preferredLearningAreas'].forEach(
-        (field) => {
-          step2.get(field)?.setValidators([Validators.required]);
-          step2.get(field)?.updateValueAndValidity();
-        }
-      );
+    setValidators(step1, ['college', 'course', 'yearOfStudy', 'techStack'], [Validators.required, spaceValidator]);
 
-      // similarly apply validators for step1 and step2 fields for student plan
+    setValidators(step2, ['availability', 'languageComfort', 'preferredLearningAreas'], [Validators.required, spaceValidator]);
 
-    } else if (plan === 'professional') {
-      step0.get('fullName')?.setValidators([Validators.required]);
-      step0.get('email')?.setValidators([Validators.required, Validators.email]);
-      step0.get('phoneNumber')?.setValidators([
-        Validators.required,
-        Validators.pattern(/^[0-9]{10}$/),
-      ]);
-      step0.get('city')?.setValidators([Validators.required]);
-      step0.get('dob')?.setValidators([Validators.required]);
-      // validators for step1 professional fields...
-      ['yearsOfExperience', 'projectDescriptions', 'techStack'].forEach(
-        (field) => {
-          step1.get(field)?.setValidators([Validators.required]);
-          step1.get(field)?.updateValueAndValidity();
-        }
-      );
-      ['availability', 'languageComfort', 'preferredProjectType'].forEach(
-        (field) => {
-          step2.get(field)?.setValidators([Validators.required]);
-          step2.get(field)?.updateValueAndValidity();
-        }
-      );
+  } else if (plan === 'professional') {
+    setValidators(step0, ['fullName', 'city'], [Validators.required, spaceValidator]);
+    setValidators(step0, ['email'], [Validators.required, Validators.email, spaceValidator]);
+    setValidators(step0, ['phoneNumber'], [Validators.required, Validators.pattern(/^[0-9]{10}$/)]);
+    setValidators(step0, ['dob'], [Validators.required, this.minAgeValidator(18)]);
 
-    } else if (plan === 'agency') {
-      step0.get('agencyName')?.setValidators([Validators.required]);
-      step0.get('website')?.setValidators([]); // optional
-      step0.get('location')?.setValidators([]); // optional
+    setValidators(step1, ['yearsOfExperience', 'projectDescriptions', 'techStack'], [Validators.required, spaceValidator]);
 
-      // Step1 agency fields:
-      ['teamSize', 'pocName', 'pocEmail', 'pocPhoneNumber', 'techStack', 'coreServices'].forEach(
-        (field) => {
-          step1.get(field)?.setValidators([Validators.required]);
-          step1.get(field)?.updateValueAndValidity();
-        }
-      );
+    setValidators(step2, ['availability', 'languageComfort', 'preferredProjectType'], [Validators.required, spaceValidator]);
 
-      // Step2 agency fields:
-      ['teamCapacity', 'pastClients', 'budgetRange', 'communicationTools', 'salesHelpRequired'].forEach(
-        (field) => {
-          step2.get(field)?.setValidators([Validators.required]);
-          step2.get(field)?.updateValueAndValidity();
-        }
-      );
-    }
+  } else if (plan === 'agency') {
+    setValidators(step0, ['agencyName'], [Validators.required, spaceValidator]);
+    // website and location are optional — no validators set
 
-    // After setting validators, call updateValueAndValidity for all
-    Object.keys(step0.controls).forEach((key) => {
-      step0.get(key)?.updateValueAndValidity();
-    });
-    Object.keys(step1.controls).forEach((key) => {
-      step1.get(key)?.updateValueAndValidity();
-    });
-    Object.keys(step2.controls).forEach((key) => {
-      step2.get(key)?.updateValueAndValidity();
-    });
+    setValidators(step1, ['teamSize', 'pocName', 'pocPhoneNumber', 'techStack', 'coreServices'], [Validators.required, spaceValidator]);
+    setValidators(step1, ['pocEmail'], [Validators.required, Validators.email, spaceValidator]);
+
+    setValidators(step2, ['teamCapacity', 'pastClients', 'budgetRange', 'communicationTools', 'salesHelpRequired'], [Validators.required, spaceValidator]);
   }
+
+  // Final validation update
+  [step0, step1, step2].forEach(group => {
+    Object.keys(group.controls).forEach(key => {
+      group.get(key)?.updateValueAndValidity();
+    });
+  });
+}
 
   calculateAmt($event: any) {
     var frequency = $event.target.value

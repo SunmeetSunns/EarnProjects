@@ -9,6 +9,7 @@ import { OfferingsComponent } from './offerings/offerings.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { FaqComponent } from './faq/faq.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { FeaturesComponent } from './features/features.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },         // ✅ Show full home
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path: 'offerings', component: OfferingsComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'faq', component: FaqComponent },
-  {path:'dashboard',component:DashboardComponent}
+  {path:'dashboard',component:DashboardComponent},
+  {path:'features',component:FeaturesComponent}
 
 ];

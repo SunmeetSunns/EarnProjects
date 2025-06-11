@@ -168,6 +168,9 @@
     background-color: #999;
     color: white;
 }
+.error{
+    color: red;
+}
 /* Light reflection effect */
 .rev-b2::before {
     content: '';

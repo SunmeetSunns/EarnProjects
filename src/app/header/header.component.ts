@@ -288,6 +288,7 @@ export class HeaderComponent implements OnInit {
     this.modal.open(popup, {
       size: 'md',
       centered: true,
+      keyboard:true
       // prevent ESC close
     });
   }

@@ -50,24 +50,47 @@ export class SignupComponent implements OnInit, OnDestroy {
     }
   }
 
-  buildForm(): void {
-    this.signForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]
-      ],
-      phn_no: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^[6-9][0-9]{9}$')]],
-      category: ['', Validators.required],
-      mail: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.compose([
-        Validators.required,
-        Validators.minLength(8),
-        this.passwordStrengthValidator
-      ])]
-      ,
-      confirm_password: ['', [Validators.required]],
-    }, {
-    validators: this.confirmPasswordValidator() // Apply the group-level validator here
+
+  noOnlySpacesValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isWhitespaceOnly = typeof control.value === 'string' && control.value.trim().length === 0;
+    return isWhitespaceOnly ? { whitespace: true } : null;
+  };
+}
+buildForm(): void {
+  this.signForm = this.formBuilder.group({
+    username: ['', [
+      Validators.required,
+      Validators.pattern('^[a-zA-Z ]+$'),
+      this.noOnlySpacesValidator()
+    ]],
+    phn_no: ['', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(10),
+      Validators.pattern('^[6-9][0-9]{9}$')
+    ]],
+    category: ['', [
+      Validators.required,
+      this.noOnlySpacesValidator()
+    ]],
+    mail: ['', [
+      Validators.required,
+      Validators.email,
+      this.noOnlySpacesValidator()
+    ]],
+    password: ['', Validators.compose([
+      Validators.required,
+      Validators.minLength(8),
+      this.passwordStrengthValidator,
+      this.noOnlySpacesValidator()
+    ])],
+    confirm_password: ['', [Validators.required, this.noOnlySpacesValidator()]],
+  }, {
+    validators: this.confirmPasswordValidator()
   });
-  }
+}
+
 getPasswordError() {
   const errors = this.signForm.get('password')?.errors;
   if (errors?.['passwordStrength']) {

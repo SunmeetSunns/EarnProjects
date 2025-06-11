@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeaturesComponent implements OnInit{
   ngOnInit(): void {
-    
+     this.services = [...this.services, ...this.services]; 
   }
 services = [
   {

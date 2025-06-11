@@ -22,7 +22,10 @@ export class FooterComponent {
     if(action=='faq'){
       this.router.navigate(['/faq'])
     }
-
+if(action=='features'){
+  this.router.navigate(['/features'])
+  
+}
   }
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });

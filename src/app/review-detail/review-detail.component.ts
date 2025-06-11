@@ -27,6 +27,8 @@ export class ReviewDetailComponent implements OnInit {
   termsAgreed: any = false;
   userId: any;
   planAndUserDetails: any = [];
+  declarationMsg: string='';
+  declarationAgreed: any=false;
 
   ngOnInit(): void {
     const fieldData = JSON.parse(sessionStorage.getItem('overallData'))
@@ -219,8 +221,18 @@ export class ReviewDetailComponent implements OnInit {
      }
     });
   }
-  agreeToTerms() {
-    this.termsAgreed = !this.termsAgreed
-  }
+ agreeToTerms() {
+  this.termsAgreed = !this.termsAgreed;
 
+  // If declaration not agreed, show message
+  if (!this.declarationAgreed) {
+    this.declarationMsg = 'Please agree to the incorporation declaration';
+    this.toggleSection('declaration');
+  }
+}
+
+agreeToDeclaration() {
+  this.declarationAgreed = !this.declarationAgreed;
+  this.declarationMsg = '';
+}
 }
