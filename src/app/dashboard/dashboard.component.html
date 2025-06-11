@@ -1,6 +1,6 @@
 <div class="dashboard">
     <!-- <div>Dashboard</div> -->
-    <!-- <div class="dashboard-head">Dashboard</div> -->
+    <div class="dashboard-head">{{userPlanData?.fullFormData?.plan| titlecase}} Dashboard</div>
     <div class="dash-adha" *ngIf="!noPlanPurchased">
         <div class="dashboard-70">
             <div class="vertical" *ngIf="userPlanData?.fullFormData?.plan=='student' || 'professional'">
@@ -108,9 +108,10 @@
         </div>
     </div>
     <div class="no-record" *ngIf="noPlanPurchased">
-
         <img src="../../assets/svg/empty-folder.svg">
         <div>No record Found !</div>
+        <div>Click on Add Plan to add new plan</div>
+        <button></button>
     </div>
 
 </div>

@@ -47,7 +47,7 @@ import { FeaturesComponent } from '../features/features.component';
   ],
   template: `
     <app-hero></app-hero>
-   
+   <app-features></app-features>
     <app-whyus></app-whyus>
     <app-offerings></app-offerings>
     <app-testimonials></app-testimonials>

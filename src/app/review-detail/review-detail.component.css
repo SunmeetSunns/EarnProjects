@@ -164,7 +164,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+.disable-check{
+    background-color: #999;
+    color: white;
+}
 /* Light reflection effect */
 .rev-b2::before {
     content: '';

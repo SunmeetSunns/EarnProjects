@@ -198,8 +198,7 @@
                     <div class="toggle-body"
                         [ngClass]="{ 'open': activeSection === 'declaration', 'closed': activeSection !== 'declaration' }">
                         <!-- Yaha tera custom content for Declarations -->
-                        <p class="d-flex flex-row d-step">Get Updates on <img class="w-app-r" alt="wapp"
-                                src="../../assets/svg/wapp.svg"> WhatsApp</p>
+                        <p class="d-flex flex-row d-step"><input type="checkbox" style="margin-right: 1em;"><span> All the information you have provided is accurate and complete to the best of your knowledge.</span></p>
                     </div>
                 </div>
             </div>
@@ -223,7 +222,7 @@
         </div>
         <div class="rev-btn">
             <button class="rev-b1" (click)="editDetails()">EDIT DETAILS</button>
-            <button class="rev-b2" (click)="payNow(fieldData?.amount)" [disabled]="!termsAgreed">CHECKOUT</button>
+            <button class="rev-b2" (click)="payNow(fieldData?.amount)" [disabled]="!termsAgreed" [ngClass]="{'disable-check':!this.termsAgreed}">CHECKOUT</button>
         </div>
     </div>
 </div>

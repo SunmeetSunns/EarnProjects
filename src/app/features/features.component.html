@@ -1,5 +1,15 @@
 <div class="features">
-    <div class="feature-grid">
-        Features
+    <div class="my-features">
+        <div class="feature-heading">"Empowering the next generation of developers and helping businesses scale with
+            top-tier tech and marketing solutions."</div>
+        <div class="feature-grid">
+            <div class="card"  *ngFor="let service of services">
+                <img [src]="service.img" class="card-img-top card-img-height" alt="..." >
+                <div class="card-body">
+                    <h5 class="card-title p-heading">{{service.name}}</h5>
+                    <p class="card-text">{{service.description}}</p>
+                    <img src="assets/images/card-vector.svg" class="div-pic">
+                </div>
+            </div>
+        </div>
     </div>
-</div>

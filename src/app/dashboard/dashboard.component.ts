@@ -9,6 +9,7 @@ import { HttpWrapperService } from '../services/api-service.service';
 import { Api } from '../services/api-enums';
 import { CommonModule } from '@angular/common';
 import { NgChartsModule, BaseChartDirective } from 'ng2-charts';
+import { LoginServiceService } from '../services/login-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,11 +45,21 @@ public chartOptions = {
 
   public doughnutChartType: any = 'doughnut';
   noPlanPurchased: boolean;
+  isLoggedIn: boolean;
 
-  constructor(private router: Router, private ApiService: HttpWrapperService) { }
+  constructor(private router: Router, private ApiService: HttpWrapperService,private loginService:LoginServiceService) { }
 
   ngOnInit(): void {
-    this.findPlan();
+     this.loginService.isLoggedIn$.subscribe((status: boolean) => {
+      this.isLoggedIn = status;
+    });
+    if(this.isLoggedIn){
+ this.findPlan();
+    }
+    if(!this.isLoggedIn){
+      this.router.navigate(['/login'])
+    }
+   
   }
 
   ngAfterViewInit(): void {
