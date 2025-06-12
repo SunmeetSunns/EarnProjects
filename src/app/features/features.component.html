@@ -1,18 +1,32 @@
 <div class="features">
-    <div class="my-features">
-        <div class="feature-heading">"Empowering the next generation of developers and helping businesses scale with
-            top-tier tech and marketing solutions."</div>
-       <div class="feature-slider-wrapper">
+  <div class="my-features">
+    <div class="feature-heading">"Projects We Provide To Our Paid Subscribers"</div>
+    <div class="category-list">
+      <div class="fea-cat-div stud-color">Students</div>
+      <div class="fea-cat-div prof-color">Professionals</div>
+      <div class="fea-cat-div agen-color">Agencies</div>
+    </div>
+  <div class="feature-slider-wrapper">
   <div class="feature-slider">
     <div class="card" *ngFor="let service of services">
       <img [src]="service.img" class="card-img-top card-img-height" alt="..." />
       <div class="card-body">
         <h5 class="card-title p-heading">{{ service.name }}</h5>
-        <p class="card-text">{{ service.description }}</p>
-        <img src="assets/images/card-vector.svg" class="div-pic" />
+
+        <!-- SubProjects as Bullet List -->
+        <ul class="card-list">
+        
+          <li *ngFor="let point of service.subProjects">
+            <span class="dot-span">.</span>
+            {{ point }}
+          </li>
+        </ul>
+
+        <!-- <img src="assets/images/card-vector.svg" class="div-pic" /> -->
       </div>
     </div>
   </div>
 </div>
 
-    </div>
+
+  </div>

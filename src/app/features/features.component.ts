@@ -14,60 +14,90 @@ export class FeaturesComponent implements OnInit{
   }
 services = [
   {
-    name: "Web Development (Frontend / Backend / Full-stack)",
-    description: "Build fast, responsive websites and web apps using latest frontend, backend or full-stack technologies tailored to your business needs.",
-    img: "../assets/images/web-dev.jpg"
+    name: "IT & Software Development Projects",
+    description: "Engineer powerful digital solutions for real clients. Note: These projects demand real skills and deliver serious impact. Build tools and platforms that shape tomorrow.",
+    subProjects: [
+      "Mobile App Development – Flutter, React Native, Kotlin, Swift",
+      "Web App Development – React, Angular, Next.js, Django, Laravel",
+      "ERP/CRM Systems – HRMS, Sales CRM, Inventory tools",
+      "Blockchain Development – Smart contracts, NFT platforms, DeFi systems",
+      "Metaverse Projects – Virtual spaces using Unity, Web3 integration",
+      "AI Development – Custom chatbots, AI copilots, LLM-based apps ",
+      "Game Development – 2D/3D games using Unity, Godot, WebGL"
+    ],
+    img:"assets/images/software_dev.jpg"
   },
   {
-    name: "Mobile App Development",
-    description: "Create powerful Android and iOS apps with seamless performance and user-friendly interfaces using native or cross-platform tools.",
-    img: "assets/images/mob-dev.webp"
+    name: "Data Science, Engineering & Analytics Projects",
+    description: "From data pipelines to machine learning — get hired for deep analytical work. Note: Deliver insight-driven decisions for global clients using enterprise tools.",
+    subProjects: [
+      "Data Engineering – ETL/ELT pipelines, Airflow, Spark, dbt, GCP, AWS",
+      "Data Analysis – KPI dashboards, Excel/SQL/Python-based reports",
+      "Data Modeling – Schema designs (Star, Snowflake), ER diagrams",
+      "Machine Learning – Classification, recommendation, forecasting models",
+      "NLP & AI – Sentiment analysis, chatbot training, summarization (spaCy, HuggingFace)",
+      "BI Dashboards – Tableau, Power BI, Looker, custom analytics",
+      "Big Data Processing – Kafka, Snowflake, BigQuery"
+    ],
+     img:"assets/images/data-analytics.jpg"
   },
   {
-    name: "UI/UX Design",
-    description: "Design stunning interfaces and smooth user experiences that engage users and boost retention across web and mobile platforms.",
-    img: "assets/images//ui-ux.webp"
+    name: "Digital Branding & Marketing Projects",
+    description: "Run campaigns that grow real brands — trackable, strategic, ROI-focused. Note: Work directly with startup founders, CMOs, and agencies building global brands.",
+    subProjects: [
+      "Performance Marketing – Google Ads, Meta Ads, retargeting",
+      "SEO – Technical SEO, backlinking, keyword strategy",
+      "Email Campaigns – Automation, nurture sequences, campaign analytics",
+      "Influencer Campaigns – Coordination, outreach, performance reporting",
+      "Funnel Strategy – Zapier, Pabbly, CRM automation",
+      "Social Media Strategy – Content calendars, performance reports",
+      "Analytics – UTM tracking, ad spend ROI, customer behavior analysis"
+    ],
+     img:"assets/images/digitalMar.jpeg"
   },
   {
-    name: "Graphic Design / Branding",
-    description: "Craft professional logos, brand identities, brochures, and more that leave a lasting impression on your audience.",
-    img: "assets/images/graphic.jpeg"
+    name: "Design, UI/UX & 3D Projects",
+    description: "Design for utility, beauty, and interaction — across web, mobile, and immersive experiences. Note: Go beyond static designs — shape what people see and experience in digital and virtual worlds.",
+    subProjects: [
+      "UI/UX Design – Wireframes, mockups, user flows using Figma/Sketch/XD",
+      "Responsive Web & Landing Page Design – Mobile-first, CRO-optimized",
+      "Brand Identity – Logos, typography, design systems, style guides",
+      "3D Modeling – Product, architectural, and gaming models (Blender, Maya)",
+      "Rendering – High-quality 3D renderings and animations",
+      "Game Asset Design – Sprites, interfaces, objects for Unity/Unreal",
+      "Metaverse Design – Avatars, virtual space UI, immersive experiences"
+    ],
+     img:"assets/images/design.png"
   },
   {
-    name: "SEO / SEM",
-    description: "Improve your website’s visibility with search engine optimization and paid marketing to attract quality traffic and leads.",
-    img: "assets/images/seo.jpeg"
+    name: "Content Creation, Copywriting & Writing Projects",
+    description: "Use your words to inform, persuade, and convert real audiences. Note: Help clients grow their authority, SEO, and conversions through writing.",
+    subProjects: [
+      "SEO Content – High-ranking articles, niche blog posts",
+      "Conversion Copywriting – Landing pages, product descriptions, ads",
+      "Email Copy – Funnels, launches, onboarding campaigns",
+      "Technical Writing – Docs, user manuals, whitepapers",
+      "LinkedIn Ghostwriting – Founder branding and lead gen",
+      "Scriptwriting – YouTube, reels, podcast episodes",
+      "Brand Messaging – Taglines, tone guides, storytelling frameworks"
+    ],
+     img:"assets/images/content-market.png"
   },
   {
-    name: "Social Media Management",
-    description: "Grow your online presence by managing posts, engagement, and strategy across all major social platforms.",
-    img: "assets/images/social-mgmt.jpg"
-  },
-  {
-    name: "Content Writing / Copywriting",
-    description: "Get compelling blog posts, website content, and marketing copy that drives action and communicates value.",
-    img: "assets/images/content.jpeg"
-  },
-  {
-    name: "Video Editing / Animation",
-    description: "Transform raw footage into engaging videos or animations that tell your brand story and boost viewer retention.",
-    img: "assets/images/video-edit.jpeg"
-  },
-  {
-    name: "Digital Marketing",
-    description: "Run targeted digital campaigns that generate leads, build brand awareness, and maximize ROI across online channels.",
-    img: "assets/images/digital-market.jpeg"
-  },
-  {
-    name: "Data Analysis / Power BI / Excel",
-    description: "Turn complex data into clear insights using tools like Excel and Power BI to drive informed decisions.",
-    img: "assets/images/data-analysic.jpeg"
-  },
-  {
-    name: "Virtual Assistant / Admin Support",
-    description: "Get help with scheduling, data entry, research, and daily admin tasks to free up your time and boost productivity.",
-    img: "assets/images/admin-sprt.webp"
+    name: "Sales & Business Development Projects",
+    description: "Learn how real business works — from lead gen to closing deals. Note: Get trained while working on revenue-driving activities in live business environments.",
+    subProjects: [
+      "Lead Generation – LinkedIn scraping, Apollo, Crunchbase",
+      "Cold Outreach – Email writing, call scripts, personalization",
+      "CRM Management – HubSpot, Salesforce, Zoho tracking",
+      "Demo Booking – Qualification and scheduling for B2B meetings",
+      "Proposal & Decks – Sales collateral creation",
+      "Upsell & Client Relationship – Renewals, client experience,etc",
+      "Funnel Building – Sales pipelines, lead tracking"
+    ],
+     img:"assets/images/bussiness-dev.webp"
   }
 ];
+
 
 }
