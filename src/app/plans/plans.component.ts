@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Plan } from '../../app/models/plan';
 import { CommonModule } from '@angular/common';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpWrapperService } from '../services/api-service.service';
@@ -303,40 +303,48 @@ export class PlansComponent implements OnInit {
 
     // this.modal.dismissAll(); // Only closes when valid
   }
-  buildForms() {
-    if (this.currentCategory == 'student') {
-      this.studentFormArea = this.formBuilder.group({
-        collegeName: ['', Validators.required],
-        city: ['', Validators.required],
-        state: ['', Validators.required],
-        pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
-        document: [null]
-      });
-    }
-    if (this.currentCategory == 'professional') {
-      this.professionalFormArea = this.formBuilder.group({
-        currentEmployer: ['', Validators.required],
-        designation: ['', Validators.required],
-        workEmail: ['', [Validators.required, Validators.email]],
-        employmentType: ['', Validators.required],
-        experience: ['', [Validators.required, Validators.min(0)]],
-        proofDocument: [null, Validators.required],
-        linkedin: [''],
-      });
+noOnlySpacesValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isOnlySpaces = control.value && control.value.trim().length === 0;
+    return isOnlySpaces ? { onlySpaces: true } : null;
+  };
+}
 
-    }
-    if (this.currentCategory == 'agency') {
-      this.agencyFormArea = this.formBuilder.group({
-        linkedIn: [''],
-        domain: ['', Validators.required],
-        services: [[], Validators.required],
-        fullAddress: ['', Validators.required],
-        state: ['', Validators.required],
-        pinCode: ['', [Validators.required, Validators.pattern(/^[0-9]{4,6}$/)]],
-        employees: ['', Validators.required]
-      })
-    }
+buildForms() {
+  if (this.currentCategory == 'student') {
+    this.studentFormArea = this.formBuilder.group({
+      collegeName: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      city: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      state: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      document: [null, Validators.required]
+    });
   }
+
+  if (this.currentCategory == 'professional') {
+    this.professionalFormArea = this.formBuilder.group({
+      currentEmployer: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      designation: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      workEmail: ['', [Validators.required, Validators.email]],
+      employmentType: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      experience: ['', [Validators.required, Validators.min(0)]],
+      proofDocument: [null, Validators.required],
+      linkedin: [''],
+    });
+  }
+
+  if (this.currentCategory == 'agency') {
+    this.agencyFormArea = this.formBuilder.group({
+      linkedIn: [''],
+      domain: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      services: [[], Validators.required],
+      fullAddress: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      state: ['', [Validators.required, this.noOnlySpacesValidator()]],
+      pinCode: ['', [Validators.required, Validators.pattern(/^[0-9]{4,6}$/)]],
+      employees: ['', [Validators.required, this.noOnlySpacesValidator()]]
+    });
+  }
+}
 
 
   onProfessionalFileChange(event: any): void {

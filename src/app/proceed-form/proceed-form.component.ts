@@ -73,64 +73,79 @@ export class ProceedFormComponent implements OnInit {
       // this.form.get('step1.pocPhoneNumber')?.disable();
     }
   }
+setOtherFieldIfNeeded(fieldName: string, value: string) {
+  const options = this.getFieldOptions(fieldName);
+  const isOther = value && !options.includes(value);
+  this.otherValues[fieldName] = isOther;
+  this.form.get(`step1.${fieldName}`)?.setValue(value);
+  this.form.get(`step2.${fieldName}`)?.setValue(value); // in case field belongs to step2
+}
 
-  patchValuesForEdit() {
-    const data = JSON.parse(sessionStorage.getItem('overallData') || '{}');
-    if (!data) return;
+patchValuesForEdit() {
+  const data = JSON.parse(sessionStorage.getItem('overallData') || '{}');
+  if (!data) return;
 
-    this.form.patchValue({
-      step0: {
-        city: data.city || '',
-        dob: data.dob || '',
-        agencyName: data.agencyName || '',
-        website: data.website || '',
-        location: data.location || '',
-      },
-      step1: {
-        college: data.college || '',
-        course: data.course || '',
-        yearOfStudy: data.yearOfStudy || '',
-        techStack: data.techStack || '',
-        portfolioLink: data.portfolioLink || '',
-        githubProfile: data.githubProfile || '',
-        linkedinProfile: data.linkedinProfile || '',
+  this.form.patchValue({
+    step0: {
+      city: data.city || '',
+      dob: data.dob || '',
+      agencyName: data.agencyName || '',
+      website: data.website || '',
+      location: data.location || '',
+    },
+    step1: {
+      college: data.college || '',
+      course: data.course || '',
+      yearOfStudy: data.yearOfStudy || '',
+      techStack: data.techStack || '',
+      portfolioLink: data.portfolioLink || '',
+      githubProfile: data.githubProfile || '',
+      linkedinProfile: data.linkedinProfile || '',
+      yearsOfExperience: data.yearsOfExperience || '',
+      projectDescriptions: data.projectDescriptions || '',
+      resume: data.resume || '',
+      teamSize: data.teamSize || '',
+      coreServices: data.coreServices || '',
+      pocName: data.pocName || '',
+      pocEmail: data.pocEmail || '',
+      pocPhoneNumber: data.pocPhoneNumber || ''
+    },
+    step2: {
+      availability: data.availability || '',
+      preferredLearningAreas: data.preferredLearningAreas || '',
+      languageComfort: data.languageComfort || '',
+      preferredProjectType: data.preferredProjectType || '',
+      teamCapacity: data.teamCapacity || '',
+      pastClients: data.pastClients || '',
+      budgetRange: data.budgetRange || '',
+      communicationTools: data.communicationTools || '',
+      salesHelpRequired: data.salesHelpRequired || 'false',
+    }
+  });
 
-        yearsOfExperience: data.yearsOfExperience || '',
-        projectDescriptions: data.projectDescriptions || '',
-        resume: data.resume || '',
+  // 👇 Set "Other" conditions
+  this.setOtherFieldIfNeeded('course', data.course);
+  this.setOtherFieldIfNeeded('yearOfStudy', data.yearOfStudy);
+  this.setOtherFieldIfNeeded('availability', data.availability);
+  this.setOtherFieldIfNeeded('preferredLearningAreas', data.preferredLearningAreas);
+  this.setOtherFieldIfNeeded('languageComfort', data.languageComfort);
+  this.setOtherFieldIfNeeded('preferredProjectType', data.preferredProjectType);
+  this.setOtherFieldIfNeeded('teamSize', data.teamSize);
+  this.setOtherFieldIfNeeded('coreServices', data.coreServices);
+  this.setOtherFieldIfNeeded('teamCapacity', data.teamCapacity);
+  this.setOtherFieldIfNeeded('budgetRange', data.budgetRange);
+  this.setOtherFieldIfNeeded('communicationTools', data.communicationTools);
+  this.setOtherFieldIfNeeded('salesHelpRequired', data.salesHelpRequired);
 
-        teamSize: data.teamSize || '',
-        coreServices: data.coreServices || '',
-      },
-      step2: {
-        availability: data.availability || '',
-        preferredLearningAreas: data.preferredLearningAreas || '',
-        languageComfort: data.languageComfort || '',
+  this.form.get('step0.email')?.disable();
+  this.form.get('step1.pocEmail')?.disable();
 
-        preferredProjectType: data.preferredProjectType || '',
+  this.payFrequency = data?.paymentFrequency;
+  this.amtToPaid = data?.amount;
+  this.noOfProj = data?.noOfProj;
+  this.yearlyDiscount = data?.discount;
+}
 
-        teamCapacity: data.teamCapacity || '',
-        pastClients: data.pastClients || '',
-        budgetRange: data.budgetRange || '',
-        communicationTools: data.communicationTools || '',
-        salesHelpRequired: data.salesHelpRequired || 'false',
-      }
-
-    });
-    // this.form.get('step0.fullName')?.disable();
-    this.form.get('step0.email')?.disable();
-    // this.form.get('step0.phoneNumber')?.disable();
-
-    // this.form.get('step1.pocName')?.disable();
-    this.form.get('step1.pocEmail')?.disable();
-    // this.form.get('step1.pocPhoneNumber')?.disable();
-    this.payFrequency = data?.paymentFrequency
-    this.amtToPaid = data?.amount
-    this.noOfProj = data?.noOfProj
-    this.yearlyDiscount = data?.discount
-
-
-  }
 
   fillPlanDetails() {
     const PlanDetails = JSON.parse(sessionStorage.getItem('selectedPlan'))
@@ -241,7 +256,7 @@ applyPlanBasedValidators(plan: string) {
   if (plan === 'student') {
     setValidators(step0, ['fullName', 'city'], [Validators.required, spaceValidator]);
     setValidators(step0, ['email'], [Validators.required, Validators.email, spaceValidator]);
-    setValidators(step0, ['phoneNumber'], [Validators.required, Validators.pattern(/^[0-9]{10}$/)]);
+    setValidators(step0, ['phoneNumber'], [Validators.required,Validators.pattern(/^(?!0{10})[6-9][0-9]{9}$/)]);
     setValidators(step0, ['dob'], [Validators.required, this.minAgeValidator(18)]);
 
     setValidators(step1, ['college', 'course', 'yearOfStudy', 'techStack'], [Validators.required, spaceValidator]);
@@ -251,7 +266,7 @@ applyPlanBasedValidators(plan: string) {
   } else if (plan === 'professional') {
     setValidators(step0, ['fullName', 'city'], [Validators.required, spaceValidator]);
     setValidators(step0, ['email'], [Validators.required, Validators.email, spaceValidator]);
-    setValidators(step0, ['phoneNumber'], [Validators.required, Validators.pattern(/^[0-9]{10}$/)]);
+    setValidators(step0, ['phoneNumber'], [Validators.required,Validators.pattern(/^(?!0{10})[6-9][0-9]{9}$/)]);
     setValidators(step0, ['dob'], [Validators.required, this.minAgeValidator(18)]);
 
     setValidators(step1, ['yearsOfExperience', 'projectDescriptions', 'techStack'], [Validators.required, spaceValidator]);
@@ -299,6 +314,7 @@ applyPlanBasedValidators(plan: string) {
       this.currentStepGroup.markAllAsTouched();
     }
   }
+otherValues: any = {};
 
   previousStep() {
     if (this.stepIndex > 0) this.stepIndex--;
@@ -434,7 +450,19 @@ applyPlanBasedValidators(plan: string) {
     const control = this.currentStepGroup.get(field);
     return !!(control && control.invalid && control.touched);
   }
-  otherValues: { [key: string]: boolean } = {};
+getFieldOptions(fieldName: string): string[] {
+  const allDropdowns = [
+    ...this.studentFields,
+    ...this.agencyFields,
+    ...this.studentFieldsStep2,
+    ...this.professionalFieldsStep2,
+    ...this.agencyFieldsStep2
+  ];
+  const field = allDropdowns.find(f => f.field === fieldName && f.type === 'dropdown');
+  return field ? field.options : [];
+}
+
+
 
   onDropdownChange(field: string) {
     const value = this.currentStepGroup.get(field)?.value;

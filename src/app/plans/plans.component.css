@@ -144,7 +144,9 @@
 .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.pop-btn1:disabled{
+background-color: #999;
+}
 .card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);

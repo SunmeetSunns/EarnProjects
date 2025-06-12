@@ -233,11 +233,11 @@ export class HeaderComponent implements OnInit {
     this.closeOffcanvas(); // Close the hamburger menu (offcanvas) first
 
     if (planName === 'WhatsApp') {
-      window.open('https://wa.me/7726936325', '_blank');
+      window.open('https://wa.me/917726936325', '_blank');
     } else if (planName === 'Mail Us') {
-      window.location.href = 'mailto:ashok.choudhary@earnprojects.com';
+      window.location.href = 'mailto:support@earnprojects.com';
     } else if (planName === 'Contact Us') {
-      window.location.href = 'tel:7726936325';
+      window.location.href = 'tel:+917726936325';
     }
   }
   aboutModalOpen = false;
