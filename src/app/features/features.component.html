@@ -8,10 +8,10 @@
     </div>
   <div class="feature-slider-wrapper">
   <div class="feature-slider">
-    <div class="card" *ngFor="let service of services">
+    <div class="card" *ngFor="let service of services" >
       <img [src]="service.img" class="card-img-top card-img-height" alt="..." />
-      <div class="card-body">
-        <h5 class="card-title p-heading">{{ service.name }}</h5>
+      <div class="card-body scroll-body">
+        <h5 class="card-title p-heading sticky-heading">{{ service.name }}</h5>
 
         <!-- SubProjects as Bullet List -->
         <ul class="card-list">

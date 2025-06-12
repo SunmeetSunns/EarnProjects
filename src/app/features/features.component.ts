@@ -22,7 +22,7 @@ services = [
       "ERP/CRM Systems – HRMS, Sales CRM, Inventory tools",
       "Blockchain Development – Smart contracts, NFT platforms, DeFi systems",
       "Metaverse Projects – Virtual spaces using Unity, Web3 integration",
-      "AI Development – Custom chatbots, AI copilots, LLM-based apps ",
+      "AI Development – Custom chatbots, AI copilots, LLM-based apps (GPT, LangChain)",
       "Game Development – 2D/3D games using Unity, Godot, WebGL"
     ],
     img:"assets/images/software_dev.jpg"

@@ -205,3 +205,23 @@
     font-size: 1.5em;
     font-weight: 700;
 }
+.scroll-body {
+ /* Card content height */
+  overflow-y: auto;
+  position: relative;
+  padding-right: 0.5rem;
+}
+
+.sticky-heading {
+  position: sticky;
+  top: 0;
+  background-color: white; /* Or your card bg */
+  z-index: 10;
+  padding: 0.5rem 0;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #ddd;
+  background-color: rgba(255, 255, 255, 0.85); /* Thoda transparent white */
+backdrop-filter: blur(4px); /* Soft blur */
+
+}
