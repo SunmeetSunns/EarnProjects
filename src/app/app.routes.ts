@@ -22,6 +22,7 @@ export const routes: Routes = [
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'faq', component: FaqComponent },
   {path:'dashboard',component:DashboardComponent},
-  {path:'features',component:FeaturesComponent}
+  {path:'features',component:FeaturesComponent},
+   { path: 'student-dashboard', loadChildren: () => import('./student-dashboard/student-dashboard.module').then(m => m.StudentDashboardModule) },
 
 ];

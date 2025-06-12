@@ -5,6 +5,7 @@
     flex-direction: column;
     justify-content: space-between;
     /* align-items: center; */
+    background:linear-gradient(to bottom right , #F0FDFA , #F5F3FF);
     gap: 2em;
     margin-bottom: 3em;
 }
@@ -282,4 +283,48 @@
 .no-record>img{
     height: 10em;
     width: 10em;
+}
+.rev-b2 {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  background-color: #7c3aed;
+  /* Your preferred color */
+  color: white;
+  border-radius: 10px;
+  padding: 0.5em 1.5em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Light reflection effect */
+.rev-b2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  transform: skewX(-20deg);
+}
+
+/* Animate on hover */
+.rev-b2:hover::before {
+  animation: shine 0.8s forwards;
+}
+
+/* Keyframes */
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+
+  100% {
+    left: 125%;
+  }
 }

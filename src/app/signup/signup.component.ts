@@ -152,7 +152,7 @@ confirmPasswordValidator(): ValidatorFn {
 
     }
     if (this.signForm.valid && !action && !this.otpVerified) {
-      this.dangerText = 'Please Validate you Email first';
+      this.dangerText = 'Please Validate Your Email First';
       this.showSuccessToast();
     }
     if (this.otpVerified) {

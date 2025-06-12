@@ -1,16 +1,62 @@
-.stud-dashboard{
-    height: 50em;
+.stud-dashboard {
+    height: 40em;
     width: 100%;
-    background-color: #fff;
+    background: linear-gradient(to bottom right, #F0FDFA, #F5F3FF);
     margin-top: 5em;
     display: flex;
     flex-direction: row;
+    margin-bottom: 0;
+
 }
-.sidebar-dash{
-width: 25%;
-height: 100%;
-background: linear-gradient(to bottom right, #d7c7db, #7C3AED);
+
+.sidebar-dash {
+    width: 25%;
+    background: linear-gradient(to bottom right, #d7c7db, #7C3AED);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3em;
 }
-.main-dash{
+
+.prof-div {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    /* gap: 1em; */
+    /* background-color: d7c7db; */
+    justify-content: space-evenly;
+    border: 1px solid #d7c7db;
+    padding: 0.5em;
+    border-radius: 10em;
+}
+
+.prof-div>span {
+    color: white;
+    font-size: 1.2em;
+}
+
+.main-dash {
     width: 70%;
+}
+
+.dashbord-pic {
+    height: 3.5em;
+    width: 3.5em;
+   
+}
+.profile-icon{
+ margin-top: 3em;
+ display: flex;
+ flex-direction: column;
+ gap: 0.3em;
+ align-items: center;
+}
+.prof-div>img{
+    height: 2em;
+    width: 2em;
+}
+.profile-icon>span{
+    color: white;
+    font-size: 1.5em;
+    font-weight: 500;
 }
