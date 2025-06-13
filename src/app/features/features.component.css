@@ -1,0 +1,227 @@
+.features {
+    width: 100%;
+    background-color: white;
+    padding: 3em;
+    margin-top: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fe-card {
+    background-color: white;
+    width: 5em;
+}
+
+.fe-card:hover {
+    background: linear-gradient(to bottom right, #9c75e1, #7286d0, #43aaa6);
+    color: white;
+}
+
+.fe-card1:hover {
+    background: linear-gradient(to bottom right, #9c75e1, #7286d0, #43aaa6);
+    color: white;
+}
+
+.p-heading {
+    font-size: 1.5em;
+    font-style: italic;
+    background: linear-gradient(to right, #7A3CEB, #3D85C1, #1BAFAA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    align-self: center;
+    font-weight: 500;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 1em;
+
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    width: 23rem;
+    height: fit-content;
+}
+
+.div-pic {
+    position: absolute;
+    bottom: 0.12rem;
+    left: 0;
+}
+
+.card-img-height {
+    height: 17rem;
+}
+
+.card-list {
+    padding: 0 !important;
+
+}
+
+.card-list>li {
+    font-size: 1rem;
+    color: #999;
+}
+
+.feature-heading {
+    margin-bottom: 2em;
+    font-size: 1.5em;
+    text-align: center;
+    color: #5C6872;
+    font-weight: 500;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 4px 9px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1240px) {
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 2em;
+    }
+
+    .card {
+        width: 20rem !important;
+        height: 30rem !important;
+    }
+}
+
+@media (max-width:680px) {
+    .feature-grid {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+
+    .card {
+        width: 20rem !important;
+        height: 30rem !important;
+    }
+
+    .category-list {
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width:480px) {
+    .card {
+        width: 15em !important;
+        height: 30em !important;
+    }
+
+    .features {
+        padding: 1em;
+    }
+
+    .card-img-height {
+        height: 18rem;
+    }
+
+    .p-heading {
+        font-size: 1.1em;
+    }
+}
+
+.feature-slider-wrapper {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 4rem;
+}
+
+.feature-slider {
+    display: flex;
+    gap: 2rem;
+    animation: scrollSlider 90s linear infinite;
+    width: max-content;
+}
+
+@keyframes scrollSlider {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.card {
+    flex: 0 0 auto;
+    width: 30rem;
+    height: 40rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-slider-wrapper:hover .feature-slider {
+    animation-play-state: paused;
+}
+
+.category-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    gap: 1em;
+    text-align: center;
+}
+
+.fea-cat-div {
+    padding: 0.5em 2em;
+    border: 1px solid #8183f3;
+    background: linear-gradient(to right, #b399f0, #844BF2);
+    border-radius: 10em;
+    align-content: center;
+    color: white;
+    font-size: 1.2em;
+}
+
+.stud-color {
+    border: 1px solid #834AF1;
+    background: linear-gradient(to right, #b399f0, #844BF2);
+}
+
+.prof-color {
+    border: 1px solid #5956EB;
+    background: linear-gradient(to right, #9596ef, #5048E6);
+}
+
+.agen-color {
+    border: 1px solid #10A596;
+    background: linear-gradient(to right, #77beb6, #0D9588);
+}
+
+.dot-span {
+    font-size: 1.5em;
+    font-weight: 700;
+}
+.scroll-body {
+ /* Card content height */
+  overflow-y: auto;
+  position: relative;
+  padding-right: 0.5rem;
+}
+
+.sticky-heading {
+  position: sticky;
+  top: 0;
+  background-color: white; /* Or your card bg */
+  z-index: 10;
+  padding: 0.5rem 0;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #ddd;
+  background-color: rgba(255, 255, 255, 0.85); /* Thoda transparent white */
+backdrop-filter: blur(4px); /* Soft blur */
+
+}

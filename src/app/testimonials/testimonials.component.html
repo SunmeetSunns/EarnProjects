@@ -6,7 +6,7 @@
             businesses.</span>
     </div>
     <div class="test-cases" *ngIf="testimonials.length > 0">
-        <img class="quote" src="../../assets/svg/quote.svg">
+        <img class="quote" src="../../assets/svg/quote.svg" alt="quote">
         <p [ngClass]="{ 'fade-in': animate }">"{{testimonials[currentTestimonialIndex].message}}"</p>
         <div class="test-data" [ngClass]="{ 'fade-in': animate }">
             <div class="test-img"><img [src]="testimonials[currentTestimonialIndex].photo"
@@ -19,7 +19,7 @@
         </div>
         <div class="d-flex flex-row justify-content-between">
             <div class="left-arr" (click)=" previousTestimonial()">
-                <img src="../../assets/svg/left-arrow.svg">
+                <img src="../../assets/svg/left-arrow.svg" alt="arrow">
             </div>
           <div class="dots-test">
   <div
@@ -31,7 +31,7 @@
 </div>
 
             <div class="right-arr" (click)=" nextTestimonial()">
-                <img src="../../assets/svg/right-arrow1.svg">
+                <img src="../../assets/svg/right-arrow1.svg" alt="arrow">
             </div>
         </div>
     </div>

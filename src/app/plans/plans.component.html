@@ -1,36 +1,301 @@
-<div class="container py-5">
-  <div class="row g-4">
+<div class="plans">
+  <div class="heading">
+    <h2>{{(currentCategory ? currentCategory :'Our') | titlecase}} Plans</h2>
+    <p>Simple, Transparent Pricing</p>
+    <span>Choose the plan that's right for you and start growing your subscription business <br> today.</span>
+  </div>
 
-    <div class="col-md-4" *ngFor="let plan of filteredPlans">
-      <div class="card h-100 border-2 shadow-sm rounded-4 position-relative"
-           [ngClass]="{'border-warning bg-light': plan.popular}">
-        
-        <!-- Popular Badge -->
-        <div *ngIf="plan.popular" class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-warning text-dark px-3 py-2">
-          Most Popular
-        </div>
+  <div class="cards-align" *ngIf="!isloggedIn || planPurchased">
+    <div class="card" *ngFor="let plan of filteredPlans" [ngClass]="{'popular': plan.popular}">
+      <div class="badge" *ngIf="plan.popular">Most Popular</div>
 
-        <div class="card-body d-flex flex-column justify-content-between">
-          <div>
-            <h5 class="card-title fw-bold">{{ plan.name }}</h5>
-            <h2 class="fw-bold text-dark mt-3 mb-1">₹{{ plan.price }}</h2>
-            <p class="text-warning fw-medium mb-3">{{ plan.yearlyDiscount }}</p>
-            <p class="text-muted">{{ plan.description }}</p>
-
-            <ul class="list-unstyled mt-3">
-              <li *ngFor="let feature of plan.features" class="mb-2 d-flex align-items-start">
-                <i class="bi bi-check-circle-fill text-success me-2 fs-6"></i>
-                <span>{{ feature }}</span>
-              </li>
-            </ul>
+      <div class="card-body" [ngClass]="{'mt-3':plan.popular}">
+        <div>
+          <h5 class="card-title">{{ plan.name }}</h5>
+          <p class="description">"{{ plan.description }}"</p>
+          <h2 class="price">₹{{ plan.price }}/month</h2>
+          <div class="discount-div">
+            <span class="discount">₹{{ plan.yearlyDiscount }}/month</span>
+            <div class="disPerc">{{ plan?.discountPer }}% off</div>
           </div>
 
-          <button class="btn btn-warning text-white fw-bold mt-4 rounded-pill">
-            Start Free Trial
-          </button>
+          <span class="error" *ngIf="planPurchased">{{this.purchasedMsg}}</span>
+          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category)">Get Started</button>
+          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category)">Choose Plan</button>
+          <span class="spl-features">Features Include</span>
+          <ul class="features">
+            <li *ngFor="let feature of plan.features">
+              <i class="bi bi-check-circle-fill"></i> {{ feature }}
+            </li>
+          </ul>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="cards-align" *ngIf="isloggedIn && !planPurchased">
+    <div class="card" *ngFor="let plan of allPlans" [ngClass]="{'popular': plan.popular}">
+      <div class="badge" *ngIf="plan.popular">Most Popular</div>
+
+
+      <div class="card-body">
+        <div>
+          <h5 class="card-title">{{ plan.name }}</h5>
+          <p class="description">{{ plan.description }}</p>
+
+          <span class="spl-features">Features Include</span>
+          <ul class="features">
+            <li *ngFor="let feature of plan.features">
+              <i class="bi bi-check-circle-fill"></i> {{ feature }}
+            </li>
+          </ul>
+          <!-- <h2 class="price">₹{{ plan.price }}</h2> -->
+
+          <span class="error" *ngIf="showLoggerError">You have logged yourself as {{this.loggerCategory}}. <br> <span
+              class="blue">Choose from {{this.loggerCategory}} Plans.</span></span>
+          <button *ngIf="plan.popular" class="pop-btn" (click)="routeToSignup(plan.category,true,plan)">₹{{ plan.price
+            }}/month</button>
+          <button *ngIf="!plan.popular" class="cho-btn" (click)="routeToSignup(plan.category,true,plan)">₹{{ plan.price
+            }}/month</button>
+
+          <div class="disPerc2">You can save {{ plan?.discountPer }}% with this plan.</div>
+
+
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noAccModal let-modal *ngIf="!clientSetupDone">
+  <div class="modal-header-pop">
+    <div class="heading-mod my-modal text-center w-100">
+      Select Your Preferences
+    </div>
+
+    <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+      <span class="mb-3">Select up to 3 areas of expertise</span>
+
+      <!-- Preference Buttons -->
+      <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+        <button *ngFor="let pref of preferenceOptions" type="button" class="btn" [ngClass]="{
+                  'btn-outline-primary': !isSelected(pref),
+                  'btn-primary text-white': isSelected(pref)
+                }" (click)="toggleSelection(pref)">
+          {{ pref }}
+        </button>
+      </div>
+
+      <!-- Input field for "Others" -->
+      <div *ngIf="showOtherInput" class="mb-3 d-flex gap-2 align-items-center w-75">
+        <input type="text" class="form-control" [(ngModel)]="otherValue" placeholder="Enter your preference">
+        <button class="btn btn-primary" (click)="addOtherPreference()">Add</button>
+      </div>
+      <span class="error" *ngIf="this.maxError">You can select a maximum of 3 preferences.</span>
+      <span class="error" *ngIf="PrefError!=''">{{this.PrefError}}</span>
+      <!-- Selected Preferences List -->
+      <div *ngIf="selected.length > 0" class="w-100 px-3">
+        <strong>Selected:</strong>
+        <div class="d-flex flex-wrap gap-2 mt-2">
+          <span *ngFor="let item of selected.controls" class="badge-chip">
+            {{ item.value }}
+            <span class="close-icon" (click)="toggleSelection(item.value)">×</span>
+          </span>
         </div>
       </div>
     </div>
 
+    <!-- Footer Button -->
+    <div class="modal-footer d-flex flex-row justify-content-center">
+      <button class="btn pop-btn1" (click)="savePreferrence()">Next</button>
+    </div>
   </div>
-</div>
+</ng-template>
+<ng-template #studentForm let-modal>
+  <div class="modal-header-pop">
+    <div class="heading-mod my-modal text-center w-100">
+      Student Verification
+    </div>
+
+    <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+      <form *ngIf="studentFormArea" [formGroup]="studentFormArea" class="w-100 px-4" (ngSubmit)="submitForm()">
+
+        <!-- College Name -->
+        <div class="form-group mb-2">
+          <label for="collegeName">College Name</label>
+          <input type="text" class="form-control" id="collegeName" formControlName="collegeName">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'collegeName')">College name is required.</span>
+        </div>
+
+        <!-- City -->
+        <div class="form-group mb-2">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" formControlName="city">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'city')">City is required.</span>
+        </div>
+
+        <!-- State -->
+        <div class="form-group mb-2">
+          <label for="state">State</label>
+          <input type="text" class="form-control" id="state" formControlName="state">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'state')">State is required.</span>
+        </div>
+
+        <!-- Pincode -->
+        <div class="form-group mb-2">
+          <label for="pincode">Pincode</label>
+          <input type="text" class="form-control" id="pincode" formControlName="pincode">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'pincode')">Enter a valid 6-digit pincode.</span>
+        </div>
+        <div class="form-group mb-3">
+          <label for="document">Upload ID Card / Marksheet</label>
+          <input type="file" class="form-control" id="document" (change)="onFileChange($event)"
+            accept="image/*,application/pdf">
+          <span class="text-danger" *ngIf="isInvalid(studentFormArea, 'document')">Please upload a document.</span>
+        </div>
+
+
+        <!-- Submit Button -->
+        <div class="modal-footer d-flex flex-row justify-content-center mt-3">
+          <button type="submit" class="btn pop-btn1" [disabled]="studentFormArea.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+<ng-template #professionalForm>
+  <div class="modal-header">
+    <h5 class="modal-title">Professional Verification</h5>
+  </div>
+  <div class="modal-body">
+    <form *ngIf="professionalFormArea" [formGroup]="professionalFormArea" (ngSubmit)="submitForm()">
+
+      <!-- Current Employer -->
+      <div class="mb-3">
+        <label>Current Employer Name</label>
+        <input type="text" class="form-control" formControlName="currentEmployer" placeholder="Enter company name">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'currentEmployer')">Employer name is
+          required.</span>
+      </div>
+
+      <!-- Designation -->
+      <div class="mb-3">
+        <label>Designation / Job Title</label>
+        <input type="text" class="form-control" formControlName="designation" placeholder="Enter your designation">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'designation')">Designation is required.</span>
+      </div>
+
+      <!-- Work Email -->
+      <div class="mb-3">
+        <label>Work Email (Company Email)</label>
+        <input type="email" class="form-control" formControlName="workEmail" placeholder="Enter company email">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'workEmail')">Valid work email is
+          required.</span>
+      </div>
+
+      <!-- Employment Type -->
+      <div class="mb-3">
+        <label>Employment Type</label>
+        <select class="form-control" formControlName="employmentType">
+          <option value="">Select</option>
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contractual">Contractual</option>
+        </select>
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'employmentType')">Select employment
+          type.</span>
+      </div>
+
+      <!-- Experience -->
+      <div class="mb-3">
+        <label>Years of Experience</label>
+        <input type="number" class="form-control" formControlName="experience" placeholder="Enter years of experience">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'experience')">Enter valid experience.</span>
+      </div>
+
+      <!-- Proof Upload -->
+      <div class="mb-3">
+        <label>Offer/Joining/ID Proof Upload</label>
+        <input type="file" class="form-control" (change)="onProfessionalFileChange($event)"
+          accept=".pdf,.jpg,.jpeg,.png">
+        <span class="text-danger" *ngIf="isInvalid(professionalFormArea, 'proofDocument')">Please upload a
+          document.</span>
+      </div>
+
+
+
+      <div class="mb-3">
+        <label>LinkedIn Profile (Optional)</label>
+        <input type="url" class="form-control" formControlName="linkedin" placeholder="Enter LinkedIn URL">
+      </div>
+
+
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="!professionalFormArea.valid">Submit</button>
+    </form>
+  </div>
+</ng-template>
+<ng-template #agencyForm>
+  <div class="modal-header">
+    <h5 class="modal-title">Agency / Company Verification</h5>
+  </div>
+  <div class="modal-body">
+    <form *ngIf="agencyFormArea" [formGroup]="agencyFormArea" (ngSubmit)="submitForm()">
+
+      <!-- Domain -->
+      <div class="mb-3">
+        <label>Company Domain *</label>
+        <input type="text" class="form-control" formControlName="domain" placeholder="e.g. www.example.com">
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'domain')">Company domain is required.</span>
+      </div>
+
+      <!-- Services -->
+      <div class="mb-3">
+        <label>Services Offered *</label>
+        <select class="form-control" formControlName="services">
+          <option value="">Select</option>
+          <option *ngFor="let service of servicesList" [value]="service">{{ service }}</option>
+        </select>
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'services')">Please select a service.</span>
+      </div>
+
+      <!-- Full Address -->
+      <div class="mb-3">
+        <label>Full Address *</label>
+        <input type="text" class="form-control" formControlName="fullAddress" placeholder="Enter full address">
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'fullAddress')">Address is required.</span>
+      </div>
+
+      <!-- State -->
+      <div class="mb-3">
+        <label>State *</label>
+        <input type="text" class="form-control" formControlName="state" placeholder="Enter state">
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'state')">State is required.</span>
+      </div>
+
+      <!-- PIN Code -->
+      <div class="mb-3">
+        <label>PIN Code *</label>
+        <input type="number" class="form-control" formControlName="pinCode" placeholder="Enter PIN Code">
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'pinCode')">Enter valid PIN code.</span>
+      </div>
+
+      <!-- Employees -->
+      <div class="mb-3">
+        <label>No. of Employees *</label>
+        <select class="form-control" formControlName="employees">
+          <option value="">Select</option>
+          <option *ngFor="let emp of employeeOptions" [value]="emp">{{ emp }}</option>
+        </select>
+        <span class="text-danger" *ngIf="isInvalid(agencyFormArea, 'employees')">Select number of employees.</span>
+      </div>
+
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="!agencyFormArea.valid">Submit</button>
+    </form>
+  </div>
+</ng-template>

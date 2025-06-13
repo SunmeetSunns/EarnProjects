@@ -125,6 +125,7 @@
   font-weight: bold;
   margin: 0;
   color: #0f172a;
+  line-height: 5rem;
   /* dark neutral */
 }
 
@@ -265,7 +266,9 @@
   /* same as all zeros */
 
 }
-
+.cursor-pointer{
+  cursor: pointer;
+}
 .student-hero {
   background: linear-gradient(to right, #8B5CF6, #7C3AED);
   margin-bottom: 0.25rem;

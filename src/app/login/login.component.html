@@ -1,0 +1,70 @@
+<div class="login">
+  <div class="login-head">
+    <p>Start your earning journey </p>
+    <span>from ₹299./month*</span>
+  </div>
+
+  <form [formGroup]="loginForm" class="login-container">
+
+    <div class="login-box">
+      <div class="d-flex flex-row box-error mb-2" *ngIf="this.errorMsg !==''">
+        <img class="caution" src="../../assets/caution.svg" alt="caution"> 
+        <span class="error">{{this.errorMsg}}</span>
+      </div>
+      <h2>Login</h2>
+
+      <div class="input-fields">
+        <label>Email</label>
+        <input type="email" class="input-fields-in" [ngClass]="{'redBorder':this.loginForm.get('username')?.value==null}"
+          placeholder="abc@gmail.com" formControlName="username">
+        <span class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">Please
+          enter valid email</span>
+      </div>
+      <div class="input-fields">
+        <label>Password</label>
+        
+        <div class="eye-set">
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="input-fields-in"
+            [ngClass]="{'redBorder':this.loginForm.get('password')?.value==null}">
+          <img *ngIf="!showPassword" class="eye" src="../../assets/svg/eye-close.svg" alt="eye" (click)="togglePassword()">
+          <img *ngIf="showPassword" class="eye" src="../../assets/svg/eye-open.svg" alt="eye"(click)="togglePassword()">
+        </div>
+        <span class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">Please
+          enter correct password</span>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <button class="login-btn mb-3" (click)="changeState()">Sign In</button>
+        <span>Don't have an account? <span class="text-blue" (click)="routeToSignUp()">Sign up</span></span>
+        <button class="fg-pw" (click)="forgotPass()">Forgot password ?</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div
+  class="toast-container position-fixed top-0 end-0 p-3"
+  style="z-index: 1055;"
+>
+  <div
+    class="toast  border-0 align-items-center show" [ngClass]="{'text-bg-success':this.successText,'text-bg-danger':this.dangerText}"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    *ngIf="showToast"
+  >
+    <div class="d-flex">
+      <div class="toast-body" *ngIf="this.successText!=''">
+         {{this.successText}}
+      </div>
+        <div class="toast-body" *ngIf="this.dangerText!=''">
+         {{this.dangerText}}
+      </div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        aria-label="Close"
+        (click)="showToast = false"
+      ></button>
+    </div>
+  </div>
+</div>

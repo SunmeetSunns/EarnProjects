@@ -7,6 +7,7 @@ import {
   query,
   stagger
 } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
@@ -25,7 +26,23 @@ import {
         ])
       ])
     ])
-    
+
   ]
 })
-export class HeroComponent {}
+export class HeroComponent {
+  constructor(private router: Router) {
+
+  }
+  routeToSignup(action?:any) {
+    if(action){
+      this.router.navigate(['/offerings'])
+    }
+    else{
+ this.router.navigate(['/signup'])
+    }
+   
+  }
+  routeToPlan(plan:any){
+this.router.navigate([`/plans/${plan}`])
+  }
+}

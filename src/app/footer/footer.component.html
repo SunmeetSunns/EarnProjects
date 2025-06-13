@@ -2,53 +2,125 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-logo">
-        <video class="logo" autoplay muted loop src="../../assets/images/Orange and Black Partnership Investment Logo.mp4"></video>
+        <!-- <video class="logo" autoplay muted loop src="../../assets/images/logo_v.mp4"></video> -->
+        <img class="logo" src="../../assets/images/hand_logo.png" alt="logo">
         <span class="brand-name">EarnProjects</span>
       </div>
       <p class="foot-desc">Your marketplace for high-quality project leads. Connect, grow, and succeed.</p>
       <div class="social-icons">
-        <span class="icon">T</span>
-        <span class="icon">F</span>
-        <span class="icon">I</span>
-        <span class="icon">L</span>
+        <a class="icon" href="https://www.instagram.com/earn_project/#" target="_blank">
+          <img src="../../assets/svg/insta.svg" alt="Instagram">
+        </a>
+        <a class="icon" href="https://www.linkedin.com/company/earnprojects" target="_blank">
+          <img src="../../assets/svg/linkedin.svg" alt="LinkedIn">
+        </a>
+        <a class="icon" href="https://www.facebook.com/profile.php?id=61577005977454" target="_blank">
+          <img src="../../assets/svg/facebook.svg" alt="Facebook">
+        </a>
+        <a class="icon" href="https://t.me/+YquToxYc6tY3YTA1" target="_blank">
+          <img src="../../assets/svg/telegram.svg" alt="Telegram">
+        </a>
+        <a class="icon" href="https://www.youtube.com/@EarnPROJECTSSS" target="_blank">
+          <img src="../../assets/svg/youtube.svg" alt="YouTube">
+        </a>
       </div>
+
     </div>
 
     <div class="footer-section">
       <h4>PRODUCT</h4>
-      <span>Features</span>
-      <span>Pricing</span>
-      <span>Roadmap</span>
+      <span (click)="performAction('features')">Features</span>
+      <span (click)="performAction('pricing')">Our Plans</span>
+      <!-- <span>Roadmap</span> -->
     </div>
 
     <div class="footer-section">
       <h4>COMPANY</h4>
-      <span>About</span>
-      <span>Team</span>
-   
+      <span (click)="openAboutModal(aboutUs)">About</span>
+      <span (click)="performAction('support')">Support</span>
+      <span (click)="performAction('faq')">FAQ</span>
     </div>
 
-    <div class="footer-section">
+    <!-- <div class="footer-section">
       <h4>RESOURCES</h4>
       <span>Documentation</span>
-      <span>Support</span>
-      <span>FAQ</span>
-    </div>
+      <span (click)="performAction('support')">Support</span>
+      <span (click)="performAction('faq')">FAQ</span>
+    </div> -->
 
     <div class="footer-section">
       <h4>LEGAL</h4>
-      <span>Privacy Policy</span>
-      <span>Terms of Service</span>
-      <span>Cookie Policy</span>
+      <span> <a href="../../assets/files/PrivacyPolicy.pdf" download="Privacy_Policy.pdf">Privacy Policy</a></span>
+      <!-- <span>Terms of Service</span> -->
+      <span>
+        <a href="../../assets/files/Terms&Conditions.pdf" download="Terms-and-Conditions.pdf">
+          Terms and Conditions
+        </a>
+      </span>
+
+
+      <!-- <span>Cookie Policy</span> -->
     </div>
   </div>
 
   <div class="footer-bottom">
     <span>© 2025 EarnProjects. All rights reserved.</span>
     <div class="footer-links">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Cookies</a>
+      <a href="../../assets/files/PrivacyPolicy.pdf" download="Privacy_Policy.pdf">Privacy</a>
+      <a href="../../assets/files/Terms&Conditions.pdf" >Terms</a>
+      <!-- <a href="#">Cookies</a> -->
     </div>
   </div>
 </div>
+<ng-template #aboutUs let-modal>
+  <div class="modal-header-pop p-4"
+    style="width: 100%; max-width: 650px; margin: auto; color: #222; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"
+      style="float: right; font-size: 1.5rem; font-weight: 700; align-content: center;color: #555; opacity: 0.7; border: none; background: none; cursor: pointer;">
+      &times;
+    </button>
+
+    <h2 style="color: #2c3e50; font-weight: 700; margin-bottom: 1rem; text-align: center;">
+      About Us
+    </h2>
+    <h4 style="color: #2c3e50; font-weight: 700; margin-bottom: 2rem; text-align: center;">✅ EarnProjects – Real Work.
+      No Hustle.</h4>
+    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem; ">
+      At EarnProjects, we’re changing how skilled freelancers, students, and agencies find work.
+      No bidding, no cold emails, no delayed payments — just real, ready-to-start projects matched to your skills.
+    </p>
+
+    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">
+      You pick a subscription. We deliver quality projects. You focus on the work — and get paid directly by us.
+    </p>
+
+    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+      We’re already live with paying clients and freelance developers working on real assignments.
+    </p>
+
+    <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.6rem;">
+      EarnProjects is perfect for:
+    </p>
+
+    <ul style="margin-left: 1.2rem; margin-bottom: 1.5rem; color: #444; font-size: 1rem; line-height: 1.5;">
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger"
+          alt="finger">Freelancers who want consistent work without chasing leads</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger"
+          alt="finger">Students building portfolios and earning on the side</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger"
+          alt="finger">Professionals shifting to freelance</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger"
+          alt="finger">Agencies who want projects delivered — no sales involved</li>
+    </ul>
+
+    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">
+      We’re not another gig platform. We’re building a smart pipeline where talent meets trusted projects — with no time
+      wasted.
+    </p>
+
+    <p style="font-size: 1rem; font-weight: 600; text-align: center; margin-top: 2rem;">
+      This is just the beginning.<br />
+      Join us. Earn. Grow. And Succeed.
+    </p>
+  </div>
+</ng-template>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-offerings',
@@ -7,6 +8,17 @@ import { Component } from '@angular/core';
   templateUrl: './offerings.component.html',
   styleUrl: './offerings.component.css'
 })
-export class OfferingsComponent {
+export class OfferingsComponent implements OnInit {
+  ngOnInit(): void {
 
+  }
+  constructor(private router: Router) {
+
+  }
+
+  routeToPlans(plan: any) {
+  
+      this.router.navigate([`/plans/${plan}`]);
+   
+  }
 }

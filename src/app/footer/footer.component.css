@@ -2,8 +2,9 @@
   background-color: #f9f9fc;
   padding: 2em;
   font-family: 'Segoe UI', sans-serif;
- width: 100%;
+  width: 100%;
   color: #2d2d2d;
+  margin-top: 4em;
 }
 
 .footer-grid {
@@ -11,15 +12,15 @@
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 30px;
   max-width: 100%;
-  margin: 0 3px ;
+  margin: 0 3px;
 }
 
 .footer-brand .footer-logo {
   display: flex;
   align-items: center;
   gap: 10px;
-      
-      
+
+
 }
 
 .footer-brand .logo {
@@ -30,9 +31,9 @@
 
 .brand-name {
   font-weight: 700;
-      color: rgb(17 24 39 /1);
-          font-size: 1.25rem;
-    line-height: 1.75rem;
+  color: rgb(17 24 39 /1);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .foot-desc {
@@ -48,8 +49,18 @@
   margin-top: 10px;
 }
 
+a {
+  color: rgb(75 85 99 /1);
+  text-decoration: none;
+
+}
+.finger{
+    height: 2em;
+    width: 2em;
+    margin-right: 1em;
+}
 .icon {
-  background-color: #e6e6ef;
+  background-color: #fff;
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -71,9 +82,9 @@
   margin: 6px 0;
   font-size: 14px;
   cursor: pointer;
-      color: rgb(75 85 99 /1);
-      font-size: 1rem;
-    line-height: 1.5rem;
+  color: rgb(75 85 99 /1);
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .footer-section span:hover {
@@ -90,9 +101,9 @@
   flex-wrap: wrap;
 
   margin-top: 3em;
-      color: rgb(75 85 99 / 1);
-      font-size: .875rem;
-    line-height: 1.25rem;
+  color: rgb(75 85 99 / 1);
+  font-size: .875rem;
+  line-height: 1.25rem;
 }
 
 

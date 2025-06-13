@@ -1,0 +1,211 @@
+<div class="sign">
+  <div class="sign-categ-align" style="gap: 2em;" id="category">
+    <div class="sign-categ" [ngClass]="{ 'selected': selectedCategory === 'student' }"
+      (click)="selectCategory('student')">
+      Student
+    </div>
+
+    <div class="sign-categ" [ngClass]="{ 'selected': selectedCategory === 'professional' }"
+      (click)="selectCategory('professional')">
+      Professional
+    </div>
+
+    <div class="sign-categ" [ngClass]="{ 'selected': selectedCategory === 'agency' }"
+      (click)="selectCategory('agency')">
+      Agency
+    </div>
+  </div>
+  <div class="category-error" *ngIf="signForm.get('category')?.invalid && signForm.get('category')?.touched"
+    style="color:red; margin-top: 0.3em;">
+    Please select a category
+  </div>
+
+  <form [formGroup]="signForm" class="sign-container">
+
+    <div class="sign-box">
+      <div class="d-flex flex-row box-error mb-2" *ngIf="this.errorMsg !==''">
+        <img class="caution" src="../../assets/caution.svg" alt="caution">
+        <span class="error">{{this.errorMsg}}</span>
+      </div>
+      <h2>Sign Up</h2>
+
+      <div class="input-fields">
+        <label>Username</label>
+        <input type="text" placeholder="Enter your name" formControlName="username" id="username"
+          [ngClass]="{ 'redBorder': signForm.get('username')?.invalid && signForm.get('username')?.touched }" />
+
+        <span class="error" *ngIf="signForm.get('username')?.hasError('required') && signForm.get('username')?.touched">
+          Username is required
+        </span>
+        <span class="error" *ngIf="signForm.get('username')?.hasError('pattern') && signForm.get('username')?.touched">
+          Only alphabets allowed in username (no numbers or special characters)
+        </span>
+      </div>
+      <div class="input-fields">
+        <label>Mobile No.</label>
+        <div class="d-flex align-items-center phone-input-wrapper">
+
+          <!-- Country Code Box -->
+          <div class="country-code-box">+91</div>
+
+          <!-- User Input -->
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="95xxxxx123" id="phn_no"
+            formControlName="phn_no" class="form-control mobile-input"
+            style="margin:0px 0px !important;border: none !important;"
+            [ngClass]="{ 'redBorder': signForm.get('phn_no')?.invalid && signForm.get('phn_no')?.touched }" />
+        </div>
+
+        <!-- Validation Messages -->
+        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('required') && signForm.get('phn_no')?.touched">
+          Mobile number is required
+        </span>
+        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('minlength') && signForm.get('phn_no')?.touched">
+          Mobile number must be 10 digits
+        </span>
+        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('maxlength') && signForm.get('phn_no')?.touched">
+          Mobile number must be 10 digits
+        </span>
+        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('pattern') && signForm.get('phn_no')?.touched">
+          Enter a valid mobile number (starting with 6-9)
+        </span>
+      </div>
+
+
+      <div class="input-fields">
+        <label for="email">Email</label>
+
+        <div class="input-with-button">
+          <input id="email" type="email" placeholder="abc@mail.com" formControlName="mail" [ngClass]="{
+        'redBorder': signForm.get('mail')?.invalid && signForm.get('mail')?.touched
+      }" />
+          <button *ngIf="!this.otpVerified" type="button" class="verify-btn" [disabled]="
+        signForm.get('mail')?.invalid ||!signForm.get('mail')?.value" (click)="sendOtp(otpModal)">
+            Verify
+          </button>
+          <img *ngIf="this.otpVerified" class="verif" src="../../assets/svg/verified1.svg" alt="verified">
+        </div>
+
+        <span class="error" *ngIf="signForm.get('mail')?.hasError('required') && signForm.get('mail')?.touched">
+          Email is required
+        </span>
+
+        <span class="error" *ngIf="signForm.get('mail')?.hasError('email') && signForm.get('mail')?.touched">
+          Email must be in valid format
+        </span>
+      </div>
+      <div class="password-fields">
+        <div class="input-fields">
+          <label>Password</label>
+          <div class="eye-set">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" id="password">
+            <img *ngIf="!showPassword" class="eye" src="../../assets/svg/eye-close.svg" (click)="togglePassword()"
+              alt="eye">
+            <img *ngIf="showPassword" class="eye" src="../../assets/svg/eye-open.svg" (click)="togglePassword()"
+              alt="eye">
+          </div>
+          <span class="error" *ngIf="signForm.get('password')?.invalid && signForm.get('password')?.touched">
+            Password is required
+          </span>
+        </div>
+
+        <div class="input-fields">
+          <label>Confirm Password</label>
+          <div class="eye-set">
+            <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirm_password" id="conform_password">
+            <img *ngIf="!showConfirmPassword" class="eye" src="../../assets/svg/eye-close.svg"
+              (click)="toggleConfirmPassword()" alt="eye">
+            <img *ngIf="showConfirmPassword" class="eye" src="../../assets/svg/eye-open.svg"
+              (click)="toggleConfirmPassword()" alt="eye">
+          </div>
+          <span class="error"
+            *ngIf="signForm.get('confirm_password')?.touched && signForm.get('confirm_password')?.invalid">
+            Confirm Password is required.
+          </span>
+          <span class="error" *ngIf="signForm.hasError('mismatch') && signForm.get('confirm_password')?.touched">
+            Passwords do not match.
+          </span>
+
+        </div>
+      </div>
+      <div class="password-box"
+        *ngIf="signForm.get('password')?.value && signForm.get('password')?.touched && this.signForm.get('password')?.invalid">
+        <ul class="password-hints" style="list-style: none; ">
+          <li>
+            <span [style.color]="getPasswordError()?.hasUpperCase ? 'green' : 'red'">
+              {{ getPasswordError()?.hasUpperCase ? '✅' : '❌' }} One uppercase letter
+            </span>
+          </li>
+          <li>
+            <span [style.color]="getPasswordError()?.hasLowerCase ? 'green' : 'red'">
+              {{ getPasswordError()?.hasLowerCase ? '✅' : '❌' }} One lowercase letter
+            </span>
+          </li>
+          <li>
+            <span [style.color]="getPasswordError()?.hasNumeric ? 'green' : 'red'">
+              {{ getPasswordError()?.hasNumeric ? '✅' : '❌' }} One number
+            </span>
+          </li>
+          <li>
+            <span [style.color]="getPasswordError()?.hasSpecial ? 'green' : 'red'">
+              {{ getPasswordError()?.hasSpecial ? '✅' : '❌' }} One special character
+            </span>
+          </li>
+          <li>
+            <span [style.color]="getPasswordError()?.isValidLength ? 'green' : 'red'">
+              {{ getPasswordError()?.isValidLength ? '✅' : '❌' }} Minimum 8 characters
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <button class="mb-3 sign-up-btn" (click)="routeToSignUp()">Sign Up</button>
+        <span>Already have an account? <span class="text-blue" (click)="routeToSignUp('Login')">Sign In</span></span>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #otpModal let-modal>
+  <div class="modal-overlay">
+    <div class="modal-content">
+      <h3>Enter OTP</h3>
+      <p>We’ve sent an OTP to your email address.</p>
+
+      <div class="otp-boxes" [class.shake]="shakeOtp">
+        <input type="text" maxlength="1" *ngFor="let digit of otpArray; let i = index" [(ngModel)]="otpDigits[i]"
+          (input)="onOtpInput($event, i)" (keydown)="onOtpKeyDown($event, i)" [attr.id]="'otp-' + i"
+          autocomplete="off" />
+      </div>
+
+      <div class="error" *ngIf="otpError">{{ otpError }}</div>
+
+      <div class="modal-actions">
+        <button (click)="verifyOtp()">Submit</button>
+        <button class="cancel" (click)="closeOtpModal()">Cancel</button>
+      </div>
+
+      <div class="resend-otp">
+        <button [disabled]="timer > 0" (click)="resendOtp()" class="resend-otp-btn">Resend OTP</button>
+        <span *ngIf="timer > 0">Resend in {{ timer }}s</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+  <div class="toast  border-0 align-items-center show"
+    [ngClass]="{'text-bg-success':this.successText,'text-bg-danger':this.dangerText}" role="alert" aria-live="assertive"
+    aria-atomic="true" *ngIf="showToast">
+    <div class="d-flex">
+      <div class="toast-body" *ngIf="this.successText!=''">
+        {{this.successText}}
+      </div>
+      <div class="toast-body" *ngIf="this.dangerText!=''">
+        {{this.dangerText}}
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" aria-label="Close"
+        (click)="showToast = false"></button>
+    </div>
+  </div>
+</div>
