@@ -119,10 +119,7 @@ export class ReviewDetailComponent implements OnInit {
         field: 'Past Clients',
         value: this.fieldData?.pastClients,
       },
-      {
-        field: 'Budget Range',
-        value: this.fieldData?.budgetRange,
-      },
+     
       {
         field: 'Communication Tools',
         value: this.fieldData?.communicationTools,
@@ -175,7 +172,7 @@ export class ReviewDetailComponent implements OnInit {
 
     this.ApiService.post(Api.createPayment, body).subscribe((res: any) => {
       const options = {
-        key: 'rzp_test_L2tLtBAVGNYhwL',
+        key: 'rzp_live_5d1w43eJ5rZmVE',
         amount: res.order.amount,
         currency: 'INR',
         name: 'EarnProjects',

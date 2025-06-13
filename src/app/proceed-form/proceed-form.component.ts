@@ -117,7 +117,6 @@ patchValuesForEdit() {
       preferredProjectType: data.preferredProjectType || '',
       teamCapacity: data.teamCapacity || '',
       pastClients: data.pastClients || '',
-      budgetRange: data.budgetRange || '',
       communicationTools: data.communicationTools || '',
       salesHelpRequired: data.salesHelpRequired || 'false',
     }
@@ -133,7 +132,6 @@ patchValuesForEdit() {
   this.setOtherFieldIfNeeded('teamSize', data.teamSize);
   this.setOtherFieldIfNeeded('coreServices', data.coreServices);
   this.setOtherFieldIfNeeded('teamCapacity', data.teamCapacity);
-  this.setOtherFieldIfNeeded('budgetRange', data.budgetRange);
   this.setOtherFieldIfNeeded('communicationTools', data.communicationTools);
   this.setOtherFieldIfNeeded('salesHelpRequired', data.salesHelpRequired);
 
@@ -198,7 +196,6 @@ initializeForm() {
       preferredProjectType: ['', this.noOnlySpacesValidator()],
       teamCapacity: ['', this.noOnlySpacesValidator()],
       pastClients: ['', this.noOnlySpacesValidator()],
-      budgetRange: ['', this.noOnlySpacesValidator()],
       communicationTools: ['', this.noOnlySpacesValidator()],
       salesHelpRequired: ['false'],
     }),
@@ -275,12 +272,13 @@ applyPlanBasedValidators(plan: string) {
 
   } else if (plan === 'agency') {
     setValidators(step0, ['agencyName'], [Validators.required, spaceValidator]);
-    // website and location are optional — no validators set
-
+    // website asetVnd location are optional — no validators set
+    setValidators(step0, ['website'], [ spaceValidator]);
+    setValidators(step0, ['location'], [spaceValidator]);
     setValidators(step1, ['teamSize', 'pocName', 'pocPhoneNumber', 'techStack', 'coreServices'], [Validators.required, spaceValidator]);
     setValidators(step1, ['pocEmail'], [Validators.required, Validators.email, spaceValidator]);
 
-    setValidators(step2, ['teamCapacity', 'pastClients', 'budgetRange', 'communicationTools', 'salesHelpRequired'], [Validators.required, spaceValidator]);
+    setValidators(step2, ['teamCapacity', 'pastClients', 'communicationTools', 'salesHelpRequired'], [Validators.required, spaceValidator]);
   }
 
   // Final validation update
@@ -388,12 +386,7 @@ otherValues: any = {};
       label: 'Past Clients',
       type: 'text'
     },
-    {
-      field: 'budgetRange',
-      label: 'Budget Range',
-      type: 'dropdown',
-      options: ['< ₹50K', '₹50K - ₹1L', '₹1L - ₹5L', '₹5L+']
-    },
+   
     {
       field: 'communicationTools',
       label: 'Communication Tools',
