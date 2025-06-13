@@ -220,7 +220,7 @@
     <div class="review-foot">
         <div class="tot-prem">
             <div class="prem-text">Total Premium</div>
-            <div class="prem-num">₹ {{fieldData?.amount}}/-</div>
+            <div class="prem-num">{{planDetails?.currency=='INR'? '₹':'$'}} {{fieldData?.amount}}/-</div>
         </div>
         <div class="rev-btn">
             <button class="rev-b1" (click)="editDetails()">EDIT DETAILS</button>

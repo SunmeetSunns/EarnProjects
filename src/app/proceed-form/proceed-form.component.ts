@@ -31,6 +31,19 @@ export class ProceedFormComponent implements OnInit {
   noOfProj: number;
   yearlyDiscount: number;
   payFrequency: string = 'Monthly';
+  countryCodes = [
+  { code: '+91', iso: 'IN', name: 'India', flag: '🇮🇳' },
+  { code: '+1', iso: 'US', name: 'USA', flag: '🇺🇸' },
+  { code: '+44', iso: 'GB', name: 'UK', flag: '🇬🇧' },
+  { code: '+49', iso: 'DE', name: 'Germany', flag: '🇩🇪' },
+  { code: '+84', iso: 'VN', name: 'Vietnam', flag: '🇻🇳' },
+  { code: '+971', iso: 'AE', name: 'UAE (Dubai)', flag: '🇦🇪' },
+  { code: '+27', iso: 'ZA', name: 'South Africa', flag: '🇿🇦' },
+  { code: '+33', iso: 'FR', name: 'France', flag: '🇫🇷' },
+  { code: '+61', iso: 'AU', name: 'Australia', flag: '🇦🇺' },
+  { code: '+81', iso: 'JP', name: 'Japan', flag: '🇯🇵' },
+  { code: '+86', iso: 'CN', name: 'China', flag: '🇨🇳' },
+];
 
   constructor(private fb: FormBuilder, private router: Router) { }
 
@@ -47,32 +60,42 @@ export class ProceedFormComponent implements OnInit {
     }
 
   }
-  patchUserDetails() {
-    if (sessionStorage.getItem('user')) {
-      const data = JSON.parse(sessionStorage.getItem('user') || '{}');
-      if (!data) return;
 
-      this.form.patchValue({
-        step0: {
-          fullName: data.name || '',
-          email: data.email || '',
-          phoneNumber: data.mobile || '',
-        },
-        step1: {
-          pocName: data.name || '',
-          pocEmail: data.email || '',
-          pocPhoneNumber: data.mobile || '',
-        },
-      });
 
-      // ✅ Use .disable()
-      this.form.get('step0.email')?.disable();
+patchUserDetails() {
+  if (sessionStorage.getItem('user')) {
+    const data = JSON.parse(sessionStorage.getItem('user') || '{}');
+    if (!data) return;
 
-      // this.form.get('step1.pocName')?.disable();
-      this.form.get('step1.pocEmail')?.disable();
-      // this.form.get('step1.pocPhoneNumber')?.disable();
-    }
+    // Find matching country object from ISO code
+    const matchedCountry = this.countryCodes.find(
+      (country) => country.iso === data.country_code
+    );
+
+    const selectedCode = matchedCountry?.code || '+91';
+
+    this.form.patchValue({
+      step0: {
+        fullName: data.name || '',
+        email: data.email || '',
+        phoneNumber: data.mobile || '',
+        country_code: selectedCode
+      },
+      step1: {
+        pocName: data.name || '',
+        pocEmail: data.email || '',
+        pocPhoneNumber: data.mobile || '',
+        country_code: selectedCode
+      },
+    });
+
+    this.form.get('step0.email')?.disable();
+    this.form.get('step1.pocEmail')?.disable();
+    this.form.get('step0.country_code')?.disable();
+    this.form.get('step1.country_code')?.disable();
   }
+}
+
 setOtherFieldIfNeeded(fieldName: string, value: string) {
   const options = this.getFieldOptions(fieldName);
   const isOther = value && !options.includes(value);
@@ -117,6 +140,7 @@ patchValuesForEdit() {
       preferredProjectType: data.preferredProjectType || '',
       teamCapacity: data.teamCapacity || '',
       pastClients: data.pastClients || '',
+      budgetRange: data.budgetRange || '',
       communicationTools: data.communicationTools || '',
       salesHelpRequired: data.salesHelpRequired || 'false',
     }
@@ -132,6 +156,7 @@ patchValuesForEdit() {
   this.setOtherFieldIfNeeded('teamSize', data.teamSize);
   this.setOtherFieldIfNeeded('coreServices', data.coreServices);
   this.setOtherFieldIfNeeded('teamCapacity', data.teamCapacity);
+  this.setOtherFieldIfNeeded('budgetRange', data.budgetRange);
   this.setOtherFieldIfNeeded('communicationTools', data.communicationTools);
   this.setOtherFieldIfNeeded('salesHelpRequired', data.salesHelpRequired);
 
@@ -160,11 +185,9 @@ initializeForm() {
     step0: this.fb.group({
       fullName: ['', [Validators.required, this.noOnlySpacesValidator()]],
       email: ['', [Validators.required, Validators.email, this.noOnlySpacesValidator()]],
+      country_code: ['+91'],
       phoneNumber: ['', [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(10),
-        Validators.pattern('^[6-9][0-9]{9}$')
+        Validators.required,this.noOnlySpacesValidator()
       ]],
       city: ['', [Validators.required, this.noOnlySpacesValidator()]],
       dob: ['', [Validators.required, this.minAgeValidator(18)]],
@@ -187,6 +210,7 @@ initializeForm() {
       pocName: ['', this.noOnlySpacesValidator()],
       pocEmail: ['', [Validators.email, this.noOnlySpacesValidator()]],
       pocPhoneNumber: ['', this.noOnlySpacesValidator()],
+      country_code: ['+91'],
       coreServices: ['', this.noOnlySpacesValidator()],
     }),
     step2: this.fb.group({
@@ -196,6 +220,7 @@ initializeForm() {
       preferredProjectType: ['', this.noOnlySpacesValidator()],
       teamCapacity: ['', this.noOnlySpacesValidator()],
       pastClients: ['', this.noOnlySpacesValidator()],
+      budgetRange: ['', this.noOnlySpacesValidator()],
       communicationTools: ['', this.noOnlySpacesValidator()],
       salesHelpRequired: ['false'],
     }),
@@ -272,13 +297,12 @@ applyPlanBasedValidators(plan: string) {
 
   } else if (plan === 'agency') {
     setValidators(step0, ['agencyName'], [Validators.required, spaceValidator]);
-    // website asetVnd location are optional — no validators set
-    setValidators(step0, ['website'], [ spaceValidator]);
-    setValidators(step0, ['location'], [spaceValidator]);
+    // website and location are optional — no validators set
+
     setValidators(step1, ['teamSize', 'pocName', 'pocPhoneNumber', 'techStack', 'coreServices'], [Validators.required, spaceValidator]);
     setValidators(step1, ['pocEmail'], [Validators.required, Validators.email, spaceValidator]);
 
-    setValidators(step2, ['teamCapacity', 'pastClients', 'communicationTools', 'salesHelpRequired'], [Validators.required, spaceValidator]);
+    setValidators(step2, ['teamCapacity', 'pastClients', 'budgetRange', 'communicationTools', 'salesHelpRequired'], [Validators.required, spaceValidator]);
   }
 
   // Final validation update
@@ -328,7 +352,7 @@ otherValues: any = {};
     { field: 'teamSize', label: 'Team Size', type: 'dropdown', options: ['1-5', '6-10', '11-20', '20+'] },
     { field: 'pocName', label: 'POC Name', type: 'text' },
     { field: 'pocEmail', label: 'POC Email', type: 'text' },
-    { field: 'pocPhoneNumber', label: 'POC Phone Number', type: 'text' },
+    // { field: 'pocPhoneNumber', label: 'POC Phone Number', type: 'text' },
     { field: 'techStack', label: 'Tech Stack', type: 'text' },
     { field: 'coreServices', label: 'Core Service', type: 'dropdown', options: ['Web Development', 'App Development', 'Design', 'Marketing'] }
   ];
@@ -386,7 +410,12 @@ otherValues: any = {};
       label: 'Past Clients',
       type: 'text'
     },
-   
+    {
+      field: 'budgetRange',
+      label: 'Budget Range',
+      type: 'dropdown',
+      options: ['< ₹50K', '₹50K - ₹1L', '₹1L - ₹5L', '₹5L+']
+    },
     {
       field: 'communicationTools',
       label: 'Communication Tools',

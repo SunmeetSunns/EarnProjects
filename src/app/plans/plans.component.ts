@@ -119,18 +119,19 @@ export class PlansComponent implements OnInit {
   for (let i = 0; i < plans.length; i++) {
     this.allPlans.push({
       name: plans[i].planName,
-      price: plans[i].priceINR,
+      price: plans[i].price,
       yearlyDiscount: plans[i].discount,
       category: plans[i].category,
       description: plans[i].planDescription,
       features: plans[i].features,
       popular: plans[i].popular,
       noOfLeads: plans[i].noOfLeads,
-      discountPer: this.calculateDiscount(plans[i].priceINR, plans[i].discount),
+      discountPer: this.calculateDiscount(plans[i].price, plans[i].discount),
+      currency:plans[i]?.currency
     });
 
     this.filteredPlans.push({
-      discountPer: this.calculateDiscount(plans[i].priceINR, plans[i].discount),
+      discountPer: this.calculateDiscount(plans[i].price, plans[i].discount),
     })
   }
 

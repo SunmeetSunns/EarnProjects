@@ -11,7 +11,7 @@
       <div class="sidebar-items">
         <div class="side-align">
           <div class="side-item">Project Worth</div>
-          <div class="side-ans">₹ {{this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price}}</div>
+          <div class="side-ans"> {{selectedPlanDetails?.currency=='INR'? '₹':'$'}} {{this.amtToPaid ? this.amtToPaid : this.selectedPlanDetails?.price}}</div>
         </div>
         <div class="side-align">
           <div class="side-item">No of Projects</div>
@@ -62,14 +62,25 @@
 
                 <div class="form-field">
                   <label class="side-align">Phone Number</label>
-                  <input class="form-ans form-control" formControlName="phoneNumber" />
-                  <div class="error" *ngIf="isFieldInvalid('phoneNumber')">Valid Mobile Number is required.</div>
-                  <div class="error"
-                    *ngIf="form.get('step0.phoneNumber')?.hasError('pattern') && form.get('step0.phoneNumber')?.touched">
-                    Only Indian mobile numbers (starting with 6-9) are allowed.
+
+                  <div class="d-flex align-items-center gap-2">
+                    <select formControlName="country_code" class="country-code-box">
+                      <option *ngFor="let country of countryCodes" [value]="country.code">
+                        {{ country.flag }} ({{ country.code }})
+                      </option>
+                    </select>
+
+                    <input type="tel" class="form-ans form-control" formControlName="phoneNumber"
+                      placeholder="Enter Phone Number" />
                   </div>
 
+                  <div class="error" *ngIf="isFieldInvalid('phoneNumber')">Valid Mobile Number is required.</div>
+                  <div class="error"
+                    *ngIf="form.get('step0.phoneNumber')?.hasError('pattern') &&form.get('step0.phoneNumber')?.touched &&form.get('step0.country_code')?.value === '+91'">
+                    Only Indian mobile numbers (starting with 6-9) are allowed.
+                  </div>
                 </div>
+
 
                 <div class="form-field">
                   <label class="side-align">City</label>
@@ -184,6 +195,26 @@
               </ng-container>
 
               <!-- Agency Fields -->
+                       <div class="form-field">
+                  <label class="side-align">Phone Number</label>
+
+                  <div class="d-flex align-items-center gap-2">
+                    <select formControlName="country_code" class="country-code-box">
+                      <option *ngFor="let country of countryCodes" [value]="country.code">
+                        {{ country.flag }} ({{ country.code }})
+                      </option>
+                    </select>
+
+                    <input type="tel" class="form-ans form-control" formControlName="pocPhoneNumber"
+                      placeholder="Enter Phone Number" />
+                  </div>
+
+                  <div class="error" *ngIf="isFieldInvalid('pocPhoneNumber')">Valid Mobile Number is required.</div>
+                  <div class="error"
+                    *ngIf="form.get('step1.pocPhoneNumber')?.hasError('pattern') &&form.get('step1.pocPhoneNumber')?.touched &&form.get('step0.pocPhoneNumber')?.value === '+91'">
+                    Only Indian mobile numbers (starting with 6-9) are allowed.
+                  </div>
+                </div>
               <ng-container *ngIf="plan === 'agency'">
                 <div class="form-field" *ngFor="let a of agencyFields">
                   <label class="side-align">{{ a.label }}</label>
@@ -295,9 +326,9 @@
   <div class="form-navigation">
     <div class="form-tot">
       <div class="tot-name">Total Payable Amount: </div>
-      <div class="tot-price"><span>₹ </span> <span>{{this.amtToPaid ? this.amtToPaid :
+      <div class="tot-price"><span>{{selectedPlanDetails?.currency=='INR'? '₹':'$'}}</span> <span>{{this.amtToPaid ? this.amtToPaid :
           this.selectedPlanDetails?.price}}/-</span></div>
-      <div class="discount"><span>₹ </span> <span>{{yearlyDiscount ? yearlyDiscount
+      <div class="discount"><span>{{selectedPlanDetails?.currency=='INR'? '₹':'$'}}</span> <span>{{yearlyDiscount ? yearlyDiscount
           :this.selectedPlanDetails?.yearlyDiscount}}/-</span> </div>
     </div>
     <div class="form-btn">

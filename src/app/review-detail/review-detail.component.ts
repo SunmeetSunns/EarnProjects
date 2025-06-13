@@ -167,14 +167,15 @@ export class ReviewDetailComponent implements OnInit {
   }
   payNow(amount) {
     let body = {
-      amount: amount
+      amount: amount,
+       currency:this.planDetails?.currency
     }
 
     this.ApiService.post(Api.createPayment, body).subscribe((res: any) => {
       const options = {
         key: 'rzp_live_5d1w43eJ5rZmVE',
         amount: res.order.amount,
-        currency: 'INR',
+        currency: this.planDetails?.currency,
         name: 'EarnProjects',
         order_id: res.order.id,
         handler: (response: any) => {
