@@ -46,27 +46,27 @@
         <div class="d-flex align-items-center phone-input-wrapper">
 
           <!-- Country Code Box -->
-          <div class="country-code-box">+91</div>
-
+          <select formControlName="country_code" class="country-code-box">
+            <option *ngFor="let country of countryCodes" [value]="country.code">
+              {{ country.flag }} ({{ country.code }})
+            </option>
+          </select>
           <!-- User Input -->
-          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="95xxxxx123" id="phn_no"
-            formControlName="phn_no" class="form-control mobile-input"
+          <input type="text" inputmode="numeric"
+            [attr.maxlength]="signForm.get('country_code')?.value === '+91' ? 10 : 15"
+            [placeholder]="signForm.get('country_code')?.value === '+91' ? '95xxxxx123' : 'Enter phone number'"
+            id="phn_no" formControlName="phn_no" class="form-control mobile-input"
             style="margin:0px 0px !important;border: none !important;"
             [ngClass]="{ 'redBorder': signForm.get('phn_no')?.invalid && signForm.get('phn_no')?.touched }" />
+
         </div>
 
         <!-- Validation Messages -->
         <span class="error" *ngIf="signForm.get('phn_no')?.hasError('required') && signForm.get('phn_no')?.touched">
           Mobile number is required
         </span>
-        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('minlength') && signForm.get('phn_no')?.touched">
-          Mobile number must be 10 digits
-        </span>
-        <span class="error" *ngIf="signForm.get('phn_no')?.hasError('maxlength') && signForm.get('phn_no')?.touched">
-          Mobile number must be 10 digits
-        </span>
         <span class="error" *ngIf="signForm.get('phn_no')?.hasError('pattern') && signForm.get('phn_no')?.touched">
-          Enter a valid mobile number (starting with 6-9)
+          Enter valid mobile number based on selected country
         </span>
       </div>
 
@@ -111,7 +111,8 @@
         <div class="input-fields">
           <label>Confirm Password</label>
           <div class="eye-set">
-            <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirm_password" id="conform_password">
+            <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirm_password"
+              id="conform_password">
             <img *ngIf="!showConfirmPassword" class="eye" src="../../assets/svg/eye-close.svg"
               (click)="toggleConfirmPassword()" alt="eye">
             <img *ngIf="showConfirmPassword" class="eye" src="../../assets/svg/eye-open.svg"

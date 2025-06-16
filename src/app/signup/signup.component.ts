@@ -30,6 +30,21 @@ export class SignupComponent implements OnInit, OnDestroy {
   shakeOtp = false;
   timer: number = 30;
   timerInterval: any;
+countryCodes = [
+  { code: '+91', iso: 'IN', name: 'India', flag: '🇮🇳' },
+  { code: '+1', iso: 'US', name: 'USA', flag: '🇺🇸' },
+  { code: '+44', iso: 'GB', name: 'UK', flag: '🇬🇧' },
+  { code: '+49', iso: 'DE', name: 'Germany', flag: '🇩🇪' },
+  { code: '+84', iso: 'VN', name: 'Vietnam', flag: '🇻🇳' },
+  { code: '+971', iso: 'AE', name: 'UAE (Dubai)', flag: '🇦🇪' },
+  { code: '+27', iso: 'ZA', name: 'South Africa', flag: '🇿🇦' },
+  { code: '+33', iso: 'FR', name: 'France', flag: '🇫🇷' },
+  { code: '+61', iso: 'AU', name: 'Australia', flag: '🇦🇺' },
+  { code: '+81', iso: 'JP', name: 'Japan', flag: '🇯🇵' },
+  { code: '+86', iso: 'CN', name: 'China', flag: '🇨🇳' },
+];
+
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -40,7 +55,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.buildForm();
-
+ 
     if (this.browserCheck.isBrowser()) {
       const categoryFromSession = sessionStorage.getItem('categoryName');
       if (categoryFromSession) {
@@ -52,78 +67,107 @@ export class SignupComponent implements OnInit, OnDestroy {
 
 
   noOnlySpacesValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const isWhitespaceOnly = typeof control.value === 'string' && control.value.trim().length === 0;
-    return isWhitespaceOnly ? { whitespace: true } : null;
-  };
-}
-buildForm(): void {
-  this.signForm = this.formBuilder.group({
-    username: ['', [
-      Validators.required,
-      Validators.pattern('^[a-zA-Z ]+$'),
-      this.noOnlySpacesValidator()
-    ]],
-    phn_no: ['', [
-      Validators.required,
-      Validators.minLength(10),
-      Validators.maxLength(10),
-      Validators.pattern('^[6-9][0-9]{9}$')
-    ]],
-    category: ['', [
-      Validators.required,
-      this.noOnlySpacesValidator()
-    ]],
-    mail: ['', [
-      Validators.required,
-      Validators.email,
-      this.noOnlySpacesValidator()
-    ]],
-    password: ['', Validators.compose([
-      Validators.required,
-      Validators.minLength(8),
-      this.passwordStrengthValidator,
-      this.noOnlySpacesValidator()
-    ])],
-    confirm_password: ['', [Validators.required, this.noOnlySpacesValidator()]],
-  }, {
-    validators: this.confirmPasswordValidator()
-  });
-}
-
-getPasswordError() {
-  const errors = this.signForm.get('password')?.errors;
-  if (errors?.['passwordStrength']) {
-    return errors['passwordStrength'];
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isWhitespaceOnly = typeof control.value === 'string' && control.value.trim().length === 0;
+      return isWhitespaceOnly ? { whitespace: true } : null;
+    };
   }
-  // If no error, return all true to show all green ticks
-  return {
-    hasUpperCase: true,
-    hasLowerCase: true,
-    hasNumeric: true,
-    hasSpecial: true,
-    isValidLength: true,
-  };
-}
+  buildForm(): void {
+    this.signForm = this.formBuilder.group({
+      username: ['', [
+        Validators.required,
+        Validators.pattern('^[a-zA-Z ]+$'),
+        this.noOnlySpacesValidator()
+      ]],
+      country_code: ['+91'], // default India
+      phn_no: ['', [Validators.required]],
+      category: ['', [
+        Validators.required,
+        this.noOnlySpacesValidator()
+      ]],
+      mail: ['', [
+        Validators.required,
+        Validators.email,
+        this.noOnlySpacesValidator()
+      ]],
+      password: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        this.passwordStrengthValidator,
+        this.noOnlySpacesValidator()
+      ])],
+      confirm_password: ['', [Validators.required, this.noOnlySpacesValidator()]],
+    }, {
+      validators: this.confirmPasswordValidator()
+    });
+    this.signForm.get('country_code')?.valueChanges.subscribe(code => {
+      this.updatePhoneValidators(code);
+    });
 
-confirmPasswordValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirm_password')?.value;
+    this.updatePhoneValidators(this.signForm.get('country_code')?.value);
+  }
+  updatePhoneValidators(code: string): void {
+    const phoneControl = this.signForm.get('phn_no');
+    if (!phoneControl) return;
 
-    if (password && confirmPassword && password !== confirmPassword) {
-      control.get('confirm_password')?.setErrors({ mismatch: true });
-      return { mismatch: true };
+    if (code === '+91') {
+      phoneControl.setValidators([
+        Validators.required,
+        Validators.pattern('^[6-9][0-9]{9}$'),
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ]);
     } else {
-      // Remove mismatch error if they match now
-      const confirmControl = control.get('confirm_password');
-      if (confirmControl?.hasError('mismatch')) {
-        confirmControl.setErrors(null);
-      }
-      return null;
+      phoneControl.setValidators([
+        Validators.required,
+        Validators.pattern('^[0-9]{6,15}$')  // general international format
+      ]);
     }
-  };
-}
+
+    phoneControl.updateValueAndValidity();
+  }
+  getCountryFlag(code: string): string {
+    switch (code) {
+      case '+91': return '🇮🇳';
+      case '+1': return '🇺🇸';
+      case '+44': return '🇬🇧';
+      default: return '';
+    }
+  }
+
+  getPasswordError() {
+    const errors = this.signForm.get('password')?.errors;
+    if (errors?.['passwordStrength']) {
+      return errors['passwordStrength'];
+    }
+    // If no error, return all true to show all green ticks
+    return {
+      hasUpperCase: true,
+      hasLowerCase: true,
+      hasNumeric: true,
+      hasSpecial: true,
+      isValidLength: true,
+    };
+  }
+
+  confirmPasswordValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const password = control.get('password')?.value;
+      const confirmPassword = control.get('confirm_password')?.value;
+
+      if (password && confirmPassword && password !== confirmPassword) {
+        control.get('confirm_password')?.setErrors({ mismatch: true });
+        return { mismatch: true };
+      } else {
+        // Remove mismatch error if they match now
+        const confirmControl = control.get('confirm_password');
+        if (confirmControl?.hasError('mismatch')) {
+          confirmControl.setErrors(null);
+        }
+        return null;
+      }
+    };
+  }
   selectCategory(category: string): void {
     this.selectedCategory = category;
     this.signForm.get('category')?.setValue(category);
@@ -139,48 +183,58 @@ confirmPasswordValidator(): ValidatorFn {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  routeToSignUp(action?: any): void {
-    this.dangerText = ''
-    this.successText = ''
-    if (this.signForm.invalid && !action) {
-      this.signForm.markAllAsTouched();
-      this.scrollToFirstInvalidControl(); 
-      return;
-    }
-    if (action) {
-      this.router.navigate(['/login']);
+routeToSignUp(action?: any): void {
+  this.dangerText = '';
+  this.successText = '';
 
-    }
-    if (this.signForm.valid && !action && !this.otpVerified) {
-      this.dangerText = 'Please Validate Your Email First';
-      this.showSuccessToast();
-    }
-    if (this.otpVerified) {
-      let body = {
-        email: this.signForm.get('mail').value,
-        password: this.signForm.get('password').value,
-        confirmPassword: this.signForm.get('confirm_password').value,
-        name: this.signForm.get('username').value,
-        category: this.signForm.get('category').value,
-        mobile: this.signForm.get('phn_no').value
+  if (this.signForm.invalid && !action) {
+    this.signForm.markAllAsTouched();
+    this.scrollToFirstInvalidControl();
+    return;
+  }
+
+  if (action) {
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  if (this.signForm.valid && !this.otpVerified) {
+    this.dangerText = 'Please Validate your Email first';
+    this.showSuccessToast();
+    return;
+  }
+
+  if (this.otpVerified) {
+    const formValue = this.signForm.value;
+
+    const selectedCountry = this.countryCodes.find(c => c.code === formValue.country_code);
+    const isoCode = selectedCountry?.iso || 'IN'; // fallback to IN
+
+    const body = {
+      email: this.signForm.get('mail').value,
+      password: formValue.password,
+      confirmPassword: formValue.confirm_password,
+      name: formValue.username,
+      category: formValue.category,
+      mobile: formValue.phn_no,
+      country_code: isoCode, // ✅ Now sending ISO code like 'IN'
+    };
+
+    this.Apiservice.post(Api.signup, body).subscribe((res: any) => {
+      if (res?.status == 400 || res?.status == 201) {
+        this.dangerText = res?.error || res?.message;
       }
 
-      this.Apiservice.post(Api.signup, body).subscribe((res: any) => {
+      if (res?.status == 200) {
+        this.successText = res?.message;
+        this.router.navigate(['/login']);
+      }
 
-        if (res?.status == 400 || res?.status == 201) {
-          this.dangerText = res?.error ? res?.error : res?.message;
-
-        }
-        if (res?.status == 200) {
-          this.successText = res?.message
-          this.router.navigate(['/login']);
-        }
-        this.showSuccessToast()
-      })
-    }
-
-
+      this.showSuccessToast();
+    });
   }
+}
+
   passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value || '';
 
@@ -206,27 +260,27 @@ confirmPasswordValidator(): ValidatorFn {
 
     return null;
   }
-scrollToFirstInvalidControl() {
-  const formElement = document.querySelector('form');
-  const firstInvalidControl = formElement?.querySelector('.ng-invalid');
+  scrollToFirstInvalidControl() {
+    const formElement = document.querySelector('form');
+    const firstInvalidControl = formElement?.querySelector('.ng-invalid');
 
-  if (firstInvalidControl) {
-    firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    (firstInvalidControl as HTMLElement).focus();
-  }
+    if (firstInvalidControl) {
+      firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      (firstInvalidControl as HTMLElement).focus();
+    }
 
-  // ✅ Handle category separately (outside form)
-  const categoryControl = this.signForm.get('category');
-  if (categoryControl?.invalid && categoryControl?.touched) {
-    const categoryElement = document.getElementById('category');
-    if (categoryElement) {
-      categoryElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // Optional shake animation
-      categoryElement.classList.add('shake');
-      setTimeout(() => categoryElement.classList.remove('shake'), 500);
+    // ✅ Handle category separately (outside form)
+    const categoryControl = this.signForm.get('category');
+    if (categoryControl?.invalid && categoryControl?.touched) {
+      const categoryElement = document.getElementById('category');
+      if (categoryElement) {
+        categoryElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Optional shake animation
+        categoryElement.classList.add('shake');
+        setTimeout(() => categoryElement.classList.remove('shake'), 500);
+      }
     }
   }
-}
 
 
   ngOnDestroy(): void {
