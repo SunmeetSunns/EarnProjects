@@ -1,0 +1,189 @@
+.plans-wrapper {
+  padding: 2em;
+  background-color: #ffffff;
+  border-radius: 1.5em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  margin: 3em auto;
+  font-family: 'Inter', sans-serif;
+}
+
+.plans-title {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 1.5em;
+  color: #4b0082;
+  font-weight: 600;
+}
+
+.no-data {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  text-align: center;
+  padding: 2em;
+}
+
+.no-data > img {
+  height: 10em;
+  width: 10em;
+  opacity: 0.8;
+}
+
+.no-data > span {
+  color: #999;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.no-data button {
+  margin-top: 1em;
+}
+
+.plan-card {
+  background: #fff;
+  padding: 2em;
+  border-radius: 1em;
+  border-left: 6px solid ;
+    border-image: linear-gradient(to bottom, #7c3aed, #0d988b);
+  border-image-slice: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+
+.plan-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plan-top h3 {
+  margin: 0;
+  font-size: 1.8em;
+  color: #2f2f2f;
+  font-weight: 600;
+}
+
+.badge {
+  background-color: #0d988b;
+  color: white;
+  padding: 0.3em 1em;
+  border-radius: 1em;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.plan-desc {
+  font-size: 1.05em;
+  color: #666;
+  line-height: 1.5em;
+}
+
+.plan-price {
+  font-size: 1.6em;
+  font-weight: bold;
+  color: #7c3aed;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.cut-price {
+  font-size: 0.95em;
+  color: #aaa;
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features-list li {
+  margin: 0.4em 0;
+  font-size: 1em;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.features-list li::before {
+  content: '✅';
+  color: #4caf50;
+}
+
+.meta-info {
+  font-size: 0.95em;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  padding-top: 1em;
+}
+@media (max-width: 768px) {
+  .plans-wrapper {
+    padding: 1.2em;
+    margin: 2em 1em;
+  }
+
+  .plans-title {
+    font-size: 1.6em;
+  }
+
+  .plan-card {
+    padding: 1.5em;
+    border-left-width: 4px;
+    gap: 1em;
+  }
+
+  .plan-top h3 {
+    font-size: 1.4em;
+  }
+
+  .badge {
+    font-size: 0.75em;
+    padding: 0.2em 0.8em;
+  }
+
+  .plan-desc {
+    font-size: 1em;
+  }
+
+  .plan-price {
+    font-size: 1.3em;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2em;
+  }
+
+  .features-list li {
+    font-size: 0.95em;
+  }
+
+  .meta-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5em;
+  }
+
+  .no-data > img {
+    height: 7em;
+    width: 7em;
+  }
+
+  .no-data > span {
+    font-size: 1em;
+  }
+
+  .no-data button {
+    width: 100%;
+    padding: 0.8em;
+    font-size: 1em;
+  }
+}

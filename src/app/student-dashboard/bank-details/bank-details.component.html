@@ -1,0 +1,138 @@
+<div class="bank-form-wrapper">
+  <h2 class="bank-form-title" *ngIf="!this.isGlobalUser">Bank Details</h2>
+  <form [formGroup]="bankForm" (ngSubmit)="submitBankDetails()">
+
+    <div *ngIf="!this.isGlobalUser">
+      <div class="bank-form-fields">
+        <div class="form-fields">
+          <label>Full Name</label>
+          <input formControlName="fullName" type="text"
+            [ngClass]="{ 'input-error': bankForm.get('fullName')?.invalid && bankForm.get('fullName')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.get('fullName')?.invalid && bankForm.get('fullName')?.touched">
+            Full name is required and should not contain only spaces.
+          </div>
+        </div>
+
+        <div class="form-fields">
+          <label>Account Number</label>
+          <input formControlName="accountNumber" type="text"
+            [ngClass]="{ 'input-error': bankForm.get('accountNumber')?.invalid && bankForm.get('accountNumber')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.get('accountNumber')?.errors?.['pattern'] && bankForm.get('accountNumber')?.touched">
+            Enter a valid account number (9 to 18 digits).
+          </div>
+        </div>
+      </div>
+
+      <div class="bank-form-fields">
+        <div class="form-fields">
+          <label>Confirm Account Number</label>
+          <input formControlName="confirmAccountNumber" type="text"
+            [ngClass]="{ 'input-error': bankForm.errors?.['accountMismatch'] && bankForm.get('confirmAccountNumber')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.errors?.['accountMismatch'] && (bankForm.get('accountNumber')?.touched || bankForm.get('confirmAccountNumber')?.touched)">
+            Account numbers do not match.
+          </div>
+        </div>
+
+        <div class="form-fields">
+          <label>IFSC Code</label>
+          <input formControlName="ifsc" type="text" (blur)="fetchBankDetails()"
+            [ngClass]="{ 'input-error': bankForm.get('ifsc')?.invalid && bankForm.get('ifsc')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.get('ifsc')?.errors?.['pattern'] && bankForm.get('ifsc')?.touched">
+            Invalid IFSC Code.
+          </div>
+        </div>
+      </div>
+
+      <div class="bank-form-fields">
+        <div class="form-fields">
+          <label>Bank Name</label>
+          <input formControlName="bankName" type="text" readonly />
+        </div>
+
+        <div class="form-fields">
+          <label>Branch</label>
+          <input formControlName="branch" type="text" readonly />
+        </div>
+      </div>
+
+      <div class="bank-form-fields">
+        <div class="form-fields">
+          <label>Account Type</label>
+          <select formControlName="accountType"
+            [ngClass]="{ 'input-error': bankForm.get('accountType')?.invalid && bankForm.get('accountType')?.touched }">
+            <option value="savings">Savings</option>
+            <option value="current">Current</option>
+          </select>
+          <div class="error-text" *ngIf="bankForm.get('accountType')?.invalid && bankForm.get('accountType')?.touched">
+            Please select an account type.
+          </div>
+        </div>
+
+        <div class="form-fields">
+          <label>UPI ID (optional)</label>
+          <input formControlName="upiId" type="text"
+            [ngClass]="{ 'input-error': bankForm.get('upiId')?.invalid && bankForm.get('upiId')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.get('upiId')?.errors?.['noSpace'] && bankForm.get('upiId')?.touched">
+            UPI ID should not contain extra spaces.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global User Fields -->
+    <div *ngIf="this.isGlobalUser">
+      <h2 class="bank-form-title">International</h2>
+
+      <div class="bank-form-fields">
+        <div class="form-fields">
+          <label>SWIFT Code</label>
+          <input formControlName="swiftCode" type="text"
+            [ngClass]="{ 'input-error': bankForm.get('swiftCode')?.invalid && bankForm.get('swiftCode')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.get('swiftCode')?.errors?.['noSpace'] && bankForm.get('swiftCode')?.touched">
+            Invalid SWIFT Code.
+          </div>
+        </div>
+
+        <div class="form-fields">
+          <label>IBAN</label>
+          <input formControlName="iban" type="text"
+            [ngClass]="{ 'input-error': bankForm.get('iban')?.invalid && bankForm.get('iban')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.get('iban')?.errors?.['noSpace'] && bankForm.get('iban')?.touched">
+            Invalid IBAN.
+          </div>
+        </div>
+      </div>
+
+      <div class="bank-form-fields">
+        <div class="form-fields">
+          <label>Country</label>
+          <input formControlName="country" type="text"
+            [ngClass]="{ 'input-error': bankForm.get('country')?.invalid && bankForm.get('country')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.get('country')?.errors?.['noSpace'] && bankForm.get('country')?.touched">
+            Invalid country input.
+          </div>
+        </div>
+
+        <div class="form-fields">
+          <label>Currency</label>
+          <input formControlName="currency" type="text"
+            [ngClass]="{ 'input-error': bankForm.get('currency')?.invalid && bankForm.get('currency')?.touched }" />
+          <div class="error-text" *ngIf="bankForm.get('currency')?.errors?.['noSpace'] && bankForm.get('currency')?.touched">
+            Invalid currency input.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-fields">
+        <label>PayPal Email</label>
+        <input formControlName="paypalEmail" type="email"
+          [ngClass]="{ 'input-error': bankForm.get('paypalEmail')?.invalid && bankForm.get('paypalEmail')?.touched }" />
+        <div class="error-text" *ngIf="bankForm.get('paypalEmail')?.errors?.['noSpace'] && bankForm.get('paypalEmail')?.touched">
+          Invalid PayPal email.
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" *ngIf="!this.userHaveAccount" [disabled]="this.bankForm.invalid">Submit Bank Details</button>
+  </form>
+</div>

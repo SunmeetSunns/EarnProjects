@@ -3,16 +3,16 @@ import { DashboardComponent } from '../../dashboard/dashboard.component';
 import { CommonModule } from '@angular/common';
 import { HttpWrapperService } from '../../services/api-service.service';
 import { Api } from '../../services/api-enums';
-// import { MyDashComponent } from "../my-dash/my-dash.component";
-// import { MyPlansComponent } from '../my-plans/my-plans.component';
-// import { BankDetailsComponent } from "../bank-details/bank-details.component";
+import { MyDashComponent } from "../my-dash/my-dash.component";
+import { MyPlansComponent } from '../my-plans/my-plans.component';
+import { BankDetailsComponent } from "../bank-details/bank-details.component";
 import { ProjectsComponent } from '../projects/projects.component';
 import { SettingComponent } from '../setting/setting.component';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule,ProjectsComponent,SettingComponent],
+  imports: [CommonModule, MyDashComponent, MyPlansComponent, BankDetailsComponent,ProjectsComponent,SettingComponent],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
 })
