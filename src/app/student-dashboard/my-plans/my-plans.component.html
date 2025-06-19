@@ -1,0 +1,40 @@
+<div class="plans-wrapper">
+    <h2 class="plans-title">Your Subscription Plan</h2>
+    <div class="plan-card" *ngIf="noData">
+        <div class="no-data">
+            <img src="=../../../../../assets/svg/empty-folder.svg" alt="no-data">
+            <span>🚫 No Active Subscription Found</span>
+
+            <span>
+                Get started by subscribing to a plan that unlocks real client projects.
+            </span>
+            <button class="btn btn-primary" (click)="goToPlans()">Review Our Plans</button>
+        </div>
+    </div>
+    <div class="plan-card" *ngIf="!noData">
+        <div class="plan-top">
+            <h3>{{ userPlanData?.planName }}</h3>
+            <span class="badge" *ngIf="userPlanData?.popular">Popular</span>
+        </div>
+
+        <p class="plan-desc">{{ userPlanData?.planDescription }}</p>
+
+        <div class="plan-price">
+            <span class="current-price">${{ userPlanData?.price}}</span>
+            <span class="cut-price" *ngIf="userPlanData?.discount">
+                <s>${{ userPlanData?.discount }}</s>
+            </span>
+        </div>
+
+        <ul class="features-list">
+            <li *ngFor="let feature of userPlanData?.features">
+                ✅ {{ feature }}
+            </li>
+        </ul>
+
+        <div class="meta-info">
+            <span>Category: <strong>{{ userPlanData?.category }}</strong></span>
+            <span>Leads/month: <strong>{{ userPlanData?.noOfLeads }}</strong></span>
+        </div>
+    </div>
+</div>

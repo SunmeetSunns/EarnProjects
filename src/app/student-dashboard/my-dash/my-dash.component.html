@@ -1,0 +1,58 @@
+ <div class="main-dash">
+    <div class="welcome-div">
+      <div class="wlcm-name">
+        👋 Welcome Back, <strong>{{getFirstName(userPlanData?.user?.name)}}</strong>
+      </div>
+      <div class="wlcm-msg quote-box">
+        “{{ selectedQuote }}”
+      </div>
+    </div>
+    <div class="girl-pic">
+      <img src="../../../assets/images/anime_lap.png" alt="Welcome Girl" />
+    </div>
+    <div class="basic-divs">
+      <div class="plan-grad">
+        <div class="plan-details1">
+          <div class="p-heading">Basic Details</div>
+          <div class="p-box">
+            <div class="p-list">
+              <div class="f-head">Full Name</div>
+              <div class="f-ans">{{userPlanData?.user?.name}}</div>
+            </div>
+            <div class="p-list">
+              <div class="f-head">Email</div>
+              <div class="f-ans">{{userPlanData?.user?.email}}</div>
+            </div>
+            <div class="p-list">
+              <div class="f-head">Mobile Number</div>
+              <div class="f-ans">{{userPlanData?.user?.mobile}}</div>
+            </div>
+            <div class="p-list">
+              <div class="f-head">City</div>
+              <div class="f-ans">{{userPlanData?.preference?.basicDetails?.city}}</div>
+            </div>
+            <div class="p-list">
+              <div class="f-head">State</div>
+              <div class="f-ans">{{userPlanData?.preference?.basicDetails?.state}}</div>
+            </div>
+            <div class="p-list">
+              <div class="f-head">College Name</div>
+              <div class="f-ans">{{userPlanData?.preference?.basicDetails?.collegeName}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="plan-grad">
+        <div class="plan-details1">
+          <div class="p-heading">Prefferences</div>
+          <div class="p-box">
+            <div class="p-list-1" *ngFor="let feature of userPlanData?.preference?.prefference?.selected">
+              <div class="dot"></div>
+              <div>{{feature}}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
