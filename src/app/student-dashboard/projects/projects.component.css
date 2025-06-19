@@ -1,0 +1,93 @@
+.projects-wrapper {
+  background-color: #ffffff;
+  border-radius: 1.5em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  max-width: 65em;
+  margin: 3em auto;
+  padding: 2.5em;
+  font-family: 'Inter', sans-serif;
+}
+
+.projects-title {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 1.5em;
+  color: #4b0082;
+  font-weight: 600;
+}
+
+.project-card {
+  background: #f9f9ff;
+  border-radius: 1em;
+  padding: 1.5em;
+  margin-bottom: 1.5em;/* Violet blue border like EarnProjects theme */
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+    border-left: 6px solid;
+  border-image: linear-gradient(to bottom, #7c3aed, #0d988b);
+  border-image-slice: 1;
+}
+
+.project-heading {
+  color: #5049e6;
+  font-size: 1.3em;
+  font-weight: 600;
+  margin-bottom: 0.5em;
+}
+
+.project-desc {
+  font-size: 1em;
+  color: #333;
+  margin-bottom: 1em;
+}
+
+.project-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  font-size: 0.95em;
+}
+
+.status {
+  padding: 0.2em 0.7em;
+  border-radius: 1em;
+  color: white;
+  font-weight: 600;
+}
+
+.status.ongoing {
+  background-color: #f39c12;
+}
+
+.status.upcoming {
+  background-color: #3498db;
+}
+
+.status.completed {
+  background-color: #2ecc71;
+}
+
+.no-data {
+  text-align: center;
+  color: #999;
+}
+
+.no-data img {
+  width: 100px;
+  margin-bottom: 1em;
+}
+
+.no-data span {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.btn.btn-primary {
+  background-color: #0d988b;
+  color: #fff;
+  padding: 0.8em 1.2em;
+  border: none;
+  border-radius: 0.7em;
+  cursor: pointer;
+}

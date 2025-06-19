@@ -297,18 +297,20 @@ routeToSignUp(action?: any): void {
     this.dangerText = ''
     this.successText = ''
     let body = {
-      email: this.signForm.get('mail').value
+      email: this.signForm.get('mail').value,
+      purpose: 'signup'
+    
     }
     this.Apiservice.post(Api.sendOtp, body).subscribe((res: any) => {
       if (res) {
-        if (res?.Status == 200) {
+        if (res?.status == 200) {
           this.startTimer()
           this.successText = res?.message;
           this.modal.open(modalName, { size: 'lg', keyboard: false, backdrop: 'static' })
           console.log("OTP ARRAY LENGTH:", this.otpArray.length);
 
         }
-        if (res?.Status == 201) {
+        if (res?.status == 201) {
           this.dangerText = res?.message
         }
         this.showSuccessToast();

@@ -14,7 +14,13 @@ export const Api = {
   createPayment:'api/payment/create-order',
   verifyPayment:'api/payment/verify-payment',
   saveUserPlan:'api/user/saveUserPlan',
-  findPlan:'api/user/findPlan'
+  findPlan:'api/user/findPlan',
+  getUserDetails:'api/user/getUserDetails',
+  saveBankDetails:'api/user/saveBankDetails',
+  getBankDetails:'api/user/getBankDetails',
+  updateEmail:'api/auth/updateEmail',
+  updateUserFields:'api/auth/update-user-details',
+  uploadUserFiles: (userId: string) => `api/auth/${userId}/upload-files`,
   
   // Add more endpoints as needed
 };

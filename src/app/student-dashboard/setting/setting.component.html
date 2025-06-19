@@ -1,1 +1,154 @@
-<p>setting works!</p>
+<div class="settings-wrapper">
+  <h2 class="settings-title">Account Settings</h2>
+
+  <!-- Personal Info -->
+  <section>
+    <h3>Personal Info</h3>
+    <div class="form-row">
+      <div class="form-field" style="position: relative;">
+        <input type="text" [(ngModel)]="user.fullName" [readonly]="!isEditingProfile" placeholder="Full Name">
+        <span class="edit-btn" (click)="isEditingProfile = true">✏️</span>
+      </div>
+    </div>
+    <button *ngIf="isEditingProfile" (click)="updateProfile()">Update</button>
+  </section>
+
+  <!-- Email Update -->
+  <section>
+    <h3>Update Email</h3>
+    <div class="form-row">
+      <div class="form-field" style="position: relative;">
+        <input [(ngModel)]="newEmail" [readonly]="!isEditingEmail" placeholder="New Email" class="email-input">
+        <span class="edit-btn" (click)="isEditingEmail = true">✏️</span>
+      </div>
+      <button (click)="sendOtp()" *ngIf="isEditingEmail && !otpSent" class="mybutton">Send OTP</button>
+    </div>
+
+    <div class="form-row" *ngIf="otpSent">
+      <div class="form-field">
+        <input [(ngModel)]="otp" placeholder="Enter OTP" class="email-input">
+      </div>
+      <div class="form-field">
+        <button (click)="verifyAndUpdateEmail()" class="mybutton">Verify & Update</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Password Change -->
+  <section>
+    <h3>Change Password</h3>
+    <div class="form-row">
+      <div class="form-field" style="position: relative;">
+        <input [type]="showOldPassword ? 'text' : 'password'" [(ngModel)]="passwords.old" placeholder="Current Password">
+        <span class="eye-btn" (click)="toggleOldPassword()">
+          <img src="../../../assets/svg/{{ showOldPassword ? 'eye-open.svg' : 'eye-close.svg' }}" alt="Toggle Password">
+        </span>
+      </div>
+
+      <div class="form-field" style="position: relative;">
+        <input [type]="showNewPassword ? 'text' : 'password'" [(ngModel)]="passwords.new" placeholder="New Password">
+        <span class="eye-btn" (click)="toggleNewPassword()">
+          <img src="../../../assets/svg/{{ showNewPassword ? 'eye-open.svg' : 'eye-close.svg' }}" alt="Toggle Password">
+        </span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field" style="position: relative;">
+        <input [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="passwords.confirm" placeholder="Confirm New Password">
+        <span class="eye-btn" (click)="toggleConfirmPassword()">
+          <img src="../../../assets/svg/{{ showConfirmPassword ? 'eye-open.svg' : 'eye-close.svg' }}" alt="Toggle Password">
+        </span>
+      </div>
+    </div>
+
+    <button (click)="changePassword()" class="mybutton">Change Password</button>
+  </section>
+
+  <!-- Profile Picture Upload -->
+  <section>
+    <h3>Profile Picture</h3>
+    <div class="form-row">
+      <div class="form-field full-width">
+        <input type="file" (change)="uploadImage($event)">
+      </div>
+    </div>
+    <div class="form-row" *ngIf="profileImage">
+      <div class="form-field full-width">
+        <img [src]="profileImage" alt="Profile Picture" width="150" style="border-radius: 8px; object-fit: cover;">
+      </div>
+    </div>
+  </section>
+
+  <!-- Resume Upload -->
+  <section>
+    <h3>Portfolio / Resume</h3>
+    <div class="form-row">
+      <div class="form-field full-width">
+        <input type="file" (change)="uploadResume($event)">
+      </div>
+    </div>
+    <div class="form-row" *ngIf="resumeFile">
+      <div class="form-field full-width">
+        <a [href]="resumeFile" target="_blank" style="color: #0D988B; text-decoration: underline;">
+          View Uploaded Resume
+        </a>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field full-width" style="position: relative;">
+        <input type="url" [(ngModel)]="externalPortfolio" [readonly]="!isEditingPortfolio" placeholder="Portfolio Link">
+        <span class="edit-btn" (click)="isEditingPortfolio = true">✏️</span>
+      </div>
+    </div>
+    <button (click)="savePortfolio()" *ngIf="isEditingPortfolio" class="mybutton">Save</button>
+  </section>
+
+  <!-- Subscription Management -->
+  <section>
+    <h3>Subscription</h3>
+    <p>Your current plan: {{ subscription?.plan }}</p>
+    <div class="form-row">
+      <div class="form-field">
+        <button (click)="upgrade()" class="mybutton">Upgrade</button>
+      </div>
+      <div class="form-field">
+        <button (click)="cancel()" class="mybutton">Cancel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support / Meeting -->
+  <section>
+    <h3>Support & Meetings</h3>
+    <p>Book a meeting slot:</p>
+    <div class="form-row">
+      <div class="form-field full-width">
+        <ngb-datepicker [(ngModel)]="selectedDate" [markDisabled]="isDisabled"></ngb-datepicker>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field full-width">
+        <button (click)="bookMeeting()" class="mybutton">Confirm Slot</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Toast -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;" *ngIf="this.showToast">
+  <div class="toast border-0 align-items-center show"
+    [ngClass]="{'text-bg-success': this.successText, 'text-bg-danger': this.dangerText}" role="alert"
+    aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" *ngIf="this.successText != ''">
+        {{ this.successText }}
+      </div>
+      <div class="toast-body" *ngIf="this.dangerText != ''">
+        {{ this.dangerText }}
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" aria-label="Close"
+        (click)="showToast = false"></button>
+    </div>
+  </div>
+</div>

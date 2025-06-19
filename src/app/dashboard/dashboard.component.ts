@@ -32,34 +32,34 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }]
   };
 
-  
-public chartOptions = {
-  responsive: true,
-  cutout: '80%', // Thick ring
-  plugins: {
-    legend: {
-      position: 'bottom'
+
+  public chartOptions = {
+    responsive: true,
+    cutout: '80%', // Thick ring
+    plugins: {
+      legend: {
+        position: 'bottom'
+      }
     }
-  }
-};
+  };
 
   public doughnutChartType: any = 'doughnut';
   noPlanPurchased: boolean;
   isLoggedIn: boolean;
 
-  constructor(private router: Router, private ApiService: HttpWrapperService,private loginService:LoginServiceService) { }
+  constructor(private router: Router, private ApiService: HttpWrapperService, private loginService: LoginServiceService) { }
 
   ngOnInit(): void {
-     this.loginService.isLoggedIn$.subscribe((status: boolean) => {
+    this.loginService.isLoggedIn$.subscribe((status: boolean) => {
       this.isLoggedIn = status;
     });
-    if(this.isLoggedIn){
- this.findPlan();
+    if (this.isLoggedIn) {
+      this.findPlan();
     }
-    if(!this.isLoggedIn){
+    if (!this.isLoggedIn) {
       this.router.navigate(['/login'])
     }
-   
+
   }
 
   ngAfterViewInit(): void {
@@ -73,15 +73,15 @@ public chartOptions = {
     };
 
     this.ApiService.post(Api.findPlan, body).subscribe((res: any) => {
-      if(res?.status==201){
-        this.noPlanPurchased=true;
+      if (res?.status == 201) {
+        this.noPlanPurchased = true;
         return
       }
       this.userPlanData = res?.planPurchased;
 
       // 👇 example: assuming API returns counts like this:
       const completed = this.userPlanData?.completedProj || 0;
-      const allotted = this.userPlanData?.fullFormData?.noOfProj|| 0;
+      const allotted = this.userPlanData?.fullFormData?.noOfProj || 0;
       const pending = this.userPlanData?.pendingProj || 0;
 
       // update chart data

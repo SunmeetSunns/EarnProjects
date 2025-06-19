@@ -1,1 +1,32 @@
-<p>projects works!</p>
+<div class="projects-wrapper">
+  <h2 class="projects-title">Your Projects</h2>
+
+  <!-- No Project Case -->
+  <div class="project-card" *ngIf="noProjects">
+    <div class="no-data">
+      <img src="../../../../../assets/svg/empty-folder.svg" alt="no-data">
+      <span>🚫 No Projects Assigned Yet</span>
+      <span>Subscribe or wait for your client to assign projects.</span>
+      <button class="btn btn-primary" (click)="goToPlans()">Explore Plans</button>
+    </div>
+  </div>
+
+  <!-- Project List -->
+   <div *ngIf="!noProjects">
+     <div class="project-card" *ngFor="let project of projectList">
+    <h3 class="project-heading">{{ project.heading }}</h3>
+
+    <p class="project-desc">{{ project.description }}</p>
+
+    <div class="project-meta">
+      <span><strong>Timeline:</strong> {{ project.timeline }}</span>
+      <span><strong>Status:</strong> 
+        <span class="status" [ngClass]="project.status.toLowerCase()">
+          {{ project.status }}
+        </span>
+      </span>
+    </div>
+  </div>
+   </div>
+ 
+</div>
