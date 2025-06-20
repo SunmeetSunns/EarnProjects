@@ -163,3 +163,8 @@ input:focus {
     font-weight: 500;
     margin-left: 1em;
 }
+.error{
+  font-size: 1em;
+  font-weight: 500;
+  color: red;
+}

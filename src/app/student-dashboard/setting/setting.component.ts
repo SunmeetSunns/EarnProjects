@@ -21,6 +21,8 @@ export class SettingComponent implements OnInit {
   showToast: boolean;
   dangerText: String = '';
   successText: String = '';
+  upgrMsg: string;
+  showUpgradeMsg: boolean;
   ngOnInit(): void {
     this.populateUserDetails()
   }
@@ -296,5 +298,9 @@ export class SettingComponent implements OnInit {
   bookMeeting() {
     if (!this.selectedDate) return;
     this.http.post('/api/user/book-meeting', { date: this.selectedDate }).subscribe(console.log);
+  }
+  upgrade(){
+    this.upgrMsg='⚠️ Plan upgrades will be available after your current subscription period ends.'
+    this.showUpgradeMsg=true;
   }
 }

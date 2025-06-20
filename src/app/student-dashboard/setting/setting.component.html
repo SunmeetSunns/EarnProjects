@@ -113,6 +113,7 @@
     </div>
     <div class="form-row">
       <div class="form-field">
+        <span class="error" *ngIf="this.showUpgradeMsg">{{upgrMsg}}</span>
         <button (click)="upgrade()" class="mybutton" *ngIf="subscription?.plan!=null">Upgrade</button>
          <button (click)="buyPlan()" class="mybutton" *ngIf="subscription?.plan==null">Buy Plan</button>
       </div>
