@@ -115,6 +115,7 @@ export class HeaderComponent implements OnInit {
 
   }
   goToDashboard() {
+    this.closeOffcanvas()
     this.router.navigate(['/student-dashboard'])
   }
 

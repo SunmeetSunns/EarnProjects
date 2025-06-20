@@ -12,7 +12,7 @@ import { SettingComponent } from '../setting/setting.component';
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule, MyDashComponent, MyPlansComponent, BankDetailsComponent,ProjectsComponent,SettingComponent],
+  imports: [CommonModule, MyDashComponent, MyPlansComponent, BankDetailsComponent, ProjectsComponent, SettingComponent],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
 })
@@ -51,14 +51,29 @@ export class OverviewComponent implements OnInit {
     "Real growth happens outside your comfort zone – especially in tech."
   ]
   userPlanData: any;
-  activePlan: string='profile';
+  activePlan: string = 'profile';
+  sidebarOpen = false;
+  isMobile = false;
   ngOnInit(): void {
+    this.checkScreenSize();
+    window.addEventListener('resize', this.checkScreenSize.bind(this)); // 👈
+
     const randomIndex = Math.floor(Math.random() * this.quotes.length);
     this.selectedQuote = this.quotes[randomIndex];
     this.getUserDetails();
   }
+
+
+
   constructor(private ApiService: HttpWrapperService) {
 
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 960;
+    if (!this.isMobile) {
+      this.sidebarOpen = false; // Sidebar always visible on desktop
+    }
   }
   getUserDetails() {
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
@@ -68,9 +83,18 @@ export class OverviewComponent implements OnInit {
     this.ApiService.post(Api.getUserDetails, body).subscribe((res: any) => {
       if (res?.Status == 200) {
         this.userPlanData = res;
-        console.log(this.userPlanData)
+        console.log(this.userPlanData?.user?.profilePic?.url)
       }
     })
+  }
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  closeSidebar() {
+    if (this.isMobile) {
+      this.sidebarOpen = false;
+    }
   }
   getFirstName(fullName) {
     if (!fullName) return '';
@@ -94,4 +118,8 @@ export class OverviewComponent implements OnInit {
     }
     console.log(this.activePlan)
   }
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.checkScreenSize.bind(this)); // 👈
+  }
+
 }

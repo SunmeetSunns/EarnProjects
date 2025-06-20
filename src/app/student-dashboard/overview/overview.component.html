@@ -1,24 +1,41 @@
+<!-- 🔘 Toggle button (only visible on small screens) -->
+<!-- <button class="toggle-sidebar-btn" (click)="toggleSidebar()" *ngIf="isMobile" [ngClass]=""><img
+    src="../../../assets/svg/hamburger.svg"></button> -->
+    <button 
+  (click)="toggleSidebar()" 
+  *ngIf="isMobile" 
+  [ngClass]="{ 'toggle-sidebar-btn': !sidebarOpen,'toggle-sidebar-btn1':sidebarOpen }">
+  <img src="../../../assets/svg/hamburger.svg">
+</button>
+
+
 <div class="stud-dashboard">
-  <div class="sidebar-dash">
-    <div class="profile-icon"><img class="dashbord-pic" src="assets/svg/profile-dashboard.svg">
+  <!-- 🧭 Sidebar with dynamic class -->
+  <div class="sidebar-dash" [class.offcanvas]="isMobile" [class.show]="sidebarOpen || !isMobile">
+    <div class="profile-icon">
+      <img class="dashbord-pic" src="assets/svg/profile-dashboard.svg" *ngIf="!userPlanData?.user?.profilePic?.url">
+      <img class="dashbord-pic" *ngIf="userPlanData?.user?.profilePic?.url" [src]="userPlanData?.user?.profilePic?.url">
       <span>DASHBOARD</span>
     </div>
+
     <div class="d-flex flex-column justify-content-between" style="gap: 1.5em;">
-      <div class="prof-div" (click)="changeModule('profile')"><img
+      <div class="prof-div" (click)="changeModule('profile'); closeSidebar()"><img
           src="../../../assets/svg/prof-stud.svg"><span>Profile</span></div>
-      <div class="prof-div" (click)="changeModule('plans')"><img src="../../../assets/svg/cartPlan.svg"><span>My
-          Plans</span></div>
-      <div class="prof-div" (click)="changeModule('projects')"><img src="../../../assets/svg/project.svg"><span>My
-          Projects</span></div>
-      <div class="prof-div" (click)="changeModule('bank-details')"><img src="../../../assets/svg/money.svg"><span>Bank
-          Details</span></div>
-      <div class="prof-div" (click)="changeModule('settings')"><img
+      <div class="prof-div" (click)="changeModule('plans'); closeSidebar()"><img
+          src="../../../assets/svg/cartPlan.svg"><span>My Plans</span></div>
+      <div class="prof-div" (click)="changeModule('projects'); closeSidebar()"><img
+          src="../../../assets/svg/project.svg"><span>My Projects</span></div>
+      <div class="prof-div" (click)="changeModule('bank-details'); closeSidebar()"><img
+          src="../../../assets/svg/money.svg"><span>Bank Details</span></div>
+      <div class="prof-div" (click)="changeModule('settings'); closeSidebar()"><img
           src="../../../assets/svg/settings.svg"><span>Settings</span></div>
     </div>
   </div>
-  <app-my-dash class="sub-module" *ngIf="this.activePlan=='profile'"></app-my-dash>
-  <app-my-plans class="sub-module" *ngIf="this.activePlan=='plan'"></app-my-plans>
-  <app-projects class="sub-module" *ngIf="this.activePlan=='projects'"></app-projects>
-  <app-bank-details class="sub-module" *ngIf="this.activePlan=='bank-details'"></app-bank-details>
-  <app-setting class="sub-module" *ngIf="this.activePlan=='settings'"></app-setting>
+
+  <!-- Modules -->
+  <app-my-dash class="sub-module" *ngIf="activePlan == 'profile'"></app-my-dash>
+  <app-my-plans class="sub-module" *ngIf="activePlan == 'plan'"></app-my-plans>
+  <app-projects class="sub-module" *ngIf="activePlan == 'projects'"></app-projects>
+  <app-bank-details class="sub-module" *ngIf="activePlan == 'bank-details'"></app-bank-details>
+  <app-setting class="sub-module" *ngIf="activePlan == 'settings'"></app-setting>
 </div>

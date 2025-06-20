@@ -1,4 +1,149 @@
-.stud-dashboard{height:40em;width:100%;background:linear-gradient(to bottom right,#f0fdfa,#f5f3ff);margin-top:5em;display:flex;flex-direction:row;margin-bottom:0}.sidebar-dash{width:30%;background:linear-gradient(to bottom right,#7c3aed,#b695e1);display:flex;flex-direction:column;align-items:center;gap:3em}.prof-div{cursor:pointer;display:flex;flex-direction:row;gap:1em;border:1px solid #d7c7db;padding:.5em 1em;border-radius:10em}.prof-div:hover{background-color:rgba(255,255,255,.15);transition:.2s ease}.prof-div>span{color:#fff;font-size:1.2em}.dashbord-pic{height:3.5em;width:3.5em}.profile-icon{margin-top:3em;display:flex;flex-direction:column;gap:.3em;align-items:center}.prof-div>img{height:2em;width:2em}.profile-icon>span{color:#fff;font-size:1.5em;font-weight:500}@media screen and (max-width:768px){.sidebar-dash{width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center}.prof-div{margin:.5em}}@keyframes shine{0%{left:-75%}100%{left:125%}}@keyframes fadeInGirl{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(.6)}}
+/* :root {
+  font-size: 16px; // 1rem = 16px
+} */
+
+.stud-dashboard {
+  width: 100%;
+  height: 40em;
+  background: linear-gradient(to bottom right, #f0fdfa, #f5f3ff);
+  margin-top: 5rem;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar-dash {
+  width: 30%;
+  background: linear-gradient(to bottom right, #7c3aed, #b695e1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 1.25rem;
+  height: 100vh;
+  transition: transform 0.3s ease-in-out;
+}
+
+.profile-icon {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-icon > span {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.dashbord-pic {
+  height: 4.5rem;
+  width: 4.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.prof-div {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  border: 1px solid #d7c7db;
+  padding: 0.5rem 1rem;
+  border-radius: 10rem;
+  align-items: center;
+}
+
+.prof-div > img {
+  height: 2rem;
+  width: 2rem;
+}
+
+.prof-div > span {
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.prof-div:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: 0.2s ease;
+}
+
+.sub-module {
+  width: 100%;
+}
+
+/* 🔘 Sidebar toggle button */
+.toggle-sidebar-btn {
+  position: fixed;
+  top: 5.25rem;
+  left: 1.25rem;
+  background-color: white;
+  padding: 0.5em;
+  z-index: 1100;
+  font-size: 1.125rem;
+  display: none; 
+  border: 2px solid #7c3aed;
+  border-radius: 50%;
+}
+.toggle-sidebar-btn1 {
+ display: none;
+}
+.toggle-sidebar-btn>img{
+    height: 1.5em;
+    width: 1.5em;
+}
+
+/* 📱 Mobile view styles */
+@media (max-width: 60rem) { 
+  .toggle-sidebar-btn {
+    display: block;
+  }
+
+  .sidebar-dash {
+    width: 50%;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+    box-shadow: 0.125rem 0 0.5rem rgba(0, 0, 0, 0.2);
+    height:40em;
+    background: linear-gradient(to bottom right, #7c3aed, #b695e1);
+  }
+
+  .sidebar-dash.offcanvas.show {
+    transform: translateX(0);
+  }
 .sub-module{
-    width: 100%;
+    margin-top: 2em;
+}
+  .stud-dashboard {
+    flex-direction: column;
+  }
+
+  .prof-div {
+    margin: 0.5rem;
+    justify-content: center;
+  }
+}
+
+/* Optional: shine animation (if needed later) */
+@keyframes shine {
+  0% { left: -75%; }
+  100% { left: 125%; }
+}
+
+@keyframes fadeInGirl {
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: scale(0.6); }
+}
+
+@media (max-width:480px){
+    .sidebar-dash{
+        width: 100%;
+    }
 }

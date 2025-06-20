@@ -5,6 +5,7 @@ import { NgbModule, NgbDatepickerModule, NgbDateStruct, NgbCalendar } from '@ng-
 import { FormsModule } from '@angular/forms';
 import { HttpWrapperService } from '../../services/api-service.service';
 import { Api } from '../../services/api-enums';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-setting',
@@ -45,18 +46,67 @@ export class SettingComponent implements OnInit {
   resumeFile!: File;
   externalPortfolio = '';
 
-  subscription = {
-    plan: 'Student'
-  };
+  subscription :any;;
 
   selectedDate: Date | null = null;
 
-  constructor(private http: HttpClient, private calendar: NgbCalendar, private ApiService: HttpWrapperService) { }
+  constructor(private http: HttpClient, private calendar: NgbCalendar, private ApiService: HttpWrapperService
+    ,private router:Router
+  ) { }
 
+  // updateProfile() {
+  //   this.isEditingProfile = false
+  //   const payload = { fullName: this.user.fullName };
+  //   this.http.post('/api/user/update-profile', payload).subscribe(console.log);
+  // }
   updateProfile() {
-    this.isEditingProfile = false
-    const payload = { fullName: this.user.fullName };
-    this.http.post('/api/user/update-profile', payload).subscribe(console.log);
+    const payload: any = {
+      userId: this.Myuser?._id
+    };
+
+    // Add name only if editing profile
+    if (this.isEditingProfile && this.user.fullName?.trim()) {
+      payload.name = this.user.fullName.trim();
+    }
+
+    // Add password fields only if all present
+    if (this.passwords.new && this.passwords.confirm) {
+      if (this.passwords.new !== this.passwords.confirm) {
+        this.dangerText = "Passwords do not match";
+        return;
+      }
+      payload.password = this.passwords.new;
+      payload.confirmPassword = this.passwords.confirm;
+    }
+    if (this.externalPortfolio) {
+      payload.portfolioLink = this.externalPortfolio;
+    }
+    if (Object.keys(payload).length === 1) {
+      this.dangerText = "No changes to update";
+      return;
+    }
+
+    this.ApiService.post(Api.updateUserFields, payload).subscribe((res: any) => {
+      if (res?.user) {
+        this.Myuser = res.user;
+        sessionStorage.setItem('user', JSON.stringify(this.Myuser));
+        this.populateUserDetails();
+
+        this.successText = "Profile updated successfully";
+        // Reset all edit states
+        this.isEditingProfile = false;
+        this.isEditingPortfolio = false;
+        this.passwords.new = '';
+        this.passwords.confirm = '';
+      } else {
+        this.dangerText = "Something went wrong";
+
+      }
+    }, (err) => {
+      this.dangerText = err?.error?.message || "Update failed";
+
+    });
+    this.showSuccessToast()
   }
 
   sendOtp() {
@@ -64,7 +114,15 @@ export class SettingComponent implements OnInit {
       email: this.newEmail, purpose: 'update'
     }
     this.ApiService.post(Api.sendOtp, body).subscribe((res: any) => {
-      this.otpSent = true;
+      if(res?.status==200){
+        this.successText=res?.message
+        this.otpSent = true;
+      }
+      else{
+        this.dangerText=res?.message
+      }
+      this.showSuccessToast()
+      
     })
 
   }
@@ -88,12 +146,23 @@ export class SettingComponent implements OnInit {
           this.otpSent = false;
           this.isEditingEmail = false
           this.Myuser = res?.user
+          this.successText=res?.message
           sessionStorage.setItem('user', JSON.stringify(this.Myuser))
           this.populateUserDetails();
-        })
+        }
+      )
+       
 
       }
+      else{
+        this.dangerText=res?.message
+      }
+      this.showSuccessToast()
+
     })
+  }
+  buyPlan(){
+    this.router.navigate([`/plans/${this.Myuser?.category}`])
   }
   toggleEye() {
     this.isEyeClose = !this.isEyeClose
@@ -115,17 +184,27 @@ export class SettingComponent implements OnInit {
   }
   populateUserDetails() {
     this.Myuser = JSON.parse(sessionStorage.getItem('user'))
-    this.user.fullName = this.Myuser?.name;
-    this.newEmail = this.Myuser?.email;
-    this.externalPortfolio = this.Myuser?.portfolio;
-    this.subscription.plan = this.Myuser?.plan;
-    this.profileImage = this.Myuser?.profilePic?.url;
-    this.resumeFile = this.Myuser?.resume?.url;
-    this.passwords = {
-      old: this.Myuser?.unhashedPassword,
-      new: "",
-      confirm: ""
-    };
+    let body = {
+      userId: this.Myuser?._id
+    }
+    this.ApiService.post(Api.getUserDetails, body).subscribe((res: any) => {
+      if (res.Status == 200) {
+        this.Myuser = res?.user
+        this.user.fullName = this.Myuser?.name;
+        this.newEmail = this.Myuser?.email;
+        this.externalPortfolio = this.Myuser?.portfolioLink;
+        this.subscription = res?.plan;
+        this.profileImage = this.Myuser?.profilePic?.url;
+        this.resumeFile = this.Myuser?.resume?.url;
+        this.passwords = {
+          old: this.Myuser?.unhashedPassword,
+          new: "",
+          confirm: ""
+        };
+console.log(res?.plan?.fullFormData)
+      }
+    })
+
 
   }
   isDisabled = (date: NgbDateStruct, current: { month: number }) => {
@@ -172,14 +251,15 @@ export class SettingComponent implements OnInit {
     this.ApiService.put(Api.uploadUserFiles(this.Myuser?._id), formData)
       .subscribe({
         next: (res: any) => {
-          this.successText='Profile picture uploaded successfully';
-          this.profileImage= res.profilePic;
+          this.successText = 'Profile picture uploaded successfully';
+          this.profileImage = res.profilePic;
+          this.populateUserDetails();
         },
         error: (err) => {
-         this.dangerText='Profile pic upload failed';
+          this.dangerText = 'Profile pic upload failed';
         }
       });
-      this.showSuccessToast()
+    this.showSuccessToast()
   }
 
   uploadResume(event: Event) {
@@ -201,14 +281,15 @@ export class SettingComponent implements OnInit {
     formData.append('resume', file);
     this.ApiService.put(Api.uploadUserFiles(this.Myuser?._id), formData).subscribe({
       next: (res: any) => {
-        this.successText='Resume uploaded successfully'
-        this.resumeFile=res?.resume;
+        this.successText = 'Resume uploaded successfully'
+        this.resumeFile = res?.resume;
+        this.populateUserDetails();
       },
       error: (err) => {
-        this.dangerText='Resume upload failed'
+        this.dangerText = 'Resume upload failed'
         console.error(err);
       }
-      
+
     });
     this.showSuccessToast()
 

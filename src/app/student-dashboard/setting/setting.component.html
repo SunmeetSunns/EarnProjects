@@ -10,7 +10,7 @@
         <span class="edit-btn" (click)="isEditingProfile = true">✏️</span>
       </div>
     </div>
-    <button *ngIf="isEditingProfile" (click)="updateProfile()">Update</button>
+    <button *ngIf="isEditingProfile" (click)="updateProfile()" class="mybutton">Update</button>
   </section>
 
   <!-- Email Update -->
@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <button (click)="changePassword()" class="mybutton">Change Password</button>
+    <button (click)="updateProfile()" class="mybutton">Change Password</button>
   </section>
 
   <!-- Profile Picture Upload -->
@@ -101,25 +101,26 @@
         <span class="edit-btn" (click)="isEditingPortfolio = true">✏️</span>
       </div>
     </div>
-    <button (click)="savePortfolio()" *ngIf="isEditingPortfolio" class="mybutton">Save</button>
+    <button (click)="updateProfile()" *ngIf="isEditingPortfolio" class="mybutton">Save</button>
   </section>
 
   <!-- Subscription Management -->
   <section>
     <h3>Subscription</h3>
-    <p>Your current plan: {{ subscription?.plan }}</p>
+    <div class="d-flex flex-row">Your current plan: 
+      <p  class="p-heading"*ngIf="subscription!=null">{{ subscription?.planName }}</p>
+      <p *ngIf="subscription==null" class="plan">You currently have no active subscription.</p>
+    </div>
     <div class="form-row">
       <div class="form-field">
-        <button (click)="upgrade()" class="mybutton">Upgrade</button>
-      </div>
-      <div class="form-field">
-        <button (click)="cancel()" class="mybutton">Cancel</button>
+        <button (click)="upgrade()" class="mybutton" *ngIf="subscription?.plan!=null">Upgrade</button>
+         <button (click)="buyPlan()" class="mybutton" *ngIf="subscription?.plan==null">Buy Plan</button>
       </div>
     </div>
   </section>
 
   <!-- Support / Meeting -->
-  <section>
+  <!-- <section>
     <h3>Support & Meetings</h3>
     <p>Book a meeting slot:</p>
     <div class="form-row">
@@ -132,7 +133,7 @@
         <button (click)="bookMeeting()" class="mybutton">Confirm Slot</button>
       </div>
     </div>
-  </section>
+  </section> -->
 </div>
 
 <!-- Toast -->

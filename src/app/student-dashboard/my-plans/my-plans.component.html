@@ -12,29 +12,40 @@
         </div>
     </div>
     <div class="plan-card" *ngIf="!noData">
-        <div class="plan-top">
-            <h3>{{ userPlanData?.planName }}</h3>
-            <span class="badge" *ngIf="userPlanData?.popular">Popular</span>
+        <div class="d-flex justify-content-between flex-row mb-3">
+            <div class="plan-top">
+                <h3 class="p-heading">{{ userPlanData?.planName }}</h3>
+            </div>
+            <div class="plan-price">
+                <span class="current-price">${{ userPlanData?.fullFormData?.amount}}</span>
+                <span class="cut-price" *ngIf="userPlanData?.fullFormData?.discount">
+                    <s>${{ userPlanData?.fullFormData?.discount }}</s>
+                </span>
+            </div>
+        </div>
+        <div class="plans-alignment">
+            <ul class="features-list">
+                <li *ngFor="let feature of userPlanData?.features">
+                    {{ feature }}
+                </li>
+            </ul>
+
+            <div class="plan-grad">
+                <div class="chart-details">
+                    <div style="max-width: 15em;">
+                        <canvas baseChart [data]="doughnutChartData" [type]="doughnutChartType"
+                            [options]="chartOptions">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <p class="plan-desc">{{ userPlanData?.planDescription }}</p>
-
-        <div class="plan-price">
-            <span class="current-price">${{ userPlanData?.price}}</span>
-            <span class="cut-price" *ngIf="userPlanData?.discount">
-                <s>${{ userPlanData?.discount }}</s>
-            </span>
-        </div>
-
-        <ul class="features-list">
-            <li *ngFor="let feature of userPlanData?.features">
-                ✅ {{ feature }}
-            </li>
-        </ul>
 
         <div class="meta-info">
-            <span>Category: <strong>{{ userPlanData?.category }}</strong></span>
-            <span>Leads/month: <strong>{{ userPlanData?.noOfLeads }}</strong></span>
+            <span>Purchased on: <strong>{{ formatDateToReadable(userPlanData?.paymentDate) }}</strong></span>
+            <span>Expiry Date: <strong>{{ formatDateToReadable(userPlanData?.expiryDate) }}</strong></span>
         </div>
     </div>
 </div>
