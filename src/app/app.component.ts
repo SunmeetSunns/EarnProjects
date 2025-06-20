@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
     if (token && loginTime) {
       const timePassed = Date.now() - parseInt(loginTime);
       const timeLeft = expiryTime - timePassed;
-      console.log(timeLeft)
       if (timeLeft <= 0) {
         this.logoutUser();
       } else {

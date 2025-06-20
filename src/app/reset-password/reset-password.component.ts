@@ -34,7 +34,6 @@ export class ResetPasswordComponent implements OnInit {
     // 1. Get token from route
     this.route.params.subscribe(params => {
       this.token = params['token'];
-      console.log('🔐 Token from URL:', this.token);
     });
 
     // 2. Initialize form
@@ -70,7 +69,7 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     // 3. Use `this.token` in your API call
-    console.log(newPassword)
+   
     const payload = {
       token: this.token,
       password: newPassword

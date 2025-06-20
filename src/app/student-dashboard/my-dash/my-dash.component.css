@@ -98,7 +98,7 @@
     background: linear-gradient(to bottom, #9c75e1, #7286d0, #43aaa6);
     display: inline-block;
     box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
-    width: fit-content
+    width: 25em;
 }
 
 .dot {
@@ -127,7 +127,6 @@
     padding: 1.5em;
     gap: 1em;
     height: 100%;
-    width: fit-content;
     box-shadow: 0 12px 20px rgba(0, 0, 0, .05)
 }
 
@@ -140,7 +139,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 3em
+  
 }
 
 .p-list>div {
@@ -152,7 +151,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 3em
+
 }
 
 .p-list-1>div {
@@ -168,6 +167,26 @@
     -webkit-text-fill-color: transparent;
     align-self: center;
     font-weight: 500
+}
+.p-list {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.f-head {
+  color: #5c6872;
+  width: 10em; /* Ensure all heads align */
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.f-ans {
+  color: #5c6872;
+  flex: 1;
+  word-break: break-word;
 }
 
 @keyframes shine {
@@ -244,9 +263,21 @@
     }
 
     .plan-grad {
-        width: fit-content;
+        width: 20em;
         height: fit-content;
     }
+     .p-list {
+    flex-direction: column;
+    gap: 0.25em;
+  }
+
+  .f-head {
+    width: 100%;
+  }
+
+  .f-ans {
+    width: 100%;
+  }
 
 }
 
@@ -255,11 +286,9 @@
 
         height: fit-content;
         padding: 0.5em;
-
+width: 18em;
     }
-    .plan-details1{
-        width: fit-content;
-    }
+   
     .quote-box{
         padding: 0.5em;
         font-size: 1.2em;

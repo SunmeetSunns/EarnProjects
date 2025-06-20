@@ -47,7 +47,6 @@ export class MyPlansComponent implements OnInit {
     this.ApiService.post(Api.findPlan, body).subscribe((res: any) => {
       if (res?.status == 200) {
         this.userPlanData = res?.planPurchased;
-        console.log(res);
         const completed = this.userPlanData?.completedProj || 0;
         const allotted = this.userPlanData?.fullFormData?.noOfProj || 0;
         const pending = this.userPlanData?.pendingProj || 0;

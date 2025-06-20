@@ -307,7 +307,7 @@ routeToSignUp(action?: any): void {
           this.startTimer()
           this.successText = res?.message;
           this.modal.open(modalName, { size: 'lg', keyboard: false, backdrop: 'static' })
-          console.log("OTP ARRAY LENGTH:", this.otpArray.length);
+          
 
         }
         if (res?.status == 201) {

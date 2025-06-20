@@ -20,7 +20,7 @@
   align-items: center;
   gap: 3rem;
   padding: 1.25rem;
-  height: 100vh;
+  height: 40em;
   transition: transform 0.3s ease-in-out;
 }
 

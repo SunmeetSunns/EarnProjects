@@ -83,7 +83,6 @@ export class OverviewComponent implements OnInit {
     this.ApiService.post(Api.getUserDetails, body).subscribe((res: any) => {
       if (res?.Status == 200) {
         this.userPlanData = res;
-        console.log(this.userPlanData?.user?.profilePic?.url)
       }
     })
   }
@@ -116,7 +115,6 @@ export class OverviewComponent implements OnInit {
     if (action == 'settings') {
       this.activePlan = 'settings'
     }
-    console.log(this.activePlan)
   }
   ngOnDestroy(): void {
     window.removeEventListener('resize', this.checkScreenSize.bind(this)); // 👈

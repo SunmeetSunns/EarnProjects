@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
   expertForm!: FormGroup;
   successMsg: any;
   planPurchased: any;
+  userData: any;
 
   constructor(private el: ElementRef, private renderer: Renderer2, public router: Router,
     private formBuilder: FormBuilder, private zone: NgZone,
@@ -111,8 +112,9 @@ export class HeaderComponent implements OnInit {
     // Login check
     this.loginService.isLoggedIn$.subscribe((status: boolean) => {
       this.isLoggedIn = status;
+        this.userData = JSON.parse(sessionStorage.getItem('user'))
     });
-
+   
   }
   goToDashboard() {
     this.closeOffcanvas()
@@ -142,9 +144,6 @@ export class HeaderComponent implements OnInit {
       this.isLaptop = isNowLaptop;
     }
   }
-
-
-
   openProfile() {
     this.showProfile = !this.showProfile
   }
@@ -282,22 +281,22 @@ export class HeaderComponent implements OnInit {
   }
 
 
- talkToExpert(popup) {
-  this.showProfile = false;
-  this.show = false;
-  this.buildForm();
+  talkToExpert(popup) {
+    this.showProfile = false;
+    this.show = false;
+    this.buildForm();
 
-  this.closeOffcanvas();
+    this.closeOffcanvas();
 
-  // ✅ Wait a bit for offcanvas backdrop cleanup before opening modal
-  setTimeout(() => {
-    this.modal.open(popup, {
-      size: 'md',
-      centered: true,
-      keyboard: true
-    });
-  }, 300);  // 300ms is enough; can tweak to 200–400ms
-}
+    // ✅ Wait a bit for offcanvas backdrop cleanup before opening modal
+    setTimeout(() => {
+      this.modal.open(popup, {
+        size: 'md',
+        centered: true,
+        keyboard: true
+      });
+    }, 300);  // 300ms is enough; can tweak to 200–400ms
+  }
 
   close() {
     this.modal.dismissAll()

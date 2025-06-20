@@ -1,57 +1,57 @@
 <div id="header" #headerRef class="d-flex flex-row header justify-content-between align-items-center">
-    <div class="d-flex flex-row align-items-center cursor-pointer" [routerLink]="['/']">
-        <!-- <video class="logo" autoplay muted loop src="../../assets/images/logo_v.mp4"></video>
+  <div class="d-flex flex-row align-items-center cursor-pointer" [routerLink]="['/']">
+    <!-- <video class="logo" autoplay muted loop src="../../assets/images/logo_v.mp4"></video>
           -->
-        <img class="logo" src="../../assets/images/hand_logo.png" alt="logo">
-        <h3 class="brand-name">EarnProjects</h3>
-    </div>
+    <img class="logo" src="../../assets/images/hand_logo.png" alt="logo">
+    <h3 class="brand-name">EarnProjects</h3>
+  </div>
 
-    <div *ngIf="isLaptop" [ngClass]="{ 'desktop-menu': isLaptop, 'mobile-menu': !isLaptop }">
-        <div class="d-flex flex-row justify-content-between" id="menu">
-               <div class="d-flex flex-column cursor-pointer menu-item" (click)="openAboutModal(aboutUs)">
-                <span class="head-heading">About Us</span>
-                <span class="line"></span>
-            </div>
-            <div class="d-flex flex-column cursor-pointer menu-item"  #ourPlansBtn  (click)="applyClasses('ourPlan')">
-                <span class="head-heading">Our Plans</span>
-                <span class="line"></span>
-            </div>
+  <div *ngIf="isLaptop" [ngClass]="{ 'desktop-menu': isLaptop, 'mobile-menu': !isLaptop }">
+    <div class="d-flex flex-row justify-content-between" id="menu">
+      <div class="d-flex flex-column cursor-pointer menu-item" (click)="openAboutModal(aboutUs)">
+        <span class="head-heading">About Us</span>
+        <span class="line"></span>
+      </div>
+      <div class="d-flex flex-column cursor-pointer menu-item" #ourPlansBtn (click)="applyClasses('ourPlan')">
+        <span class="head-heading">Our Plans</span>
+        <span class="line"></span>
+      </div>
 
-            <!-- <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('renewPlan')">
+      <!-- <div class="d-flex flex-column cursor-pointer menu-item" (click)="applyClasses('renewPlan')">
                 <span class="head-heading">Renew Your Plan</span>
                 <span class="line"></span>
             </div> -->
 
-            <div class="d-flex flex-column cursor-pointer menu-item"  #supportBtn (click)="applyClasses('support')">
-                <span class="head-heading">Support</span>
-                <span class="line"></span>
-            </div>
-        </div>
-
-        <div class="header-btns d-flex flex-row justify-content-between align-items-center ms-4">
-            <span class="expert-btn cursor-pointer" (click)="talkToExpert(studentForm)">
-                <img class="talk-expert" src="../../assets/svg/expert.svg" alt="talk-to-expert"/>Talk To Expert
-            </span>
-            <button class="head-btn" *ngIf="!isLoggedIn" (click)="routeToSignup()">Get Started</button>
-            <!-- <button class="head-btn" (click)="routeToSignup()"></button> -->
-            <img class="profile" *ngIf="isLoggedIn" src="../../assets//svg/profile.svg" alt="profile"(click)="openProfile()">
-        </div>
-
+      <div class="d-flex flex-column cursor-pointer menu-item" #supportBtn (click)="applyClasses('support')">
+        <span class="head-heading">Support</span>
+        <span class="line"></span>
+      </div>
     </div>
-    <div *ngIf="!isLaptop" class="d-flex">
-        <!-- Hamburger Button (mobile only) -->
-        <button class="btn-logout" (click)="openProfile()" *ngIf="isLoggedIn">
-            <img src="../../assets/svg/logout.svg" alt="logout">
-        </button>
-        <button class="btn-logout" (click)="routeToSignup()" *ngIf="!isLoggedIn">
-            <img src="../../assets/svg/logout.svg" alt="logout">
-        </button>
-        <button class=" d-flex btn-outline align-items-center" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#mobileOffcanvas" aria-controls="mobileOffcanvas">
-            <img class="hamburger" src="../../assets/svg/hamburger.svg" alt="Menu" />
-        </button>
 
+    <div class="header-btns d-flex flex-row justify-content-between align-items-center ms-4">
+      <span class="expert-btn cursor-pointer" (click)="talkToExpert(studentForm)">
+        <img class="talk-expert" src="../../assets/svg/expert.svg" alt="talk-to-expert" />Talk To Expert
+      </span>
+      <button class="head-btn" *ngIf="!isLoggedIn" (click)="routeToSignup()">Get Started</button>
+      <!-- <button class="head-btn" (click)="routeToSignup()"></button> -->
+      <img class="profile" *ngIf="isLoggedIn" src="../../assets//svg/profile.svg" alt="profile" (click)="openProfile()">
     </div>
+
+  </div>
+  <div *ngIf="!isLaptop" class="d-flex">
+    <!-- Hamburger Button (mobile only) -->
+    <button class="btn-logout" (click)="openProfile()" *ngIf="isLoggedIn">
+      <img src="../../assets/svg/logout.svg" alt="logout">
+    </button>
+    <button class="btn-logout" (click)="routeToSignup()" *ngIf="!isLoggedIn">
+      <img src="../../assets/svg/logout.svg" alt="logout">
+    </button>
+    <button class=" d-flex btn-outline align-items-center" type="button" data-bs-toggle="offcanvas"
+      data-bs-target="#mobileOffcanvas" aria-controls="mobileOffcanvas">
+      <img class="hamburger" src="../../assets/svg/hamburger.svg" alt="Menu" />
+    </button>
+
+  </div>
 </div>
 
 <!-- ✅ Dropdown Only If show is true -->
@@ -71,111 +71,121 @@
     'divs-pos-our-plan': currentDrop === 'ourPlan',
     'divs-pos-review-plan': currentDrop === 'renewPlan'
   }" *ngIf="show && (currentDrop === 'ourPlan' || currentDrop === 'renewPlan')">
-    <div class="drops" *ngFor="let plan of dropDownValues"
-        (click)="performAction(currentDrop, plan.Planname); $event.stopPropagation()">
-        <img [src]="plan.src" alt="{{plan.Planname}}">
-        <div>{{ plan.Planname }}</div>
-    </div>
+  <div class="drops" *ngFor="let plan of dropDownValues"
+    (click)="performAction(currentDrop, plan.Planname); $event.stopPropagation()">
+    <img [src]="plan.src" alt="{{plan.Planname}}">
+    <div>{{ plan.Planname }}</div>
+  </div>
 </div>
 
 
 <!-- Support Dropdown (Separate) -->
 <div class="drop-divs support-dropdown" #supportDropdownRef [class.divs-pos-support-plan]="currentDrop === 'support'"
-    *ngIf="show && currentDrop === 'support'">
-    <div class="drops" *ngFor="let item of dropDownValues"
-        (click)="handleSupportAction(item.Planname); $event.stopPropagation()">
-        <img [src]="item.src" alt="{{item.Planname}}">
-        <div>{{ item.Planname }}</div>
-    </div>
+  *ngIf="show && currentDrop === 'support'">
+  <div class="drops" *ngFor="let item of dropDownValues"
+    (click)="handleSupportAction(item.Planname); $event.stopPropagation()">
+    <img [src]="item.src" alt="{{item.Planname}}">
+    <div>{{ item.Planname }}</div>
+  </div>
 </div>
 
 <div class="profile-div" *ngIf="this.showProfile">
-    <div class="profile-div-btns bd-btm" (click)="goToDashboard()"><img src="../../assets/svg/cart.svg" class="logout" ><span>My Plan</span>
+  <div class="mb-di">
+    <img class="profile-pic" *ngIf="userData?.profilePic?.url==null" src="../../assets/svg/profile-dashboard.svg">
+    <img class="profile-pic" *ngIf="userData?.profilePic?.url!==null" [src]="userData?.profilePic?.url">
+    <span>{{this.userData?.name}}</span>
+  </div>
+  <div class="btns-div">
+    <div class="profile-div-btns" (click)="goToDashboard()"><img src="../../assets/svg/dashboard.svg" alt="dashboard"
+        class="logout"><span>Dashboard</span>
     </div>
     <div class="profile-div-btns" (click)="logout()"><img src="../../assets/svg/logout.svg" alt="logout"
-            class="logout"><span>Logout</span></div>
+        class="logout"><span>Logout</span></div>
+  </div>
+  <!-- 
+   -->
 </div>
 
 <!-- Right side Offcanvas -->
 <div class="offcanvas offcanvas-end" #offcanvasRef tabindex="-1" id="mobileOffcanvas"
-    aria-labelledby="mobileOffcanvasLabel">
-    <div class="offcanvas-header">
-        <h5 id="mobileOffcanvasLabel ">Menu</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
-            (click)="clearData()"></button>
+  aria-labelledby="mobileOffcanvasLabel">
+  <div class="offcanvas-header">
+    <h5 id="mobileOffcanvasLabel ">Menu</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
+      (click)="clearData()"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div (click)="openAboutModal(aboutUs)" class="plan-head"> About Us</div>
+    <div (click)="goToDashboard()" class="plan-head">My Dashboard</div>
+    <!-- Our Plans Section -->
+    <div (click)="applyClasses('ourPlan')" class="plan-head"> Our Plans</div>
+    <div *ngIf="activeDropdown === 'ourPlan'" class="plan-head-div">
+      <div *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('ourPlan', plan.Planname)">
+        <img [src]="plan.src" class="" alt="plan-image">
+        <span class="list-group-item plan-spans">
+          {{ plan.Planname }}
+        </span>
+      </div>
     </div>
-    <div class="offcanvas-body">
-         <div (click)="openAboutModal(aboutUs)" class="plan-head"> About Us</div>
-          <div (click)="goToDashboard()" class="plan-head">My Dashboard</div>
-        <!-- Our Plans Section -->
-        <div (click)="applyClasses('ourPlan')" class="plan-head"> Our Plans</div>
-        <div *ngIf="activeDropdown === 'ourPlan'" class="plan-head-div">
-            <div *ngFor="let plan of dropDownValues" class="drops1" (click)="performAction('ourPlan', plan.Planname)">
-                <img [src]="plan.src" class="" alt="plan-image">
-                <span class="list-group-item plan-spans">
-                    {{ plan.Planname }}
-                </span>
-            </div>
-        </div>
 
-        <!-- Support Section - Updated to use handleSupportAction -->
-        <div (click)="applyClasses('support')" class="plan-head">Support</div>
-        <div *ngIf="activeDropdown === 'support'" class="plan-head-div">
-            <div *ngFor="let plan of dropDownValues" class="drops1" (click)="handleSupportAction(plan.Planname)">
-                <img [src]="plan.src" class="" alt="plan-image"> 
-                <span class="list-group-item plan-spans">{{ plan.Planname }}</span>
-            </div>
-        </div>
-
-        <!-- <div (click)="applyClasses('renewPlan')" class="plan-head">Renew Plan</div> -->
-
-        <button class="talk-expert1" (click)="talkToExpert(studentForm)">
-            <img src="../../assets/svg/expert.svg" alt="expert">
-            <span>Talk To Expert</span>
-        </button>
+    <!-- Support Section - Updated to use handleSupportAction -->
+    <div (click)="applyClasses('support')" class="plan-head">Support</div>
+    <div *ngIf="activeDropdown === 'support'" class="plan-head-div">
+      <div *ngFor="let plan of dropDownValues" class="drops1" (click)="handleSupportAction(plan.Planname)">
+        <img [src]="plan.src" class="" alt="plan-image">
+        <span class="list-group-item plan-spans">{{ plan.Planname }}</span>
+      </div>
     </div>
+
+    <!-- <div (click)="applyClasses('renewPlan')" class="plan-head">Renew Plan</div> -->
+
+    <button class="talk-expert1" (click)="talkToExpert(studentForm)">
+      <img src="../../assets/svg/expert.svg" alt="expert">
+      <span>Talk To Expert</span>
+    </button>
+  </div>
 </div>
 
 
 <ng-template #studentForm let-modal>
-    <div class="modal-header-pop">
-        <div class="heading-mod my-modal text-center w-100">
-           Enter your mobile number and our expert will call you shortly!
-        </div>
-
-        <div class="modal-body d-flex flex-column justify-content-center align-items-center">
-            <form *ngIf="expertForm" [formGroup]="expertForm" class="w-100 px-4" (ngSubmit)="submitForm()">
-
-                <!-- College Name -->
-                <div class="form-group mb-2">
-                    <label for="collegeName">Mobile Number</label>
-                    <input type="number" class="form-control" id="collegeName" formControlName="mobile"
-                        [ngClass]="{ 'redBorder': expertForm.get('mobile')?.invalid && expertForm.get('mobile')?.touched }">
-                    <span class="error"
-                        *ngIf="expertForm.get('mobile')?.hasError('required') && expertForm.get('mobile')?.touched">
-                        Mobile number is required
-                    </span>
-                    <span class="error"
-                        *ngIf="expertForm.get('mobile')?.hasError('minlength') && expertForm.get('mobile')?.touched">
-                        Mobile number must be 10 digits
-                    </span>
-                    <span class="error"
-                        *ngIf="expertForm.get('mobile')?.hasError('maxlength') && expertForm.get('mobile')?.touched">
-                        Mobile number must be 10 digits
-                    </span>
-                    <span class="error"
-                        *ngIf="expertForm.get('mobile')?.hasError('pattern') && expertForm.get('mobile')?.touched">
-                        Enter a valid mobile number (starting with 6-9)
-                    </span>
-                </div>
-
-                <!-- Submit Button -->
-                <div class="modal-footer d-flex flex-row justify-content-center mt-3">
-                    <button type="submit" class="btn pop-btn1" [disabled]="expertForm.invalid">Submit</button>
-                </div>
-            </form>
-        </div>
+  <div class="modal-header-pop">
+    <div class="heading-mod my-modal text-center w-100">
+      Enter your mobile number and our expert will call you shortly!
     </div>
+
+    <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+      <form *ngIf="expertForm" [formGroup]="expertForm" class="w-100 px-4" (ngSubmit)="submitForm()">
+
+        <!-- College Name -->
+        <div class="form-group mb-2">
+          <label for="collegeName">Mobile Number</label>
+          <input type="number" class="form-control" id="collegeName" formControlName="mobile"
+            [ngClass]="{ 'redBorder': expertForm.get('mobile')?.invalid && expertForm.get('mobile')?.touched }">
+          <span class="error"
+            *ngIf="expertForm.get('mobile')?.hasError('required') && expertForm.get('mobile')?.touched">
+            Mobile number is required
+          </span>
+          <span class="error"
+            *ngIf="expertForm.get('mobile')?.hasError('minlength') && expertForm.get('mobile')?.touched">
+            Mobile number must be 10 digits
+          </span>
+          <span class="error"
+            *ngIf="expertForm.get('mobile')?.hasError('maxlength') && expertForm.get('mobile')?.touched">
+            Mobile number must be 10 digits
+          </span>
+          <span class="error"
+            *ngIf="expertForm.get('mobile')?.hasError('pattern') && expertForm.get('mobile')?.touched">
+            Enter a valid mobile number (starting with 6-9)
+          </span>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="modal-footer d-flex flex-row justify-content-center mt-3">
+          <button type="submit" class="btn pop-btn1" [disabled]="expertForm.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #successModal let-modal>
@@ -198,22 +208,18 @@
   </div>
 </ng-template>
 <ng-template #aboutUs let-modal>
-  <div class="modal-header-pop p-4" style="width: 100%; max-width: 650px; margin: auto; color: #222; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.close()"
-      style="float: right; font-size: 1.5rem; font-weight: 700; align-content: center;color: #555; opacity: 0.7; border: none; background: none; cursor: pointer;"
-   
-    >
+  <div class="modal-header-pop p-4"
+    style="width: 100%; max-width: 650px; margin: auto; color: #222; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"
+      style="float: right; font-size: 1.5rem; font-weight: 700; align-content: center;color: #555; opacity: 0.7; border: none; background: none; cursor: pointer;">
       &times;
     </button>
 
     <h2 style="color: #2c3e50; font-weight: 700; margin-bottom: 1rem; text-align: center;">
-      About Us 
+      About Us
     </h2>
-<h4 style="color: #2c3e50; font-weight: 700; margin-bottom: 2rem; text-align: center;">✅ EarnProjects – Real Work. No Hustle.</h4>
+    <h4 style="color: #2c3e50; font-weight: 700; margin-bottom: 2rem; text-align: center;">✅ EarnProjects – Real Work.
+      No Hustle.</h4>
     <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem; ">
       At EarnProjects, we’re changing how skilled freelancers, students, and agencies find work.
       No bidding, no cold emails, no delayed payments — just real, ready-to-start projects matched to your skills.
@@ -232,14 +238,19 @@
     </p>
 
     <ul style="margin-left: 1.2rem; margin-bottom: 1.5rem; color: #444; font-size: 1rem; line-height: 1.5;">
-      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger" alt="finger">Freelancers who want consistent work without chasing leads</li>
-      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger" alt="finger">Students building portfolios and earning on the side</li>
-      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger" alt="finger">Professionals shifting to freelance</li>
-      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger" alt="finger">Agencies who want projects delivered — no sales involved</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger"
+          alt="finger">Freelancers who want consistent work without chasing leads</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger"
+          alt="finger">Students building portfolios and earning on the side</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger"
+          alt="finger">Professionals shifting to freelance</li>
+      <li style="margin-bottom: 0.4rem;"><img src="../../assets/svg/right-finger.svg" class="finger"
+          alt="finger">Agencies who want projects delivered — no sales involved</li>
     </ul>
 
     <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1rem;">
-      We’re not another gig platform. We’re building a smart pipeline where talent meets trusted projects — with no time wasted.
+      We’re not another gig platform. We’re building a smart pipeline where talent meets trusted projects — with no time
+      wasted.
     </p>
 
     <p style="font-size: 1rem; font-weight: 600; text-align: center; margin-top: 2rem;">
@@ -248,5 +259,3 @@
     </p>
   </div>
 </ng-template>
-
-

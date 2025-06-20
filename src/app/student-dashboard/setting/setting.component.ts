@@ -201,7 +201,6 @@ export class SettingComponent implements OnInit {
           new: "",
           confirm: ""
         };
-console.log(res?.plan?.fullFormData)
       }
     })
 
@@ -222,17 +221,7 @@ console.log(res?.plan?.fullFormData)
     return isPast || isWeekend;
   };
 
-  changePassword() {
-    const { old, new: newPass, confirm } = this.passwords;
-    if (newPass !== confirm) {
-      alert('Passwords do not match');
-      return;
-    }
-    this.http.post('/api/user/change-password', {
-      currentPassword: old,
-      newPassword: newPass
-    }).subscribe(console.log);
-  }
+ 
 
 
   uploadImage(event: Event) {
@@ -300,20 +289,9 @@ console.log(res?.plan?.fullFormData)
       this.showToast = false;
     }, 9000);
   }
-  savePortfolio() {
-    const formData = new FormData();
-    if (this.resumeFile) formData.append('resume', this.resumeFile);
-    if (this.externalPortfolio) formData.append('portfolioLink', this.externalPortfolio);
-    this.http.post('/api/user/upload-portfolio', formData).subscribe(console.log);
-  }
 
-  upgrade() {
-    this.http.post('/api/user/upgrade-plan', {}).subscribe(console.log);
-  }
 
-  cancel() {
-    this.http.post('/api/user/cancel-plan', {}).subscribe(console.log);
-  }
+  
 
   bookMeeting() {
     if (!this.selectedDate) return;
