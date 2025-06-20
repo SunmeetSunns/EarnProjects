@@ -215,7 +215,7 @@ export class ReviewDetailComponent implements OnInit {
       this.successMsg=result?.message
       this.modal.open(this.successModal,{size:'md',centered:true})
       
-      this.router.navigate(['/dashboard'])
+      this.router.navigate(['/student-dashboard'])
      }
     });
   }
