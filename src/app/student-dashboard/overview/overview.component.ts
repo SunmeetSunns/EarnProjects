@@ -8,6 +8,7 @@ import { MyPlansComponent } from '../my-plans/my-plans.component';
 import { BankDetailsComponent } from "../bank-details/bank-details.component";
 import { ProjectsComponent } from '../projects/projects.component';
 import { SettingComponent } from '../setting/setting.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -55,6 +56,9 @@ export class OverviewComponent implements OnInit {
   sidebarOpen = false;
   isMobile = false;
   ngOnInit(): void {
+    if (!sessionStorage.getItem('token')) {
+      this.router.navigate(['/login']);
+    }
     this.checkScreenSize();
     window.addEventListener('resize', this.checkScreenSize.bind(this)); // 👈
 
@@ -63,9 +67,7 @@ export class OverviewComponent implements OnInit {
     this.getUserDetails();
   }
 
-
-
-  constructor(private ApiService: HttpWrapperService) {
+  constructor(private ApiService: HttpWrapperService, private router: Router) {
 
   }
 

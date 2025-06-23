@@ -29,17 +29,12 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.earnprojects.com/dashboard</loc>
-    <priority>0.5</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://www.earnprojects.com/features</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- Dynamic Route Placeholder: Plans -->
+  <!-- Dynamic Routes: Plans by Category -->
   <url>
     <loc>https://www.earnprojects.com/plans/student</loc>
     <priority>0.9</priority>
@@ -56,6 +51,10 @@
     <changefreq>weekly</changefreq>
   </url>
 
-  <!-- Dynamic Route Placeholder: Reset Password (Do not index) -->
-  <!-- These are sensitive links; noindex recommended -->
+  <!-- Student Dashboard Overview -->
+  <url>
+    <loc>https://www.earnprojects.com/student-dashboard/overview</loc>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
 </urlset>
