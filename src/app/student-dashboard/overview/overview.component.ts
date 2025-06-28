@@ -56,9 +56,7 @@ export class OverviewComponent implements OnInit {
   sidebarOpen = false;
   isMobile = false;
   ngOnInit(): void {
-    if (!sessionStorage.getItem('token')) {
-      this.router.navigate(['/login']);
-    }
+ 
     this.checkScreenSize();
     window.addEventListener('resize', this.checkScreenSize.bind(this)); // 👈
 

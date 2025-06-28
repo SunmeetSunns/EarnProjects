@@ -123,6 +123,7 @@
 }
   .stud-dashboard {
     flex-direction: column;
+    height: 100vh !important;
   }
 
   .prof-div {
